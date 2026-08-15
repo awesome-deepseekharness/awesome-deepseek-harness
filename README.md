@@ -71,6 +71,7 @@ The hottest category — giving text-only models "eyes."
 | [tinqiao-oss/engramory](https://github.com/tinqiao-oss/engramory) | Portable memory protocol for AI agents: load as standing rules, curation discipline + reference spec | 152 |
 | [text2future/flowix](https://github.com/text2future/flowix) | Notes for you, memory for your agents | 280 |
 | [Ariestar/sivtr](https://github.com/Ariestar/sivtr) | A unified agent memory workspace for human and agent | 131 |
+| [ZK-Andy/dsh-continual-evolve](https://github.com/ZK-Andy/dsh-continual-evolve) | Continual self-evolution for DSH: versioned, auditable, rollback-safe harness state (prompt notes, memories, skills, subagent specs) refined from session trajectories | 5 |
 
 ### 🎨 Web UI, Skins & Desktop Pets
 
