@@ -65,6 +65,7 @@ The hottest category — giving text-only models "eyes."
 
 | Project | Description | ⭐ |
 | --- | --- | --- |
+| [bowenliang123/dsh-context](https://github.com/bowenliang123/dsh-context) | Context insight panel: see what the model's context window is made of and how it evolves — composition vs. window size, per-request history, compression/injection events, and per-message token stats | 42 |
 | [csyangwen/dsh-memory-evolve](https://github.com/csyangwen/dsh-memory-evolve) | Cross-session long-term memory + background self-evolution: 5-track memory, git-branch awareness, skill self-evolution | 68 |
 | [adoresever/graph-memory](https://github.com/adoresever/graph-memory) | Knowledge-graph memory: extract triples from conversations, compress context 75%, reuse experience across sessions | 513 |
 | [mnemon-dev/mnemon](https://github.com/mnemon-dev/mnemon) | LLM-supervised persistent memory — graph recall, cross-session knowledge, single binary; works with DSH/Claude Code/OpenClaw | 443 |
@@ -77,7 +78,6 @@ The hottest category — giving text-only models "eyes."
 | Project | Description | ⭐ |
 | --- | --- | --- |
 | [zhu1090093659/dsh-web-ui](https://github.com/zhu1090093659/dsh-web-ui) | Plugin & skin collection for the DSH Web UI: task board, git graph, right-side panel, remote mobile UI, pet, live token stats, skin center | 2250 |
-| [bowenliang123/dsh-context](https://github.com/bowenliang123/dsh-context) | Context insight panel: see what the model's context window is made of and how it evolves — composition vs. window size, per-request history, compression/injection events, and per-message token stats | 42 |
 | [Small-tailqwq/dsh-deep-whale](https://github.com/Small-tailqwq/dsh-deep-whale) | "Whale girl" skin series for DSH Web (maid-atelier) | 742 |
 | [vlln/whale-girl](https://github.com/vlln/whale-girl) | Desktop pet plugin for the DSH Web GUI (QQ-pet style): floating, draggable, feedable | 151 |
 | [omdsh-dev/DSH-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | A complete sidebar workbench: file rendering/editing, terminal, Git, subagents, third-party pages | 911 |
