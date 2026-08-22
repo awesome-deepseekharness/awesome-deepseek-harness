@@ -151,6 +151,7 @@ The hottest category — giving text-only models "eyes."
 | [junhoyeo/tokscale](https://github.com/junhoyeo/tokscale) | Track token usage across AI coding agents from your terminal; global leaderboard | 4963 |
 | [xiufengsun/TokenTracker](https://github.com/xiufengsun/TokenTracker) | Local-first token & cost tracker for 31 coding tools incl. DSH, with native apps | 1315 |
 | [JingbiaoMei/Tokdash](https://github.com/JingbiaoMei/Tokdash) | Visualization & analytics for sessions and quota usage: heatmaps, cost tracking | 54 |
+| [EthanYoQ/Invoice-Downloader](https://github.com/EthanYoQ/Invoice-Downloader) | DSH bundle for local IMAP invoice download, OCR, archival, and Excel reimbursement summaries | 132 |
 
 ---
 
