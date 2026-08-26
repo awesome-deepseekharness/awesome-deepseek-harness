@@ -135,6 +135,7 @@ The hottest category — giving text-only models "eyes."
 | [dhicoc/dsh-reverse-skill](https://github.com/dhicoc/dsh-reverse-skill) | 85 SKILL.md reverse-engineering & security research skill pack (Cordis plugin) | 10 |
 | [Lyn-77/ProMentor](https://github.com/Lyn-77/ProMentor) | AI coding mentor: architecture scan, laddered chapters, hand-written core logic, auto-grading | 54 |
 | [Jayden-X-L/forkprobe](https://github.com/Jayden-X-L/forkprobe) | Compare multiple skills on the same task and pick the winner | 65 |
+| [suyukun/dsh-tech-selection](https://github.com/suyukun/dsh-tech-selection) | Model-agnostic technology-selection research protocol for any AI agent (DSH/Claude/Cursor/Codex): T1-T6 source tiers, quality gates, quantified trade-offs, traceable verdicts | 0 |
 | [morluto/rea](https://github.com/morluto/rea) | Reverse engineer anything with agents, from app behavior down to native binaries | 322 |
 
 ### 🚀 Apps & Runtimes Built on DSH
