@@ -131,6 +131,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [Francis-Xavier-code/dsh-balance-plugin](https://github.com/Francis-Xavier-code/dsh-balance-plugin) | DeepSeek 余额监控与用量统计 + 官方充值入口 | 7 |
 | [Cassius0924/dsh-usage-dashboard](https://github.com/Cassius0924/dsh-usage-dashboard) | DeepSeek 额度与用量仪表盘 | 4 |
 | [dustinmoon78/dsh-usage-stats](https://github.com/dustinmoon78/dsh-usage-stats) | DSH 用量统计：聚合会话 token 用量（总览/按模型/按天）+ 单价费用估算 + 设置页展示 | 0 |
+| [null5069/dsh-better-stats](https://github.com/null5069/dsh-better-stats) | DSH Web 输入框增强统计条：官方 CNY 计价（峰谷时段、分模型）、实时结算、LLM/工具实时计时、余额直连、预算预警 | 2 |
 | [NanmiCoder/dsh-agent-teams](https://github.com/NanmiCoder/dsh-agent-teams) | AgentTeams 多代理协作插件 | 290 |
 | [btspoony/mstar-harness](https://github.com/btspoony/mstar-harness) | Skill 驱动的 Harness/Loop 工程工作流 Agent 插件 | 43 |
 | [weshopai/weshop-dsh-plugin](https://github.com/weshopai/weshop-dsh-plugin) | 原生 WeShop 插件:无限画布 + 无限创意技能 | 6 |
