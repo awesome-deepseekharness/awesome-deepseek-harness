@@ -152,6 +152,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [dhicoc/dsh-reverse-skill](https://github.com/dhicoc/dsh-reverse-skill) | 85 个 SKILL.md 的逆向工程/安全研究技能包(Cordis 插件) | 10 |
 | [Lyn-77/ProMentor](https://github.com/Lyn-77/ProMentor) | AI 编程导师:项目架构扫描、阶梯式 Chapter、手写核心逻辑、自动判题 | 54 |
 | [Jayden-X-L/forkprobe](https://github.com/Jayden-X-L/forkprobe) | 同一任务对比多个 skill,选出胜者 | 65 |
+| [Mikuzjc/dsh-office-for-mso](https://github.com/Mikuzjc/dsh-office-for-mso) | DSH ↔ Microsoft Office 桥接技能：操控已打开的 Word/Excel/PowerPoint（33 动作、AI 编排、Office 插件） | 1 |
 | [morluto/rea](https://github.com/morluto/rea) | 用 agent 逆向任何东西:从应用行为到原生二进制 | 322 |
 
 ### 🚀 集成 DSH 的应用与运行时
