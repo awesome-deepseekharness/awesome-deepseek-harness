@@ -176,6 +176,52 @@ async function runPreliminaryChecks(pr, issue) {
   return out.join('\n');
 }
 
+async function runAutoLabel(pr, issue, preChecks) {
+  const exec = (cmd, args) => new Promise(res => {
+    const child = spawn(cmd, args, { stdio: ['pipe','pipe','pipe'], shell: false });
+    let o='', e='';
+    child.stdout.on('data', d=>o+=d); child.stderr.on('data', d=>e+=d);
+    child.on('close', code=>res({code,out:o,err:e})); child.on('error', err=>res({code:1,out:'',err:err.message}));
+  });
+  const labelsToAdd = new Set(['auto-labeled']);
+  let target = null, isPR = false;
+  if (pr) { target = String(pr); isPR = true; labelsToAdd.add('needs-review'); }
+  else if (issue) { target = String(issue); isPR = false; labelsToAdd.add('needs-review'); }
+  else return;
+
+  // Heuristic based on preChecks content
+  const lower = preChecks.toLowerCase();
+  if (lower.includes('bilingual') && lower.includes('❌')) labelsToAdd.add('needs-review');
+  if (lower.includes('missing dsh-plugin')) labelsToAdd.add('invalid');
+  else if (lower.includes('dsh-plugin')) labelsToAdd.add('plugin');
+  if (lower.includes('title') && lower.includes('❌')) labelsToAdd.add('needs-review');
+  // For PRs that look like plugin additions, also add plugin
+  if (isPR && lower.includes('detected repo:')) labelsToAdd.add('plugin');
+  // For issues, map to existing labels
+  if (!isPR) {
+    if (lower.includes('plugin suggestion') || lower.includes('detected repo:')) labelsToAdd.add('enhancement');
+    if (lower.includes('question')) labelsToAdd.add('question');
+    if (lower.includes('fix') || lower.includes('bug')) labelsToAdd.add('bug');
+  }
+  // Always add curator for tracking
+  labelsToAdd.add('curator');
+
+  const labels = [...labelsToAdd].join(',');
+  console.log(`[curate] Auto labeling ${isPR ? 'PR' : 'Issue'} #${target} with: ${labels}`);
+  const cmd = isPR ? 'pr' : 'issue';
+  const res = await exec('gh', [cmd, 'edit', target, '--add-label', labels]);
+  if (res.code === 0) console.log(`[curate] Labels added: ${labels}`);
+  else console.warn(`[curate] Label add failed: ${res.err.slice(0,300)} — trying individual`);
+  // Fallback: try one by one if bulk failed
+  if (res.code !== 0) {
+    for (const lbl of labelsToAdd) {
+      const r = await exec('gh', [cmd, 'edit', target, '--add-label', lbl]);
+      if (r.code === 0) console.log(`[curate] Label ${lbl} added`);
+      else console.warn(`[curate] Label ${lbl} failed: ${r.err.slice(0,200)}`);
+    }
+  }
+}
+
 function runOpencode(modelId, prompt) {
   return new Promise((resolve, reject) => {
     const model = `opencode/${modelId}`;
@@ -314,6 +360,7 @@ async function main() {
   const issue = process.env.GH_ISSUE || process.env.ISSUE_NUMBER || '';
   const preChecks = await runPreliminaryChecks(pr, issue);
   console.log(`[curate] Preliminary checks:\n${preChecks}\n---`);
+  try { await runAutoLabel(pr, issue, preChecks); } catch (e) { console.warn(`[curate] autoLabel failed: ${e.message}`); }
   const prompt = buildPrompt({ pr, issue, preChecks });
   fs.writeFileSync(path.join(ROOT, '.curate-prompt.md'), prompt, 'utf8');
   console.log(`[curate] Prompt written to .curate-prompt.md`);
