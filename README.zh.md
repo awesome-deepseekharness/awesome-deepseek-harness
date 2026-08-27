@@ -85,6 +85,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [Nagi-ovo/dsh-visualize](https://github.com/Nagi-ovo/dsh-visualize) | 在 DSH 对话中生成交互式可视化卡片 | 88 |
 | [omdsh-dev/dsh-genui](https://github.com/omdsh-dev/dsh-genui) | GenUI:内联交互式 UI 组件(layout、图表、表单、mermaid、3D)+ 动作事件回环 | 87 |
 | [ZSeven-W/dsh-openpencil](https://github.com/ZSeven-W/dsh-openpencil) | OpenPencil 设计预览与编辑插件 | 71 |
+| [xiaoksio/dsh-solution-explorer](https://github.com/xiaoksio/dsh-solution-explorer) | DSH Web GUI 右侧边栏：VS Code 风格文件浏览器 + 源代码管理（git 状态、暂存/丢弃/提交/diff/提交图/同步/分支/远程）+ 语法高亮编辑器与多标签终端 | 4 |
 
 ### 🖥️ TUI 与桌面端
 
