@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "provider": {
+    "opencode": {
+      "baseUrl": "https://opencode.ai/zen/v1",
+      "api": "openai-completions",
+      "apiKey": "public",
+      "headers": {
+        "x-opencode-client": "cli",
+        "x-opencode-session": "!printf 'ses_%s' \"$(openssl rand -hex 12)\"",
+        "x-opencode-project": "global",
+        "x-opencode-request": "!printf 'msg_%s' \"$(openssl rand -hex 12)\"",
+        "User-Agent": "opencode/1.18.18/cli"
+      },
+      "compat": {
+        "supportsLongCacheRetention": true
+      },
+      "models": {}
+    }
+  },
+  "model": "opencode/muse-spark-1.2-contributor-free",
+  "small_model": "opencode/muse-spark-1.2-contributor-free"
+}
