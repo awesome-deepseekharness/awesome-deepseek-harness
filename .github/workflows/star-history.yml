@@ -1,0 +1,26 @@
+name: Star History
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # every 6h, refreshes time axis and picks up unstars
+  watch:
+    types: [started]       # refresh shortly after a new star
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: star-history
+  cancel-in-progress: true
+
+jobs:
+  star-history:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: narayann7/star-history-action@v1
+        with:
+          repos: ${{ github.repository }}
+          # output-dir, themes, etc. keep defaults: assets/star-history/star-history-{light,dark}.svg + png
+          # token defaults to github.token which works for own repo; if 403, supply PAT via token: ${{ secrets.STAR_HISTORY_TOKEN }}
