@@ -133,6 +133,7 @@ Row: | [my/repo](https://github.com/my/repo) | my cool plugin |  |
 - **冲突处理**：多个 PR 同时改同一表格尾部会产生冲突。维护者会批量 rebase 并保留所有条目，无需你手动解决（但保持 PR 仅改一行可降低冲突概率）。
 - **合并方式**：Squash merge，commit message 保留 `Add owner/repo (#PR)`。
 - **Star 刷新**：维护者定期用脚本刷新全表 star 数；PR 中的 star 数以提交时为准即可。
+- **还没人 review？** 若 48 小时内无人评审，欢迎在 PR 里友善地 @`hdjekuue` 或其他维护者 — 不用客气，我们很乐意帮忙。
 
 ---
 
@@ -158,4 +159,4 @@ Row: | [my/repo](https://github.com/my/repo) | my cool plugin |  |
 - 一个项目只出现一次，放在最贴切的分类
 - 优先收录打上了 [`dsh-plugin`](https://github.com/topics/dsh-plugin) topic 的仓库
 - 若你的插件刚发布 star 为 0，完全可以提交 — 我们鼓励早期项目（早期收录 = 早期曝光）
-- 如需帮助，在 PR 中 @maintainer 或去 [Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions) 提问
+- 如需帮助，在 PR 中友善地 @`hdjekuue` 或其他维护者，或去 [Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions) 提问

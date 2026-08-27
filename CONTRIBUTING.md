@@ -133,6 +133,7 @@ Row: | [my/repo](https://github.com/my/repo) | my cool plugin |  |
 - **Conflicts**: Multiple PRs editing the tail of the same table will conflict. Maintainers batch-rebase and keep all entries — you don't need to fix it manually, but keeping a PR to one row reduces conflict risk.
 - **Merge method**: Squash merge, message `Add owner/repo (#PR)`.
 - **Star refresh**: Maintainers periodically refresh the whole table; star count at submission time is fine.
+- **No review yet?** If there's no review in 48h, feel free to friendly ping `@hdjekuue` or other maintainers in the PR — no need to be shy, we're happy to help.
 
 ---
 
@@ -158,4 +159,4 @@ Row: | [my/repo](https://github.com/my/repo) | my cool plugin |  |
 - One project appears only once, in the most fitting category
 - Prefer repos with the [`dsh-plugin`](https://github.com/topics/dsh-plugin) topic
 - Star `0` is fine at submission — we encourage early-stage projects (early listing = early exposure)
-- Need help? @maintainer in the PR or ask in [Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions)
+- Need help? Friendly @`hdjekuue` or other maintainers in the PR, or ask in [Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions)

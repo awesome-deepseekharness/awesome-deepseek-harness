@@ -232,7 +232,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 发现了好项目?欢迎[提交 PR](CONTRIBUTING.zh.md)或提 Issue。收录标准:与 DSH 相关、可安装可用、有明确用途。
 
-> 💡 **PR 24h 内合并秘籍：** 严格按新的 [PR 模板](.github/pull_request_template.md) + [贡献指南](CONTRIBUTING.zh.md) 清单来（双语条目、正确分类、已验证安装、`dsh-plugin` topic）。格式规范的 PR 会自动打 label 并优先评审。顺便 — 提交前先给本仓库 Star，会微妙地增加信任感 😉
+> 💡 **PR 24h 内合并秘籍：** 严格按新的 [PR 模板](.github/pull_request_template.md) + [贡献指南](CONTRIBUTING.zh.md) 清单来（双语条目、正确分类、已验证安装、`dsh-plugin` topic）。格式规范的 PR 会自动打 label 并优先评审。若 48 小时内无人评审，欢迎在 PR 里友善地 @`hdjekuue` 或其他维护者。
 
 *本列表持续更新。星标数截止 2026-08-15。*
 

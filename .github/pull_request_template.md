@@ -50,4 +50,4 @@ dsh plugin add owner/repo
 
 ---
 
-> 💡 **小技巧**：在你的插件 README 底部加上 `Found via [Awesome DSH](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) — star both!` 可带来 3× 曝光。互惠互利，生态一起 grow。
+> 💡 **小技巧**：在你的插件 README 底部加上 `Found via [Awesome DSH](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) — star if useful` 对双方曝光都有帮助。若 48 小时内无人评审，欢迎在 PR 里友善地 @`hdjekuue` 或其他维护者。

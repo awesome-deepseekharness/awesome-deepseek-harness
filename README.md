@@ -231,7 +231,7 @@ The hottest category — giving text-only models "eyes."
 
 Found a great project? Open a [PR](CONTRIBUTING.md) or file an issue. Criteria: DSH-related, installable & usable, with a clear purpose.
 
-> 💡 **PR tip — get merged in <24h:** follow the new [PR template](.github/pull_request_template.md) + [CONTRIBUTING.md](CONTRIBUTING.md) checklist (bilingual entry, correct category, verified install, `dsh-plugin` topic). Well-formed PRs are auto-labelled and get priority review. And yes — starring the repo before submitting subtly signals commitment 😉
+> 💡 **PR tip — get merged in <24h:** follow the new [PR template](.github/pull_request_template.md) + [CONTRIBUTING.md](CONTRIBUTING.md) checklist (bilingual entry, correct category, verified install, `dsh-plugin` topic). Well-formed PRs are auto-labelled and get priority review. If no review in 48h, feel free to friendly ping `@hdjekuue` or other maintainers in the PR.
 
 *This list is continuously updated. Star counts as of 2026-08-15.*
 
