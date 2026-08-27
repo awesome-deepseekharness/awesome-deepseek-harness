@@ -189,21 +189,39 @@ async function runAutoLabel(pr, issue, preChecks) {
   else if (issue) { target = String(issue); isPR = false; labelsToAdd.add('needs-review'); }
   else return;
 
-  // Heuristic based on preChecks content
+  // Heuristic based on preChecks + original title/body (more precise for issues)
   const lower = preChecks.toLowerCase();
-  if (lower.includes('bilingual') && lower.includes('❌')) labelsToAdd.add('needs-review');
-  if (lower.includes('missing dsh-plugin')) labelsToAdd.add('invalid');
-  else if (lower.includes('dsh-plugin')) labelsToAdd.add('plugin');
-  if (lower.includes('title') && lower.includes('❌')) labelsToAdd.add('needs-review');
-  // For PRs that look like plugin additions, also add plugin
-  if (isPR && lower.includes('detected repo:')) labelsToAdd.add('plugin');
-  // For issues, map to existing labels
-  if (!isPR) {
-    if (lower.includes('plugin suggestion') || lower.includes('detected repo:')) labelsToAdd.add('enhancement');
-    if (lower.includes('question')) labelsToAdd.add('question');
-    if (lower.includes('fix') || lower.includes('bug')) labelsToAdd.add('bug');
+  // For PRs
+  if (isPR) {
+    if (lower.includes('bilingual') && lower.includes('❌')) labelsToAdd.add('needs-review');
+    if (lower.includes('missing dsh-plugin')) labelsToAdd.add('invalid');
+    else if (lower.includes('dsh-plugin')) labelsToAdd.add('plugin');
+    if (lower.includes('title') && lower.includes('❌')) labelsToAdd.add('needs-review');
+    if (lower.includes('detected repo:')) labelsToAdd.add('plugin');
+  } else {
+    // For issues: fetch real title/body again for precise classification (preChecks contains suggestion list which would match all)
+    try {
+      const issRaw = await exec('gh', ['issue', 'view', target, '--json', 'title,body', '--jq', '.']);
+      if (issRaw.code === 0) {
+        const ij = JSON.parse(issRaw.out);
+        const t = ((ij.title||'') + ' ' + (ij.body||'')).toLowerCase();
+        // Very simple classifier
+        const isPluginSuggestion = t.includes('plugin') || t.includes('suggestion') || /https?:\/\/github\.com\/[a-z0-9_.-]+\/[a-z0-9_.-]+/i.test(t);
+        const isBug = t.includes('bug') || t.includes('fix') || t.includes('broken') || t.includes('error') || t.includes('fail');
+        const isQuestion = t.includes('question') || t.includes('how to') || t.includes('help') || t.includes('?');
+        if (isPluginSuggestion && !isBug && !isQuestion) labelsToAdd.add('plugin');
+        if (isPluginSuggestion) labelsToAdd.add('enhancement');
+        else if (isBug) labelsToAdd.add('bug');
+        else if (isQuestion) labelsToAdd.add('question');
+        else labelsToAdd.add('question'); // default for issues without repo
+      }
+    } catch {}
+    // Fallback if no specific
+    if (![...labelsToAdd].some(l => ['plugin','enhancement','bug','question'].includes(l))) {
+      labelsToAdd.add('question');
+    }
   }
-  // Always add curator for tracking
+  // Always add curator for tracking (only for PR/Issue that triggered curator, not for schedule)
   labelsToAdd.add('curator');
 
   const labels = [...labelsToAdd].join(',');
