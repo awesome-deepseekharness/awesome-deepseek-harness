@@ -103,6 +103,7 @@ The hottest category — giving text-only models "eyes."
 | [zizaiwo/dsh_plugins](https://github.com/zizaiwo/dsh_plugins) | Sidebar session categories for dsh Web UI: zero-config takeover of official workspace browser, organize sessions by custom folders (drag & drop, in-category creation, per-workspace isolation) | 0 |
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | Quick-prompts bar above composer: per-category snippet chips, orange {{placeholder}} highlighting, two-column management, per-session category memory | 0 |
 | [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | Re-sorts sidebar workspaces by last activity once per day; stable order within the day | 0 |
+| [test/test-plugin-demo](https://github.com/test/test-plugin-demo) | Demo plugin for curator test — should be flagged and not merged | 0 |
 ### 🖥️ TUI & Desktop
 
 | Project | Description | ⭐ |
