@@ -219,7 +219,7 @@ The hottest category — giving text-only models "eyes."
  <img src="https://api.star-history.com/svg?repos=awesome-deepseekharness/awesome-deepseek-harness&type=Date" alt="Star History Chart" width="600">
 </a>
 
-> **Social proof in action:** every 10 new stars, we feature a new plugin on X/Twitter and Discord. Star now, get featured later — maintainers prioritise starred repos for reviews. [Star on GitHub](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [Follow @deepseek_ai on X](https://x.com/deepseek_ai) · [Join Discord](https://discord.gg/Ycq5dCaS4)
+> **Community momentum:** As we approach 100 stars, popular or noteworthy plugins *may* be highlighted or pinned within this list and its site (e.g., a small featured area) — no guarantees, just a way for us to gauge what the community values and keep the list fresh. [Star on GitHub](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [Follow @deepseek_ai on X](https://x.com/deepseek_ai) · [Join Discord](https://discord.gg/Ycq5dCaS4)
 
 ## Contributing
 

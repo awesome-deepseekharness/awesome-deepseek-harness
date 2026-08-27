@@ -220,7 +220,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
  <img src="https://api.star-history.com/svg?repos=awesome-deepseekharness/awesome-deepseek-harness&type=Date" alt="Star History Chart" width="600">
 </a>
 
-> **社区增长飞轮：** 每新增 10 个 Star，我们就会在 X/Twitter 与 Discord 置顶推荐一个新插件。先 Star，后被推荐 — 评审会优先看已 Star 仓库的 PR。[去 GitHub 点 Star](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [关注 DeepSeek 官方](https://x.com/deepseek_ai) · [加入 Discord](https://discord.gg/Ycq5dCaS4)
+> **社区势头：** 我们正朝 100 Stars 迈进，随着关注度提升，部分受关注的插件 *可能* 会在本列表/站点内获得置顶或额外曝光（例如小范围精选区），不做确定性承诺，仅作为社区偏好的参考以持续优化收录。[去 GitHub 点 Star](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [关注 DeepSeek 官方](https://x.com/deepseek_ai) · [加入 Discord](https://discord.gg/Ycq5dCaS4)
 
 ## 贡献
 
