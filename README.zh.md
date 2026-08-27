@@ -16,7 +16,7 @@
   <a href="https://github.com/awesome-deepseekharness/awesome-deepseek-harness"><img src="https://img.shields.io/github/stars/awesome-deepseekharness/awesome-deepseek-harness?style=social" alt="GitHub stars"></a>
   <a href="https://github.com/awesome-deepseekharness/awesome-deepseek-harness/fork"><img src="https://img.shields.io/github/forks/awesome-deepseekharness/awesome-deepseek-harness?style=social" alt="GitHub forks"></a>
   <img src="https://img.shields.io/github/last-commit/awesome-deepseekharness/awesome-deepseek-harness" alt="last commit">
-  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome"></a>
+  <a href="CONTRIBUTING.zh.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome"></a>
   <a href="https://github.com/topics/dsh-plugin"><img src="https://img.shields.io/badge/topic-dsh--plugin-ff7a45" alt="dsh-plugin topic"></a>
 </p>
 
@@ -216,17 +216,23 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 ## ⭐ Star 历史与社区增长
 
-<a href="https://star-history.com/#awesome-deepseekharness/awesome-deepseek-harness&Date">
- <img src="https://api.star-history.com/svg?repos=awesome-deepseekharness/awesome-deepseek-harness&type=Date" alt="Star History Chart" width="600">
-</a>
+<!-- star-history start -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/star-history/star-history-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/star-history/star-history-light.svg">
+  <img alt="Star History Chart" src="assets/star-history/star-history-light.svg" width="600">
+</picture>
+<!-- star-history end -->
 
 > **社区势头：** 我们正朝 100 Stars 迈进，随着关注度提升，部分受关注的插件 *可能* 会在本列表/站点内获得置顶或额外曝光（例如小范围精选区），不做确定性承诺，仅作为社区偏好的参考以持续优化收录。[去 GitHub 点 Star](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [关注 DeepSeek 官方](https://x.com/deepseek_ai) · [加入 Discord](https://discord.gg/Ycq5dCaS4)
 
+<sub>图表由 GitHub Action（`narayann7/star-history-action`）自托管，每 6 小时及有新 Star 时刷新。原 `api.star-history.com/svg` 因 [GitHub stargazers 接口限制](https://star-history.com/blog/github-stargazer-api-restriction) 已失效。若图片为空，请等待首次工作流运行或[查看交互式图表](https://star-history.com/#awesome-deepseekharness/awesome-deepseek-harness&Date)。</sub>
+
 ## 贡献
 
-发现了好项目?欢迎[提交 PR](CONTRIBUTING.md)或提 Issue。收录标准:与 DSH 相关、可安装可用、有明确用途。
+发现了好项目?欢迎[提交 PR](CONTRIBUTING.zh.md)或提 Issue。收录标准:与 DSH 相关、可安装可用、有明确用途。
 
-> 💡 **PR 24h 内合并秘籍：** 严格按新的 [PR 模板](.github/pull_request_template.md) + [贡献指南](CONTRIBUTING.md) 清单来（双语条目、正确分类、已验证安装、`dsh-plugin` topic）。格式规范的 PR 会自动打 label 并优先评审。顺便 — 提交前先给本仓库 Star，会微妙地增加信任感 😉
+> 💡 **PR 24h 内合并秘籍：** 严格按新的 [PR 模板](.github/pull_request_template.md) + [贡献指南](CONTRIBUTING.zh.md) 清单来（双语条目、正确分类、已验证安装、`dsh-plugin` topic）。格式规范的 PR 会自动打 label 并优先评审。顺便 — 提交前先给本仓库 Star，会微妙地增加信任感 😉
 
 *本列表持续更新。星标数截止 2026-08-15。*
 

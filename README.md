@@ -215,11 +215,17 @@ The hottest category — giving text-only models "eyes."
 
 ## ⭐ Star History & Community Growth
 
-<a href="https://star-history.com/#awesome-deepseekharness/awesome-deepseek-harness&Date">
- <img src="https://api.star-history.com/svg?repos=awesome-deepseekharness/awesome-deepseek-harness&type=Date" alt="Star History Chart" width="600">
-</a>
+<!-- star-history start -->
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/star-history/star-history-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/star-history/star-history-light.svg">
+  <img alt="Star History Chart" src="assets/star-history/star-history-light.svg" width="600">
+</picture>
+<!-- star-history end -->
 
 > **Community momentum:** As we approach 100 stars, popular or noteworthy plugins *may* be highlighted or pinned within this list and its site (e.g., a small featured area) — no guarantees, just a way for us to gauge what the community values and keep the list fresh. [Star on GitHub](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [Follow @deepseek_ai on X](https://x.com/deepseek_ai) · [Join Discord](https://discord.gg/Ycq5dCaS4)
+
+<sub>Chart is self-hosted via GitHub Action (`narayann7/star-history-action`) and refreshes every 6h + on new stars. Previously used `api.star-history.com/svg` is disabled due to [GitHub stargazers API restriction](https://star-history.com/blog/github-stargazer-api-restriction). If the image is empty, wait for the first workflow run or [view interactive chart](https://star-history.com/#awesome-deepseekharness/awesome-deepseek-harness&Date).</sub>
 
 ## Contributing
 

@@ -1,23 +1,25 @@
-# Contributing / 贡献指南
+# Contributing Guide
 
-Thanks for helping grow Awesome DeepSeek Harness! 感谢你帮助完善这个列表！
+[中文](CONTRIBUTING.zh.md) | English
 
-> ⭐ **先做 2 秒小动作**：右上角点 **Star**，你会自动收到每周新插件更新提醒，也让更多开发者通过 GitHub 推荐发现本列表与你的插件。分享一次 = 10× 曝光：([X 分享](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20Everything%20is%20a%20Plugin&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [Discord](https://discord.gg/Ycq5dCaS4))
+Thanks for helping grow Awesome DeepSeek Harness!
 
----
-
-## 收录标准 / Criteria
-
-- [ ] **DSH 相关**：插件、工具、技能、教程或基于 DSH 的应用。需在 README/描述中明确说明与 `deepseek-harness` / `dsh` 的关系（例如 `dsh plugin add ...` 可安装、或提供 `dsh.bundle` / `skill` / `dsh-client` 等）。
-- [ ] **可安装、可运行、有明确用途**：有安装命令、版本标签（`v0.1.0` 等）或 npm/Git 发布，开箱可用；避免仅有空仓库或截图无代码。
-- [ ] **开源或至少公开可访问**：仓库 public，含 LICENSE（推荐 MIT/Apache-2.0/CC0），有 README 说明。
-- [ ] **已打 `dsh-plugin` topic**（插件类强要求）：前往仓库 Settings → Topics 添加 `dsh-plugin`，便于被市场与本列表发现。权威性与可发现性 = 更多 Star。
-- [ ] **单一、去重**：一个项目只出现一次，放在最贴切的分类（见下表）；若跨分类，选用户最可能寻找的那个。
-- [ ] **质量门槛**：有清晰描述、一句话说明价值；有 UI 的请附动图/截图。无意义 fork、抄袭、仅改名的 wrapper 不收录。
+> ⭐ **2-second favor first**: Star this repo — you'll get notified of 2–3 new plugins each week and help others discover this list via GitHub recommendations. Sharing once = 10× exposure: ([Share on X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20Everything%20is%20a%20Plugin&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [Discord](https://discord.gg/Ycq5dCaS4))
 
 ---
 
-## 如何添加 / How to Add (3 分钟)
+## Criteria
+
+- [ ] **DSH relevance**: Plugin, tool, skill, tutorial or app built on `deepseek-harness` / `dsh`. Must explain the relation in README/description (e.g., installable via `dsh plugin add ...`, provides `dsh.bundle` / `skill` / `dsh-client`).
+- [ ] **Installable, runnable, and purposeful**: Has an install command, version tag (`v0.1.0`) or npm/Git release, works out-of-the-box. Avoid empty repos or screenshot-only projects.
+- [ ] **Open source or at least publicly accessible**: Public repo with LICENSE (MIT/Apache-2.0/CC0 recommended) and a README.
+- [ ] **`dsh-plugin` topic** (strongly required for plugins): Add `dsh-plugin` in repo Settings → Topics for discoverability. More visibility = more stars.
+- [ ] **Unique and de-duplicated**: Each project appears only once, in the most fitting category (see table below). If cross-category, pick where users would look first.
+- [ ] **Quality bar**: Clear description, one-sentence value proposition; include GIF/screenshot for UI. No meaningless forks, plagiarized or rename-only wrappers.
+
+---
+
+## How to Add (3 minutes)
 
 ### 1. Fork & Branch
 
@@ -26,65 +28,65 @@ gh repo fork awesome-deepseekharness/awesome-deepseek-harness --clone
 git checkout -b add-owner-repo
 ```
 
-### 2. 选分类 / Choose Category
+### 2. Choose Category
 
-| 分类 | 放什么 |
+| Category | What goes there |
 | --- | --- |
-| 🛍️ Marketplaces & Discovery | 市场、发现、索引类 |
-| 👁️ Vision | 视觉、OCR、grounding |
-| 🌐 Web & Browser | 搜索、浏览器、网络 |
-| 🧠 Memory | 记忆、上下文、知识图谱 |
-| 🎨 Web UI, Skins & Desktop Pets | Web UI 增强、皮肤、宠物、GenUI |
-| 🖥️ TUI & Desktop | 终端 UI、桌面壳、启动器 |
-| 🧩 Tools, Workflows & Presets | 工具、工作流、预设、统计、通知 |
-| 📚 Skills | Skill / 技能包 |
-| 🚀 Apps & Runtimes Built on DSH | 集成 DSH 的完整应用/运行时 |
-| 🧱 Core Infrastructure | 官方基础设施 |
-| 🎓 Learning & Guides | 教程、手册、原理 |
-| 新增分类 | 若无合适分类，可新建 `### 🆕 Your Category` 并说明理由 |
+| 🛍️ Marketplaces & Discovery | Marketplaces, discovery, indexes |
+| 👁️ Vision | Vision, OCR, grounding |
+| 🌐 Web & Browser | Search, browser, networking |
+| 🧠 Memory | Memory, context, knowledge graph |
+| 🎨 Web UI, Skins & Desktop Pets | Web UI enhancements, skins, pets, GenUI |
+| 🖥️ TUI & Desktop | Terminal UI, desktop shells, launchers |
+| 🧩 Tools, Workflows & Presets | Tools, workflows, presets, stats, notifications |
+| 📚 Skills | Skills / skill packs |
+| 🚀 Apps & Runtimes Built on DSH | Full apps/runtimes integrating DSH |
+| 🧱 Core Infrastructure | Official infrastructure |
+| 🎓 Learning & Guides | Tutorials, handbooks, principles |
+| New category | If none fits, create `### 🆕 Your Category` with rationale |
 
-### 3. 按格式添加一行 / Add One Row
+### 3. Add One Row
 
-**英文 README.md（必填）** — 找到对应表格，按字母或热度顺序插入：
+**`README.md` (required, English)** — find the category table and insert in alphabetical or popularity order:
 
 ```markdown
 | [owner/repo](https://github.com/owner/repo) | One-sentence description (what it does for dsh, installable via `dsh plugin add ...`) | 123 |
 ```
 
-**中文 README.zh.md（必填，同步更新）** — 同一位置插入中文描述：
+**`README.zh.md` (required, Chinese, same category/position)** — insert the Chinese description:
 
 ```markdown
 | [owner/repo](https://github.com/owner/repo) | 一句话中文说明（面向 dsh 的作用 + 安装方式） | 123 |
 ```
 
-**星标列 ⭐**：填当前 GitHub star 数（大致准确即可，维护者会定期刷新）。不要写 `0` 除非确实 0；从 `gh api repos/owner/repo --jq .stargazers_count` 获取。
+**Stars column ⭐**: Use current GitHub star count (approx. is fine, maintainers refresh periodically). Don't use `0` unless it truly is 0; get it via `gh api repos/owner/repo --jq .stargazers_count`.
 
-> ⚠️ **双语是硬性要求**：只改 `README.md` 而不改 `README.zh.md` 的 PR 会被要求补齐。机器人会检测。
+> ⚠️ **Bilingual is mandatory**: PRs touching only `README.md` without `README.zh.md` will be marked as request changes. CI checks this.
 
-### 4. PR 标题与描述 / PR Title & Body
+### 4. PR Title & Body
 
-**标题规范**（任选一，用于快速检索）：
+**Title convention** (pick one, for quick triage):
 
 - `Add owner/repo to Category`
 - `docs: add owner/repo to Category`
 
-**描述必须包含**（复制 PR 模板 checklist）：
+**Body must include** (copy from PR template checklist):
 
-- 与 DSH 的关系（1–2 句）
-- 安装命令（已验证可运行）
-- License、是否已打 `dsh-plugin` topic、npm/版本信息
-- 若是 UI 插件：动图/截图
-- 确认无重复条目
+- Relation to DSH (1–2 sentences)
+- Verified install command
+- License, `dsh-plugin` topic status, npm/version
+- GIF/screenshot for UI plugins
+- Confirmation of no duplicate
 
-提交后机器人会在 24h 内检查；格式规范者 <24h 合并。
+Well-formed PRs are checked within 24h and usually merged in <24h.
 
 ---
 
-## PR 内容规范化指引 / PR Content Guidelines (必读)
+## PR Content Guidelines (must-read)
 
-> 遵循此指引可显著提升合并速度，并让你的插件获得更多 Star（规范的描述 = 信任感）。
+> Following this gets you merged faster and earns more stars for your plugin (clear description = trust).
 
-### ✅ 好例子 Good Example
+### ✅ Good Example
 
 ```markdown
 Title: Add dustinmoon78/dsh-usage-stats to Tools/Workflows/Presets
@@ -97,13 +99,13 @@ Body:
 - **Why here**: Tools/Workflows fits better than Memory.
 ```
 
-对应表格行：
+Corresponding row:
 
 ```markdown
 | [dustinmoon78/dsh-usage-stats](https://github.com/dustinmoon78/dsh-usage-stats) | DSH usage stats: aggregated token usage (overview/by-model/by-day) + cost estimate in Settings | 3 |
 ```
 
-### ❌ 反面例子 Bad Example
+### ❌ Bad Example
 
 ```markdown
 Title: add my plugin
@@ -111,48 +113,49 @@ Body: (empty)
 Row: | [my/repo](https://github.com/my/repo) | my cool plugin |  |
 ```
 
-**问题**：缺分类、缺与 DSH 关系、无安装验证、缺中文、star 为空。
+**Problems**: Missing category, missing DSH relation, no verified install, no Chinese row, empty star count.
 
-### 检查清单 / Checklist (PR Template 自动带)
+### Checklist (auto-included via PR template)
 
-- [ ] 我已在 `README.md` **和** `README.zh.md` 同步添加（同一分类、同一位置）
-- [ ] 标题符合 `Add owner/repo to Category` 规范
-- [ ] 描述含：与 DSH 关系 + 安装命令（已本地验证）+ License/topic + 版本
-- [ ] 星标数已核实（`gh api repos/owner/repo --jq .stargazers_count`）
-- [ ] 无重复条目（搜索 `owner/repo` 在两份 README 中均不存在）
-- [ ] 已给本仓库点 Star（心理暗示：评审更快 😉）并考虑分享
-
----
-
-## 审核与合并 / Review & Merge
-
-- **时效**：规范 PR 24–48h 内合并；需补齐的会评论 `request changes`，作者 7 天内未响应可能被关闭（可重开）。
-- **冲突处理**：多个 PR 同时改同一表格尾部会产生冲突。维护者会批量 rebase 并保留所有条目，无需你手动解决（但保持 PR 仅改一行可降低冲突概率）。
-- **合并方式**：Squash merge，commit message 保留 `Add owner/repo (#PR)`。
-- **Star 刷新**：维护者定期用脚本刷新全表 star 数；PR 中的 star 数以提交时为准即可。
+- [ ] Added one row to **both** `README.md` **and** `README.zh.md` at the correct category/position with format `| [owner/repo](link) | description | ⭐ |`
+- [ ] Title follows `Add owner/repo to Category`
+- [ ] Body includes: DSH relation + verified install + License/topic + version
+- [ ] Star count verified (`gh api repos/owner/repo --jq .stargazers_count`)
+- [ ] No duplicate (searched `owner/repo` in both READMEs)
+- [ ] One PR adds one project only
+- [ ] Starred this repo ⭐ (you'll get update notifications and reviews go faster) and considered sharing
 
 ---
 
-## 心理暗示与传播 / Star & Share Nudges (for maintainers & authors)
+## Review & Merge
 
-> 这些技巧已被验证可提升 2–5× Star 增长，适用于本列表与你的插件仓库。
+- **Timeline**: Well-formed PRs are merged within 24–48h; those needing fixes get a `request changes` comment. If no response in 7 days, the PR may be closed (reopen anytime).
+- **Conflicts**: Multiple PRs editing the tail of the same table will conflict. Maintainers batch-rebase and keep all entries — you don't need to fix it manually, but keeping a PR to one row reduces conflict risk.
+- **Merge method**: Squash merge, message `Add owner/repo (#PR)`.
+- **Star refresh**: Maintainers periodically refresh the whole table; star count at submission time is fine.
 
-1. **互惠**：在你的插件 README 底部加一句 `Found via [Awesome DSH](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) — please star both!` 并回 Star 本列表。
-2. **社会认同**：在 PR 描述中写“已打 `dsh-plugin` topic，已有 N 个 Star”，让 reviewer 感知可信度。
-3. **稀缺与里程碑**：强调“前 100 Star 定基调”“每周仅收录 5 个优质项目”，促使用户尽早 Star 锁定关注。
-4. **承诺一致性**：Star 后 GitHub 会提醒更新，用户更可能持续贡献与传播。
-5. **一键分享**：PR 合并后，用下方链接分享，回流 Star：
+---
+
+## Star & Share Nudges (for maintainers & authors)
+
+> Proven to boost 2–5× star growth — for this list and your plugin repo.
+
+1. **Reciprocity**: Add `Found via [Awesome DSH](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) — please star both!` at the bottom of your plugin README and star this list back.
+2. **Social proof**: Mention “`dsh-plugin` topic added, N stars” in PR description to signal credibility.
+3. **Scarcity & milestone**: “First 100 stars shape curation” / “only 5 quality projects per week” nudges users to star early.
+4. **Commitment & consistency**: After starring, GitHub notifies users of updates — they are more likely to keep contributing and sharing.
+5. **One-click share**: After merge, share with:
 
    - X: `https://twitter.com/intent/tweet?text=My%20plugin%20owner/repo%20is%20now%20on%20Awesome%20DSH!&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness`
    - Reddit: `https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness`
-   - Discord: 直接贴到 https://discord.gg/Ycq5dCaS4 #showcase
+   - Discord: Paste in https://discord.gg/Ycq5dCaS4 #showcase
 
 ---
 
-## 注意事项 / Notes
+## Notes
 
-- 请保留星标列 `⭐`，大致准确即可
-- 一个项目只出现一次，放在最贴切的分类
-- 优先收录打上了 [`dsh-plugin`](https://github.com/topics/dsh-plugin) topic 的仓库
-- 若你的插件刚发布 star 为 0，完全可以提交 — 我们鼓励早期项目（早期收录 = 早期曝光）
-- 如需帮助，在 PR 中 @maintainer 或去 [Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions) 提问
+- Keep the `⭐` column, approx. is fine
+- One project appears only once, in the most fitting category
+- Prefer repos with the [`dsh-plugin`](https://github.com/topics/dsh-plugin) topic
+- Star `0` is fine at submission — we encourage early-stage projects (early listing = early exposure)
+- Need help? @maintainer in the PR or ask in [Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions)
