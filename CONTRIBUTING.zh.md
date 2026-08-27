@@ -136,15 +136,15 @@ Row: | [my/repo](https://github.com/my/repo) | my cool plugin |  |
 
 ---
 
-## 心理暗示与传播（面向维护者与作者）
+## 分享与曝光小技巧
 
-> 这些技巧已被验证可提升 2–5× Star 增长，适用于本列表与你的插件仓库。
+> 几个小习惯，能让你的插件更容易被看到，也让本列表对大家更有用。
 
-1. **互惠**：在你的插件 README 底部加一句 `Found via [Awesome DSH](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) — please star both!` 并回 Star 本列表。
-2. **社会认同**：在 PR 描述中写“已打 `dsh-plugin` topic，已有 N 个 Star”，让 reviewer 感知可信度。
-3. **稀缺与里程碑**：强调“前 100 Star 定基调”“每周仅收录 5 个优质项目”，促使用户尽早 Star 锁定关注。
-4. **承诺一致性**：Star 后 GitHub 会提醒更新，用户更可能持续贡献与传播。
-5. **一键分享**：PR 合并后，用下方链接分享，回流 Star：
+1. 在你的插件 README 底部，可以顺手加一句 `Found via [Awesome DSH](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) — star if useful` — 通过本列表找到你的读者，往往也会顺手 star，双方曝光都会更好。
+2. 在 PR 描述里提一下仓库已打 `dsh-plugin` topic，以及大致的 star 数，方便 reviewer 快速判断项目活跃且易于发现。
+3. 列表还在早期阶段，现在提交的项目更容易被看到，也更容易在整理时保持靠前位置。
+4. Star 本列表后，GitHub 会在每周新增 2–3 个插件时提醒你，不会错过相关更新。
+5. 合并后如愿意分享：
 
    - X: `https://twitter.com/intent/tweet?text=My%20plugin%20owner/repo%20is%20now%20on%20Awesome%20DSH!&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness`
    - Reddit: `https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness`

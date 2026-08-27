@@ -25,7 +25,7 @@
 >
 > **顺手分享，功德 +10×：** 你做/喜欢的插件在列表里？一次分享 = 10 倍曝光。[一键分享到 X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%20%E2%9A%A1%20%E7%B2%BE%E9%80%89%20dsh%20%E6%8F%92%E4%BB%B6%E3%80%81%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E8%83%BD&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek) · [分享到 Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%E7%B2%BE%E9%80%89) · [去 Discord 讨论](https://discord.gg/Ycq5dCaS4) · [复制链接](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
 >
-> *小提示：README 有动图/演示的项目 Star 增长快 3 倍。给仓库打上 `dsh-plugin` 并给本列表 Star，互惠互利，生态一起 grow。*
+> *小提示：配上动图/演示的 README 往往更容易被关注。给仓库打上 `dsh-plugin` 便于被发现，Star 本列表也能及时收到新插件提醒。*
 
 ## 什么是 dsh?
 

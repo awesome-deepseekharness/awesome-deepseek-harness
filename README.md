@@ -25,7 +25,7 @@ English | [中文](README.zh.md)
 >
 > **Share & spread:** if you built or love a plugin here, one share = 10× discoverability. [Share on X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20Everything%20is%20a%20Plugin%20%E2%9A%A1%20Curated%20dsh%20plugins%2C%20tools%20%26%20skills%20for%20%40deepseek_ai%20harness&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek,opensource) · [Share on Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20curated%20plugins%20%26%20skills) · [Discuss on Discord](https://discord.gg/Ycq5dCaS4) · [Copy link](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
 >
-> *Tips: plugins with clear README + demo get 3× more stars. Tag your repo `dsh-plugin` and star this list — reciprocity makes the ecosystem grow.*
+> *Tip: READMEs with a clear demo tend to get more attention. Adding `dsh-plugin` helps with discovery, and starring the list keeps you in the loop for new additions.*
 
 ## What is dsh?
 

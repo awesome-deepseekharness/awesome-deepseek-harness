@@ -136,15 +136,15 @@ Row: | [my/repo](https://github.com/my/repo) | my cool plugin |  |
 
 ---
 
-## Star & Share Nudges (for maintainers & authors)
+## Share & Visibility Tips
 
-> Proven to boost 2–5× star growth — for this list and your plugin repo.
+> A few small habits help your plugin get noticed and keep this list useful for everyone.
 
-1. **Reciprocity**: Add `Found via [Awesome DSH](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) — please star both!` at the bottom of your plugin README and star this list back.
-2. **Social proof**: Mention “`dsh-plugin` topic added, N stars” in PR description to signal credibility.
-3. **Scarcity & milestone**: “First 100 stars shape curation” / “only 5 quality projects per week” nudges users to star early.
-4. **Commitment & consistency**: After starring, GitHub notifies users of updates — they are more likely to keep contributing and sharing.
-5. **One-click share**: After merge, share with:
+1. At the bottom of your plugin README, consider adding `Found via [Awesome DSH](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) — star if useful` — readers who found you through the list often star both, which helps with discovery.
+2. In your PR description, note that the repo has the `dsh-plugin` topic and a brief star count — it helps reviewers quickly see it's active and easy to find.
+3. Early contributions are especially visible while the list is growing — submitting now means your project stays near the top as we organize.
+4. Starring the list subscribes you to updates (2–3 new plugins weekly), so you won't miss relevant additions.
+5. After merge, if you like, share with:
 
    - X: `https://twitter.com/intent/tweet?text=My%20plugin%20owner/repo%20is%20now%20on%20Awesome%20DSH!&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness`
    - Reddit: `https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness`
