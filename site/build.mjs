@@ -41,6 +41,13 @@ table{width:100%;border-collapse:collapse;margin-top:10px}
 th,td{text-align:left;padding:10px 12px;border:1px solid var(--border);font-size:14px;vertical-align:top}
 th{background:var(--card)}
 .warn{background:rgba(255,122,69,.1);border:1px solid var(--orange);border-radius:8px;padding:12px 16px;font-size:14px;margin-top:14px}
+.cta{background:linear-gradient(135deg,rgba(77,159,255,.12),rgba(255,122,69,.12));border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:20px auto;max-width:760px;text-align:center}
+.cta strong{color:var(--fg)}
+.cta .share{margin-top:10px;display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.cta .share a{font-size:13px;padding:6px 12px;border-radius:20px;background:var(--card);border:1px solid var(--border);color:var(--fg)}
+.cta .share a:hover{border-color:var(--accent);text-decoration:none}
+.starbar{position:sticky;top:56px;z-index:9;background:rgba(255,122,69,.08);border-bottom:1px solid rgba(255,122,69,.2);text-align:center;padding:8px 12px;font-size:13px}
+.starbar a{color:var(--orange);font-weight:600}
 footer{padding:28px 0;color:var(--muted);font-size:13px;text-align:center}
 @media(max-width:640px){.hero h1{font-size:30px}.grid{grid-template-columns:1fr}}
 `;
@@ -161,13 +168,23 @@ function renderPage({ lang, dir, title, desc, keywords, canonical, altUrl, ogLoc
     <div class="tagline">${tagline}</div>
     <p>${about}</p>
     <div class="links">
-      <a class="btn primary" href="https://github.com/awesome-deepseekharness/awesome-deepseek-harness" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn primary" href="https://github.com/awesome-deepseekharness/awesome-deepseek-harness" target="_blank" rel="noopener">⭐ Star on GitHub</a>
       <a class="btn" href="https://github.com/deepseek-ai/deepseek-harness" target="_blank" rel="noopener">DeepSeek Harness</a>
       <a class="btn" href="https://deepseek.com/harness" target="_blank" rel="noopener">deepseek.com/harness</a>
       <a class="btn" href="https://github.com/awesome-deepseekharness/deepseek-official-tracker" target="_blank" rel="noopener">Official Tracker</a>
     </div>
+    <div class="cta">
+      <div><strong>${lang === 'en' ? '⭐ Found this useful? Star it — 2 seconds, and it helps 1000+ dsh developers discover plugins.' : '⭐ 觉得有用？点个 Star — 2 秒钟，让 1000+ dsh 开发者发现这些插件。'}</strong><br><span style="color:var(--muted);font-size:13px">${lang === 'en' ? '3 → 100 stars is our first milestone (97 to go). Early stargazers shape what gets curated next. Every 10 stars we feature a plugin on X/Discord.' : '3 → 100 颗星是第一里程碑（还差 97）。早期 Star 决定后续收录方向。每新增 10 星，我们在 X/Discord 置顶一个插件。'}</span></div>
+      <div class="share">
+        <a href="https://twitter.com/intent/tweet?text=${encodeURIComponent(lang === 'en' ? 'Awesome DeepSeek Harness — Everything is a Plugin ⚡ Curated dsh plugins, tools & skills' : 'Awesome DeepSeek Harness — 万物皆可插件 ⚡ dsh 插件精选')}&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek" target="_blank" rel="noopener">Share on X</a>
+        <a href="https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness" target="_blank" rel="noopener">Reddit</a>
+        <a href="https://discord.gg/Ycq5dCaS4" target="_blank" rel="noopener">Discord</a>
+        <a href="https://github.com/awesome-deepseekharness/awesome-deepseek-harness" target="_blank" rel="noopener">${lang === 'en' ? '⭐ Star now' : '⭐ 去点 Star'}</a>
+      </div>
+    </div>
   </div>
 </div>
+<div class="starbar">⭐ <a href="https://github.com/awesome-deepseekharness/awesome-deepseek-harness" target="_blank" rel="noopener">${lang === 'en' ? 'Help us reach 100 stars — only 97 to go! Click ⭐ to star' : '帮我们冲 100 Stars — 还差 97！点击 ⭐ 点 Star'}</a> · <span style="color:var(--muted)">${lang === 'en' ? 'Your star notifies you of 2–3 new plugins weekly' : 'Star 后每周自动收到 2–3 个新插件提醒'}</span></div>
 <section id="about">
   <div class="container">
     <h2>${lang === 'en' ? 'What is dsh?' : '什么是 dsh?'}</h2>

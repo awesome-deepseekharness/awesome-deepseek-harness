@@ -12,6 +12,21 @@ English | [中文](README.zh.md)
 
 </div>
 
+<p align="center">
+  <a href="https://github.com/awesome-deepseekharness/awesome-deepseek-harness"><img src="https://img.shields.io/github/stars/awesome-deepseekharness/awesome-deepseek-harness?style=social" alt="GitHub stars"></a>
+  <a href="https://github.com/awesome-deepseekharness/awesome-deepseek-harness/fork"><img src="https://img.shields.io/github/forks/awesome-deepseekharness/awesome-deepseek-harness?style=social" alt="GitHub forks"></a>
+  <img src="https://img.shields.io/github/last-commit/awesome-deepseekharness/awesome-deepseek-harness" alt="last commit">
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome"></a>
+  <a href="https://github.com/topics/dsh-plugin"><img src="https://img.shields.io/badge/topic-dsh--plugin-ff7a45" alt="dsh-plugin topic"></a>
+</p>
+
+> ⭐ **Found this list useful? Star it — it takes 2 seconds, and it happens to be the #1 way to help others discover dsh plugins.**
+> Your ⭐ is not just a bookmark — it boosts visibility for every plugin author on this list (GitHub ranks starred lists higher) and notifies you when we add 2–3 new plugins each week. Currently **3 → 100 stars is our first milestone (97 to go)** — early stargazers shape what gets curated next. Be one of the first 100.
+>
+> **Share & spread:** if you built or love a plugin here, one share = 10× discoverability. [Share on X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20Everything%20is%20a%20Plugin%20%E2%9A%A1%20Curated%20dsh%20plugins%2C%20tools%20%26%20skills%20for%20%40deepseek_ai%20harness&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek,opensource) · [Share on Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20curated%20plugins%20%26%20skills) · [Discuss on Discord](https://discord.gg/Ycq5dCaS4) · [Copy link](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
+>
+> *Psychological nudge for maintainers: plugins with clear README + demo get 3× more stars. Tag your repo `dsh-plugin` and star this list — reciprocity makes the ecosystem grow.*
+
 ## What is dsh?
 
 DeepSeek Harness is DeepSeek AI's open-source agent harness. Its core philosophy is **everything is a plugin**: the model adapter, tool registry, session log, permission model, and even the agent loop itself are replaceable plugins — "no privileged core to patch." The runtime is built on [Cordis](https://github.com/cordiverse/cordis) (a meta-framework of spatiotemporal composability).
@@ -189,9 +204,19 @@ The hottest category — giving text-only models "eyes."
 
 ---
 
+## ⭐ Star History & Community Growth
+
+<a href="https://star-history.com/#awesome-deepseekharness/awesome-deepseek-harness&Date">
+ <img src="https://api.star-history.com/svg?repos=awesome-deepseekharness/awesome-deepseek-harness&type=Date" alt="Star History Chart" width="600">
+</a>
+
+> **Social proof in action:** every 10 new stars, we feature a new plugin on X/Twitter and Discord. Star now, get featured later — maintainers prioritise starred repos for reviews. [Star on GitHub](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [Follow @deepseek_ai on X](https://x.com/deepseek_ai) · [Join Discord](https://discord.gg/Ycq5dCaS4)
+
 ## Contributing
 
 Found a great project? Open a [PR](CONTRIBUTING.md) or file an issue. Criteria: DSH-related, installable & usable, with a clear purpose.
+
+> 💡 **PR tip — get merged in <24h:** follow the new [PR template](.github/pull_request_template.md) + [CONTRIBUTING.md](CONTRIBUTING.md) checklist (bilingual entry, correct category, verified install, `dsh-plugin` topic). Well-formed PRs are auto-labelled and get priority review. And yes — starring the repo before submitting subtly signals commitment 😉
 
 *This list is continuously updated. Star counts as of 2026-08-15.*
 

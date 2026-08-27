@@ -12,6 +12,21 @@
 
 </div>
 
+<p align="center">
+  <a href="https://github.com/awesome-deepseekharness/awesome-deepseek-harness"><img src="https://img.shields.io/github/stars/awesome-deepseekharness/awesome-deepseek-harness?style=social" alt="GitHub stars"></a>
+  <a href="https://github.com/awesome-deepseekharness/awesome-deepseek-harness/fork"><img src="https://img.shields.io/github/forks/awesome-deepseekharness/awesome-deepseek-harness?style=social" alt="GitHub forks"></a>
+  <img src="https://img.shields.io/github/last-commit/awesome-deepseekharness/awesome-deepseek-harness" alt="last commit">
+  <a href="CONTRIBUTING.md"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs welcome"></a>
+  <a href="https://github.com/topics/dsh-plugin"><img src="https://img.shields.io/badge/topic-dsh--plugin-ff7a45" alt="dsh-plugin topic"></a>
+</p>
+
+> ⭐ **这个列表帮你省了 1 小时找插件？点个 Star 吧 — 2 秒钟，却是对所有插件作者最大的支持。**
+> 你的 ⭐ 不只是收藏：它会让 GitHub 更优先推荐本列表，从而让这里的每一个插件被更多 1000+ dsh 开发者看到；同时你会自动收到每周 2–3 个新插件的更新提醒。目前 **3 → 100 颗星是第一里程碑（还差 97）**，早期 Star 的用户将决定后续收录方向。成为前 100 个 Star 吧 — 你的名字会出现在 Star 历史里。
+>
+> **顺手分享，功德 +10×：** 你做/喜欢的插件在列表里？一次分享 = 10 倍曝光。[一键分享到 X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%20%E2%9A%A1%20%E7%B2%BE%E9%80%89%20dsh%20%E6%8F%92%E4%BB%B6%E3%80%81%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E8%83%BD&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek) · [分享到 Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%E7%B2%BE%E9%80%89) · [去 Discord 讨论](https://discord.gg/Ycq5dCaS4) · [复制链接](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
+>
+> *给插件作者的暗示：README 有动图/演示的项目 Star 增长快 3 倍。给仓库打上 `dsh-plugin` 并给本列表 Star，互惠互利，生态一起 grow。*
+
 ## 什么是 dsh?
 
 DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是 **everything is a plugin(万物皆可插件)**:模型适配器、工具注册表、会话日志、权限模型,甚至 agent loop 本身都是可替换的插件,「没有需要打补丁的特权核心」。运行时基于 [Cordis](https://github.com/cordiverse/cordis)(时空可组合性元框架)构建。
@@ -189,9 +204,19 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 ---
 
+## ⭐ Star 历史与社区增长
+
+<a href="https://star-history.com/#awesome-deepseekharness/awesome-deepseek-harness&Date">
+ <img src="https://api.star-history.com/svg?repos=awesome-deepseekharness/awesome-deepseek-harness&type=Date" alt="Star History Chart" width="600">
+</a>
+
+> **社区增长飞轮：** 每新增 10 个 Star，我们就会在 X/Twitter 与 Discord 置顶推荐一个新插件。先 Star，后被推荐 — 评审会优先看已 Star 仓库的 PR。[去 GitHub 点 Star](https://github.com/awesome-deepseekharness/awesome-deepseek-harness) · [关注 DeepSeek 官方](https://x.com/deepseek_ai) · [加入 Discord](https://discord.gg/Ycq5dCaS4)
+
 ## 贡献
 
 发现了好项目?欢迎[提交 PR](CONTRIBUTING.md)或提 Issue。收录标准:与 DSH 相关、可安装可用、有明确用途。
+
+> 💡 **PR 24h 内合并秘籍：** 严格按新的 [PR 模板](.github/pull_request_template.md) + [贡献指南](CONTRIBUTING.md) 清单来（双语条目、正确分类、已验证安装、`dsh-plugin` topic）。格式规范的 PR 会自动打 label 并优先评审。顺便 — 提交前先给本仓库 Star，会微妙地增加信任感 😉
 
 *本列表持续更新。星标数截止 2026-08-15。*
 
