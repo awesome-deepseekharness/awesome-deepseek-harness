@@ -167,7 +167,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [junhoyeo/tokscale](https://github.com/junhoyeo/tokscale) | 终端跟踪 AI 编码 agent 的 token 用量,全球排行榜 | 4963 |
 | [xiufengsun/TokenTracker](https://github.com/xiufengsun/TokenTracker) | 31 种编码工具的本地 token 与成本跟踪(含 DSH),有原生应用 | 1315 |
 | [JingbiaoMei/Tokdash](https://github.com/JingbiaoMei/Tokdash) | Sessions 与配额的可视化分析:热力图、成本追踪 | 54 |
-| [EthanYoQ/Invoice-Downloader](https://github.com/EthanYoQ/Invoice-Downloader) | 用于本地 IMAP 发票下载、OCR 识别、归档和 Excel 报销汇总的 DSH bundle | 132 |
+| [EthanYoQ/Invoice-Downloader](https://github.com/EthanYoQ/Invoice-Downloader](https://github.com/EthanYoQ/Invoice-Downloader) | 用于本地 IMAP 发票下载、OCR 识别、归档和 Excel 报销汇总的 DSH bundle | 141 |
 
 ---
 
