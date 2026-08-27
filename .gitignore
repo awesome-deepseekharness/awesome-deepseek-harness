@@ -1,0 +1,6 @@
+.curate-prompt.md
+.curate-prompt.md
+.opencode/*
+!.opencode/agent/
+!.opencode/agent/**
+.DS_Store

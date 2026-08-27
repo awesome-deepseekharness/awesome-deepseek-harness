@@ -89,6 +89,93 @@ async function fetchLiveFreeModels() {
   return STATIC_FREE_FALLBACK;
 }
 
+async function runPreliminaryChecks(pr, issue) {
+  const out = [];
+  const exec = (cmd, args) => new Promise(res => {
+    const isWin = process.platform === 'win32';
+    const useShell = cmd === 'opencode' && isWin; // gh is binary, no shell needed; opencode on Win is .ps1
+    const child = spawn(cmd, args, { stdio: ['pipe', 'pipe', 'pipe'], shell: useShell });
+    let o = '', e = '';
+    child.stdout.on('data', d => o += d.toString());
+    child.stderr.on('data', d => e += d.toString());
+    child.on('close', code => res({ code, out: o, err: e }));
+    child.on('error', err => res({ code: 1, out: '', err: err.message }));
+  });
+  if (pr) {
+    out.push(`## Preliminary PR #${pr} checks (deterministic)`);
+    const prInfo = await exec('gh', ['pr', 'view', String(pr), '--json', 'title,body,files,author,additions', '--jq', '.']);
+    if (prInfo.code === 0) {
+      try {
+        const j = JSON.parse(prInfo.out);
+        const titleOk = /^(Add|docs: add) .+ to .+/i.test(j.title || '');
+        out.push(`- Title: "${j.title}" ${titleOk ? '✅ matches Add owner/repo to Category' : '❌ should be Add owner/repo to Category'}`);
+        const files = (j.files || []).map(f => f.path).join(', ');
+        out.push(`- Files: ${files || '(none)'} ${files.includes('README.md') && files.includes('README.zh.md') ? '✅ bilingual' : '❌ missing README.md or README.zh.md'}`);
+        // Extract owner/repo from diff via title or body
+        // Robust owner/repo extraction: prefer https://github.com/owner/repo, fallback to generic but ignore github.com
+        let repo = null;
+        const ghMatch = (j.title + ' ' + (j.body || '')).match(/https?:\/\/github\.com\/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/i);
+        if (ghMatch) repo = ghMatch[1].replace(/\.git$|\/$/, '');
+        else {
+          const generic = (j.title + ' ' + (j.body || '')).match(/(?<![a-zA-Z0-9_.-])([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)(?![a-zA-Z0-9_.-])/);
+          if (generic && generic[1] !== 'github.com/thedeveloper256' && !generic[1].startsWith('github.com/')) repo = generic[1];
+          // Also try files diff: look for owner/repo in body via gh pr diff? fallback to files path check
+          if (!repo && j.files) {
+            const fromFiles = JSON.stringify(j.files).match(/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/);
+            if (fromFiles && fromFiles[1].includes('/')) repo = fromFiles[1];
+          }
+        }
+        if (repo) {
+          // sanitize
+          repo = repo.replace(/^github\.com\//, '');
+          out.push(`- Detected repo: ${repo}`);
+          const api = await exec('gh', ['api', `repos/${repo}`, '--jq', '{stars: .stargazers_count, topics: .topics, license: .license.spdx_id}']);
+          if (api.code === 0) {
+            try {
+              const info = JSON.parse(api.out);
+              out.push(`- Live: stars=${info.stars}, topics=${(info.topics||[]).join(',') || '(none)'}, license=${info.license || '(none)'} ${info.topics?.includes('dsh-plugin') ? '✅ dsh-plugin' : '❌ missing dsh-plugin'}`);
+            } catch { out.push(`- Live fetch parse failed: ${api.out.slice(0,200)}`); }
+          } else {
+            out.push(`- Live fetch failed for ${repo}: ${api.err.slice(0,200)}`);
+          }
+        } else {
+          out.push(`- Could not detect owner/repo from title/body`);
+        }
+      } catch (e) { out.push(`- PR parse failed: ${e.message}`); }
+    } else {
+      out.push(`- gh pr view failed: ${prInfo.err.slice(0,300)}`);
+    }
+  }
+  if (issue) {
+    out.push(`## Preliminary Issue #${issue} checks`);
+    const iss = await exec('gh', ['issue', 'view', String(issue), '--json', 'title,body,labels,author', '--jq', '.']);
+    if (iss.code === 0) {
+      try {
+        const j = JSON.parse(iss.out);
+        out.push(`- Title: ${j.title}`);
+        out.push(`- Labels: ${(j.labels||[]).map(l=>l.name).join(', ') || '(none)'} — suggest: plugin suggestion / fix / question`);
+        let mRepo = null;
+        const ghM = (j.title + ' ' + (j.body||'')).match(/https?:\/\/github\.com\/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/i);
+        if (ghM) mRepo = ghM[1].replace(/\.git$|\/$/, '');
+        else {
+          const gen = (j.title + ' ' + (j.body||'')).match(/(?<![a-zA-Z0-9_.-])([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)(?![a-zA-Z0-9_.-])/);
+          if (gen && !gen[1].startsWith('github.com/')) mRepo = gen[1];
+        }
+        if (mRepo) {
+          mRepo = mRepo.replace(/^github\.com\//, '');
+          out.push(`- Detected repo: ${mRepo} — check if already listed via grep`);
+          const api2 = await exec('gh', ['api', `repos/${mRepo}`, '--jq', '{stars: .stargazers_count, topics: .topics}']);
+          if (api2.code === 0) {
+            try { const inf = JSON.parse(api2.out); out.push(`- Live: stars=${inf.stars}, topics=${(inf.topics||[]).join(',')}`); } catch {}
+          }
+        }
+      } catch (e) { out.push(`- Issue parse failed: ${e.message}`); }
+    }
+  }
+  if (!pr && !issue) out.push('No PR/Issue event — general health audit only');
+  return out.join('\n');
+}
+
 function runOpencode(modelId, prompt) {
   return new Promise((resolve, reject) => {
     const model = `opencode/${modelId}`;
@@ -153,7 +240,7 @@ async function generateWithTraversal(prompt) {
   throw lastErr || new Error('all free models failed');
 }
 
-function buildPrompt({ pr, issue }) {
+function buildPrompt({ pr, issue, preChecks }) {
   const now = new Date().toISOString();
   const prInfo = pr ? `PR #${pr} (check via gh pr view ${pr})` : 'no PR event';
   const issueInfo = issue ? `Issue #${issue}` : 'no issue event';
@@ -165,11 +252,15 @@ function buildPrompt({ pr, issue }) {
     `- Event: ${prInfo}, ${issueInfo}`,
     `- Env: GH_PR=${pr || ''} GH_ISSUE=${issue || ''}`,
     ``,
-    `Task: Do a quick health audit (README tables, duplicates, star drift sample), and if GH_PR/GH_ISSUE is set, preprocess that PR/Issue per curator.md. Always overwrite curator-report.md with the required structure.`,
+    `Preliminary deterministic checks (already run by scripts/curate.mjs — use as ground truth, then do deeper verification):`,
+    preChecks ? preChecks.split('\n').map(l => `> ${l}`).join('\n') : '> (no preliminary checks)',
+    ``,
+    `Task: Do a quick health audit (README tables, duplicates, star drift sample), and if GH_PR/GH_ISSUE is set, preprocess that PR/Issue per curator.md. For any new project (owner/repo), autonomously verify with websearch/webfetch/kitesurf browser (chrome-devtools-mcp via wss://kitesurf.cloudflare.app/devtools/browser) — fetch repo page, check README for dsh install, verify dsh-plugin topic via gh api, and search for the project to confirm it's real. Then provide a maintainer review opinion (Approve / Request changes / Needs discussion) with confidence and suggested comment body (friendly, in PR language, ping @hdjekuue if needed). Always overwrite curator-report.md with the required structure including Preliminary Checks and Maintainer Review Opinion.`,
     ``,
     `Toolbox hints:`,
-    `- Prefer gh api for GitHub data, curl + jq for APIs, webfetch for HTML.`,
+    `- Prefer gh api for GitHub data, curl + jq for APIs, webfetch first then kitesurf browser for JS-heavy pages, websearch for auto-discovery.`,
     `- Use opencode public provider (https://opencode.ai/zen/v1, apiKey public) — you are already on a free model via traversal.`,
+    `- kitesurf MCP is available as local MCP "kitesurf" (command: npx chrome-devtools-mcp --wsEndpoint=wss://kitesurf.cloudflare.app/devtools/browser) — use it to open https://github.com/owner/repo or demo URLs when webfetch returns shell.`,
     ``,
     `Proceed autonomously. After writing curator-report.md, echo DONE and list Sources.`,
   ].join('\n');
@@ -221,7 +312,9 @@ async function main() {
   console.log(`[curate] Starting at ${new Date().toISOString()}`);
   const pr = process.env.GH_PR || process.env.PR_NUMBER || '';
   const issue = process.env.GH_ISSUE || process.env.ISSUE_NUMBER || '';
-  const prompt = buildPrompt({ pr, issue });
+  const preChecks = await runPreliminaryChecks(pr, issue);
+  console.log(`[curate] Preliminary checks:\n${preChecks}\n---`);
+  const prompt = buildPrompt({ pr, issue, preChecks });
   fs.writeFileSync(path.join(ROOT, '.curate-prompt.md'), prompt, 'utf8');
   console.log(`[curate] Prompt written to .curate-prompt.md`);
 
