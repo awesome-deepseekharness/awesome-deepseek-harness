@@ -139,6 +139,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [weshopai/weshop-dsh-plugin](https://github.com/weshopai/weshop-dsh-plugin) | 原生 WeShop 插件:无限画布 + 无限创意技能 | 6 |
 | [morluto/jacobian](https://github.com/morluto/jacobian) | 纯数学工具:搜索例子与反例、精确计算、独立验证 | 43 |
 | [thedeveloper256/dsh-model-router](https://github.com/thedeveloper256/dsh-model-router) | 基于角色的模型路由:规划者(根 agent)跑 deepseek-v4-pro,委派执行子 agent 跑 deepseek-v4-flash;附带 prompt 段与 `pro-flash-routing` 技能 | 1 |
+| [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | 滴答清单每日任务分发器：定时拉取今日到期任务、变更感知 flomo+macOS 通知、可选无头会话自动执行、工作区选择、Web 任务看板 | 0 |
 
 ### 📚 Skills 与技能包
 
@@ -157,6 +158,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [Lyn-77/ProMentor](https://github.com/Lyn-77/ProMentor) | AI 编程导师:项目架构扫描、阶梯式 Chapter、手写核心逻辑、自动判题 | 54 |
 | [Jayden-X-L/forkprobe](https://github.com/Jayden-X-L/forkprobe) | 同一任务对比多个 skill,选出胜者 | 65 |
 | [Mikuzjc/dsh-office-for-mso](https://github.com/Mikuzjc/dsh-office-for-mso) | DSH ↔ Microsoft Office 桥接技能：操控已打开的 Word/Excel/PowerPoint（33 动作、AI 编排、Office 插件） | 1 |
+| [suyukun/dsh-tech-selection](https://github.com/suyukun/dsh-tech-selection) | 面向任意 AI Agent 的技术选型研究协议（DSH/Claude/Cursor/Codex 通用）：T1-T6 信源分级、质量门禁、量化权衡、可追溯结论 | 0 |
 | [morluto/rea](https://github.com/morluto/rea) | 用 agent 逆向任何东西:从应用行为到原生二进制 | 322 |
 
 ### 🚀 集成 DSH 的应用与运行时
