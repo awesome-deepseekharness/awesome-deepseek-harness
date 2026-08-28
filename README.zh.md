@@ -240,3 +240,5 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 ## License
 
 [CC0-1.0](LICENSE) — 公共领域,随意使用。
+
+<!-- curator test: 2026-08-28T03:25:06.5633325+00:00 -->

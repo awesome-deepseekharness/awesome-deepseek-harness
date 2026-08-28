@@ -239,3 +239,5 @@ Found a great project? Open a [PR](CONTRIBUTING.md) or file an issue. Criteria: 
 ## License
 
 [CC0-1.0](LICENSE) — public domain, use freely.
+
+<!-- curator test: 2026-08-28T03:24:54.2187303+00:00 -->
