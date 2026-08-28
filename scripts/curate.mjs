@@ -111,7 +111,7 @@ async function runPreliminaryChecks(pr, issue) {
         out.push(`- Title: "${j.title}" ${titleOk ? '✅ matches Add owner/repo to Category' : '❌ should be Add owner/repo to Category'}`);
         const files = (j.files || []).map(f => f.path).join(', ');
         out.push(`- Files: ${files || '(none)'} ${files.includes('README.md') && files.includes('README.zh.md') ? '✅ bilingual' : '❌ missing README.md or README.zh.md'}`);
-        // Extract owner/repo from diff via title or body
+        // Extract owner/repo from diff via title or body (+ /curator comment link as fallback)
         // Robust owner/repo extraction: prefer https://github.com/owner/repo, fallback to generic but ignore github.com
         let repo = null;
         const ghMatch = (j.title + ' ' + (j.body || '')).match(/https?:\/\/github\.com\/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/i);
@@ -119,6 +119,11 @@ async function runPreliminaryChecks(pr, issue) {
         else {
           const generic = (j.title + ' ' + (j.body || '')).match(/(?<![a-zA-Z0-9_.-])([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)(?![a-zA-Z0-9_.-])/);
           if (generic && generic[1] !== 'github.com/thedeveloper256' && !generic[1].startsWith('github.com/')) repo = generic[1];
+          // Also try /curator comment body (e.g. "/curator https://github.com/owner/repo")
+          if (!repo && process.env.GH_COMMENT_BODY) {
+            const cMatch = process.env.GH_COMMENT_BODY.match(/https?:\/\/github\.com\/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/i);
+            if (cMatch) repo = cMatch[1].replace(/\.git$|\/$/, '');
+          }
           // Also try files diff: look for owner/repo in body via gh pr diff? fallback to files path check
           if (!repo && j.files) {
             const fromFiles = JSON.stringify(j.files).match(/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/);
@@ -374,8 +379,44 @@ ${issue ? `- Issue #${issue} detected. Suggest labels: plugin suggestion / fix /
 
 async function main() {
   console.log(`[curate] Starting at ${new Date().toISOString()}`);
-  const pr = process.env.GH_PR || process.env.PR_NUMBER || '';
-  const issue = process.env.GH_ISSUE || process.env.ISSUE_NUMBER || '';
+  let pr = process.env.GH_PR || process.env.PR_NUMBER || '';
+  let issue = process.env.GH_ISSUE || process.env.ISSUE_NUMBER || '';
+  const eventName = process.env.GITHUB_EVENT_NAME || process.env.GH_EVENT || '';
+  const commentBody = process.env.GH_COMMENT_BODY || '';
+  const commentIsPr = process.env.GH_COMMENT_IS_PR === 'true';
+  const commentPr = process.env.GH_COMMENT_PR || '';
+
+  // Fix for issue_comment on PR: workflow sets GH_PR empty + GH_ISSUE==PR number.
+  // Detect and normalize so PRs triggered via /curator are treated as PR, not Issue.
+  // Also fallback to local gh detection if envs are ambiguous.
+  if (eventName === 'issue_comment' && commentIsPr && !pr && issue && commentPr === issue) {
+    console.log(`[curate] Normalizing issue_comment on PR: issue #${issue} → pr #${issue}`);
+    pr = issue;
+    issue = '';
+  } else if (!pr && issue && eventName === 'issue_comment') {
+    // Fallback: probe whether GH_ISSUE is actually a PR via gh pr view
+    try {
+      const probe = await new Promise(res => {
+        const c = spawn('gh', ['pr', 'view', String(issue), '--json', 'number', '--jq', '.number'], { stdio: ['pipe','pipe','pipe'], shell: false });
+        let o='', e='';
+        c.stdout.on('data', d=>o+=d); c.stderr.on('data', d=>e+=d);
+        c.on('close', code=>res({code,out:o,err:e})); c.on('error', err=>res({code:1,out:'',err:err.message}));
+      });
+      if (probe.code === 0 && probe.out.trim()) {
+        console.log(`[curate] Probe: #${issue} is a PR → treating as PR`);
+        pr = issue;
+        issue = '';
+      }
+    } catch {}
+  }
+  if (commentBody && commentBody.includes('/curator')) {
+    console.log(`[curate] Triggered via /curator comment: "${commentBody.slice(0,120)}"`);
+    // If comment contains https://github.com/owner/repo, append to pr body context for repo extraction
+    const urlMatch = commentBody.match(/https?:\/\/github\.com\/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/i);
+    if (urlMatch && pr) {
+      console.log(`[curate] Comment contains repo link ${urlMatch[1]} — will be considered by curator agent`);
+    }
+  }
   const preChecks = await runPreliminaryChecks(pr, issue);
   console.log(`[curate] Preliminary checks:\n${preChecks}\n---`);
   try { await runAutoLabel(pr, issue, preChecks); } catch (e) { console.warn(`[curate] autoLabel failed: ${e.message}`); }
