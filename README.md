@@ -103,6 +103,7 @@ The hottest category — giving text-only models "eyes."
 | [zizaiwo/dsh_plugins](https://github.com/zizaiwo/dsh_plugins) | Sidebar session categories for dsh Web UI: zero-config takeover of official workspace browser, organize sessions by custom folders (drag & drop, in-category creation, per-workspace isolation) | 0 |
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | Quick-prompts bar above composer: per-category snippet chips, orange {{placeholder}} highlighting, two-column management, per-session category memory | 0 |
 | [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | Re-sorts sidebar workspaces by last activity once per day; stable order within the day | 0 |
+| [PerryLink/dsh-composer-history](https://github.com/PerryLink/dsh-composer-history) | Terminal-style input history for the web composer: edge-first arrow-key recall with exact draft/caret restore, browser-local persisted history, Ctrl+R reverse search, and sliding-context awareness; 0.5.0 adds a smart input layer — cross-session snippets (/save, /load), prompt templates with variables, reuse insights, and compaction-summary highlighting. | 8 |
 ### 🖥️ TUI & Desktop
 
 | Project | Description | ⭐ |
@@ -140,6 +141,7 @@ The hottest category — giving text-only models "eyes."
 | [morluto/jacobian](https://github.com/morluto/jacobian) | Pure mathematics for agents: search examples/counterexamples, compute exactly, verify | 43 |
 | [thedeveloper256/dsh-model-router](https://github.com/thedeveloper256/dsh-model-router) | Role-based model routing: planner (root agent) on deepseek-v4-pro, delegated executor subagents on deepseek-v4-flash; ships a prompt section + `pro-flash-routing` skill | 1 |
 | [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | TickTick daily task dispatcher: interval pulls of todays due tasks, change-aware flomo+macOS notifications, optional auto-execute in headless sessions, worker workspace selection, web task board | 0 |
+| [PerryLink/dsh-auto-review](https://github.com/PerryLink/dsh-auto-review) | Second-model auto-review for DSH approval requests: a read-only reviewer subagent returns structured allow/deny verdicts with reasons, fail-closed by default and auditable from the session log. Installable via `dsh plugin --profile web add dsh-auto-review` | 119 |
 
 ### 📚 Skills
 
