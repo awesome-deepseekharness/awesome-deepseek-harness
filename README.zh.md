@@ -103,6 +103,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [zizaiwo/dsh_plugins](https://github.com/zizaiwo/dsh_plugins) | dsh 侧边栏会话分类插件：零配置接管官方工作区浏览器，按自定义分类文件夹管理会话（拖拽归类/分类内建会话/每工作区独立） | 0 |
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | 输入框上方的快捷指令胶囊栏：按分类存常用 prompt，橙色高亮占位符，两栏管理，分类记忆按会话独立持久化 | 0 |
 | [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | 侧边栏工作区每日按最近活动排序一次，当天顺序稳定 | 0 |
+| [PerryLink/dsh-session-pin](https://github.com/PerryLink/dsh-session-pin) | 把会话与工作区置顶到 Web 侧边栏顶部：行级图钉与换色、会话头开关、已置顶面板；0.4.0 再加导航组织器——Pin 分组（boards）、标签与保存视图、会话健康摘要与 /goto。 | 3 |
 
 ### 🖥️ TUI 与桌面端
 
@@ -141,6 +142,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [morluto/jacobian](https://github.com/morluto/jacobian) | 纯数学工具:搜索例子与反例、精确计算、独立验证 | 43 |
 | [thedeveloper256/dsh-model-router](https://github.com/thedeveloper256/dsh-model-router) | 基于角色的模型路由:规划者(根 agent)跑 deepseek-v4-pro,委派执行子 agent 跑 deepseek-v4-flash;附带 prompt 段与 `pro-flash-routing` 技能 | 1 |
 | [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | 滴答清单每日任务分发器：定时拉取今日到期任务、变更感知 flomo+macOS 通知、可选无头会话自动执行、工作区选择、Web 任务看板 | 0 |
+| [PerryLink/dsh-auto-review](https://github.com/PerryLink/dsh-auto-review) | DSH 审批请求的第二模型自动评审：只读评审子代理返回带理由的结构化允许/拒绝裁决，默认故障关闭、全程可从会话日志审计。可通过 `dsh plugin --profile web add dsh-auto-review` 安装 | 119 |
 
 ### 📚 Skills 与技能包
 
