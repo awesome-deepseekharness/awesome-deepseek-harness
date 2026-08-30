@@ -67,6 +67,7 @@ The hottest category — giving text-only models "eyes."
 | [Anionex/agent-vision-toolkit](https://github.com/Anionex/agent-vision-toolkit) | Vision toolkit & skills for text-only LLMs: multi-image, Q&A, frontend UI restoration, GUI automation | 871 |
 | [ysr666/dsh-vision-router](https://github.com/ysr666/dsh-vision-router) | Built-in free vision chain (no key) + pixel-level vision tools; one-command install, no Python | 94 |
 | [QwenLM/Qwen-MM-Plugins](https://github.com/QwenLM/Qwen-MM-Plugins) | Make any agent harness multimodal-native (cross-harness) | 2549 |
+| [PerryLink/dsh-draw](https://github.com/PerryLink/dsh-draw) | Unified static-image generation routing for DeepSeek Harness: one image_generate tool across OpenAI Images, Zhipu CogView, and compatible endpoints, with health-aware fallback and durable results. | 3 |
 
 ### 🌐 Web & Browser
 
@@ -140,6 +141,7 @@ The hottest category — giving text-only models "eyes."
 | [morluto/jacobian](https://github.com/morluto/jacobian) | Pure mathematics for agents: search examples/counterexamples, compute exactly, verify | 43 |
 | [thedeveloper256/dsh-model-router](https://github.com/thedeveloper256/dsh-model-router) | Role-based model routing: planner (root agent) on deepseek-v4-pro, delegated executor subagents on deepseek-v4-flash; ships a prompt section + `pro-flash-routing` skill | 1 |
 | [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | TickTick daily task dispatcher: interval pulls of todays due tasks, change-aware flomo+macOS notifications, optional auto-execute in headless sessions, worker workspace selection, web task board | 0 |
+| [PerryLink/dsh-auto-review](https://github.com/PerryLink/dsh-auto-review) | Second-model auto-review for DSH approval requests: a read-only reviewer subagent returns structured allow/deny verdicts with reasons, fail-closed by default and auditable from the session log. Installable via `dsh plugin --profile web add dsh-auto-review` | 119 |
 
 ### 📚 Skills
 
