@@ -140,6 +140,8 @@ The hottest category — giving text-only models "eyes."
 | [morluto/jacobian](https://github.com/morluto/jacobian) | Pure mathematics for agents: search examples/counterexamples, compute exactly, verify | 43 |
 | [thedeveloper256/dsh-model-router](https://github.com/thedeveloper256/dsh-model-router) | Role-based model routing: planner (root agent) on deepseek-v4-pro, delegated executor subagents on deepseek-v4-flash; ships a prompt section + `pro-flash-routing` skill | 1 |
 | [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | TickTick daily task dispatcher: interval pulls of todays due tasks, change-aware flomo+macOS notifications, optional auto-execute in headless sessions, worker workspace selection, web task board | 0 |
+| [PerryLink/dsh-auto-review](https://github.com/PerryLink/dsh-auto-review) | Second-model auto-review for DSH approval requests: a read-only reviewer subagent returns structured allow/deny verdicts with reasons, fail-closed by default and auditable from the session log. Installable via `dsh plugin --profile web add dsh-auto-review` | 119 |
+| [PerryLink/dsh-industry-research](https://github.com/PerryLink/dsh-industry-research) | Deterministic industry research reports for DeepSeek Harness — company and industry research flows produce structured, verifiable reports from staged evidence. | 22 |
 
 ### 📚 Skills
 
