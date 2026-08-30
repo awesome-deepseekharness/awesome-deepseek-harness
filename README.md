@@ -140,6 +140,7 @@ The hottest category — giving text-only models "eyes."
 | [morluto/jacobian](https://github.com/morluto/jacobian) | Pure mathematics for agents: search examples/counterexamples, compute exactly, verify | 43 |
 | [thedeveloper256/dsh-model-router](https://github.com/thedeveloper256/dsh-model-router) | Role-based model routing: planner (root agent) on deepseek-v4-pro, delegated executor subagents on deepseek-v4-flash; ships a prompt section + `pro-flash-routing` skill | 1 |
 | [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | TickTick daily task dispatcher: interval pulls of todays due tasks, change-aware flomo+macOS notifications, optional auto-execute in headless sessions, worker workspace selection, web task board | 0 |
+| [PerryLink/dsh-auto-review](https://github.com/PerryLink/dsh-auto-review) | Second-model auto-review for DSH approval requests: a read-only reviewer subagent returns structured allow/deny verdicts with reasons, fail-closed by default and auditable from the session log. Installable via `dsh plugin --profile web add dsh-auto-review` | 119 |
 
 ### 📚 Skills
 
@@ -160,6 +161,7 @@ The hottest category — giving text-only models "eyes."
 | [Mikuzjc/dsh-office-for-mso](https://github.com/Mikuzjc/dsh-office-for-mso) | DSH <-> Microsoft Office bridge skill: control open Word/Excel/PowerPoint via Office add-in (33 actions, AI-orchestrated) | 1 |
 | [suyukun/dsh-tech-selection](https://github.com/suyukun/dsh-tech-selection) | Model-agnostic technology-selection research protocol for any AI agent (DSH/Claude/Cursor/Codex): T1-T6 source tiers, quality gates, quantified trade-offs, traceable verdicts | 0 |
 | [morluto/rea](https://github.com/morluto/rea) | Reverse engineer anything with agents, from app behavior down to native binaries | 322 |
+| [PerryLink/dsh-plugin-guide](https://github.com/PerryLink/dsh-plugin-guide) | The DSH plugin-development knowledge base as an on-demand agent skill: official constraints, task workflows, API reference and community gotchas, installed with the bundle so the agent can look things up while building a plugin. | 32 |
 
 ### 🚀 Apps & Runtimes Built on DSH
 
