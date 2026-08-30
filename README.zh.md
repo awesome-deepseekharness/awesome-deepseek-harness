@@ -141,6 +141,8 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [morluto/jacobian](https://github.com/morluto/jacobian) | 纯数学工具:搜索例子与反例、精确计算、独立验证 | 43 |
 | [thedeveloper256/dsh-model-router](https://github.com/thedeveloper256/dsh-model-router) | 基于角色的模型路由:规划者(根 agent)跑 deepseek-v4-pro,委派执行子 agent 跑 deepseek-v4-flash;附带 prompt 段与 `pro-flash-routing` 技能 | 1 |
 | [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | 滴答清单每日任务分发器：定时拉取今日到期任务、变更感知 flomo+macOS 通知、可选无头会话自动执行、工作区选择、Web 任务看板 | 0 |
+| [PerryLink/dsh-auto-review](https://github.com/PerryLink/dsh-auto-review) | DSH 审批请求的第二模型自动评审：只读评审子代理返回带理由的结构化允许/拒绝裁决，默认故障关闭、全程可从会话日志审计。可通过 `dsh plugin --profile web add dsh-auto-review` 安装 | 119 |
+| [PerryLink/dsh-translate](https://github.com/PerryLink/dsh-translate) | DeepSeek Harness 的工具输出修复层：JSON Schema 校验、参数映射与 JSON 修复。 | 2 |
 
 ### 📚 Skills 与技能包
 
