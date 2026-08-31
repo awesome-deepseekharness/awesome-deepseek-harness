@@ -6,8 +6,6 @@ on:
   workflow_dispatch:
   issues:
     types: [opened, edited, labeled]
-  pull_request:
-    types: [opened]
   pull_request_target:
     types: [opened]
   issue_comment:
@@ -31,8 +29,8 @@ concurrency:
 
 jobs:
   curate:
-    # Guard: schedule/dispatch/push/issues/pull_request(auto first open) run unconditionally (except bots);
-    # pull_request_target handles fork PR first open without approval;
+    # Guard: schedule/dispatch/push/issues/pull_request_target(auto first open) run unconditionally (except bots);
+    # pull_request_target handles both same-repo and fork PR first open without approval (fork would need approval with pull_request);
     # issue_comment only runs when comment contains /curator and actor is OWNER/MEMBER/COLLABORATOR (for re-trigger)
     if: >
       github.event_name == 'workflow_dispatch' ||
@@ -43,10 +41,6 @@ jobs:
       ) ||
       (
         github.event_name == 'issues' &&
-        !endsWith(github.actor, '[bot]')
-      ) ||
-      (
-        github.event_name == 'pull_request' &&
         !endsWith(github.actor, '[bot]')
       ) ||
       (
@@ -84,8 +78,7 @@ jobs:
         if: github.event_name != 'issue_comment' && github.event_name != 'pull_request_target'
         uses: actions/checkout@v4
         with:
-          # for pull_request (same-repo) the default checkout is already the PR head;
-          # for issue_comment on non-PR, checkout main
+          # for schedule/issues/workflow_dispatch, checkout main
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -138,7 +131,7 @@ jobs:
           head -n 40 .curate-prompt.md 2>/dev/null || true
 
       - name: Comment on PR/Issue if report changed
-        if: github.event_name == 'pull_request' || github.event_name == 'pull_request_target' || github.event_name == 'issues' || github.event_name == 'issue_comment'
+        if: github.event_name == 'pull_request_target' || github.event_name == 'issues' || github.event_name == 'issue_comment'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -146,7 +139,7 @@ jobs:
           if [ ! -f curator-report.md ]; then exit 0; fi
           # Post report as comment (truncated to 6000 chars)
           BODY=$(head -c 6000 curator-report.md)
-          if [ "${{ github.event_name }}" = "pull_request" ] || [ "${{ github.event_name }}" = "pull_request_target" ]; then
+          if [ "${{ github.event_name }}" = "pull_request_target" ]; then
             gh pr comment ${{ github.event.number }} --body "$BODY" || echo "pr comment failed"
           elif [ "${{ github.event_name }}" = "issue_comment" ]; then
             gh issue comment ${{ github.event.issue.number }} --body "$BODY" || echo "issue comment failed"
