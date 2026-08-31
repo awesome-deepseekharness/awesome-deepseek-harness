@@ -194,48 +194,162 @@ async function runAutoLabel(pr, issue, preChecks) {
   else if (issue) { target = String(issue); isPR = false; labelsToAdd.add('needs-review'); }
   else return;
 
-  // Heuristic based on preChecks + original title/body (more precise for issues)
-  const lower = preChecks.toLowerCase();
-  // For PRs
-  if (isPR) {
-    if (lower.includes('bilingual') && lower.includes('❌')) labelsToAdd.add('needs-review');
-    if (lower.includes('missing dsh-plugin')) labelsToAdd.add('invalid');
-    else if (lower.includes('dsh-plugin')) labelsToAdd.add('plugin');
-    if (lower.includes('title') && lower.includes('❌')) labelsToAdd.add('needs-review');
-    if (lower.includes('detected repo:')) labelsToAdd.add('plugin');
-  } else {
-    // For issues: fetch real title/body again for precise classification (preChecks contains suggestion list which would match all)
+  // --- Smart context-aware labeling (reuse opencode style: title+files+body) ---
+  let prInfo = null, issueInfo = null;
+  try {
+    if (isPR) {
+      const r = await exec('gh', ['pr', 'view', target, '--json', 'title,body,files,author,headRefName,labels', '--jq', '.']);
+      if (r.code === 0) prInfo = JSON.parse(r.out);
+    } else {
+      const r = await exec('gh', ['issue', 'view', target, '--json', 'title,body,labels,author', '--jq', '.']);
+      if (r.code === 0) issueInfo = JSON.parse(r.out);
+    }
+  } catch {}
+
+  const lowerPre = preChecks.toLowerCase();
+
+  if (isPR && prInfo) {
+    const title = prInfo.title || '';
+    const body = prInfo.body || '';
+    const files = (prInfo.files || []).map(f => f.path);
+    const author = prInfo.author?.login || '';
+    const headRef = prInfo.headRefName || '';
+    const lowerTitle = title.toLowerCase();
+    const lowerBody = body.toLowerCase();
+
+    // Detect bot / curator report PR vs human functional PR
+    const isBot = author.endsWith('[bot]') || headRef.startsWith('curator/') || /^chore\(curator\)/i.test(title);
+    const hasReadme = files.includes('README.md') || files.includes('README.zh.md');
+    const hasWorkflow = files.some(f => f.includes('.github/workflows') || f.includes('.opencode/') || f.includes('scripts/curate'));
+    const hasCuratorReport = files.includes('curator-report.md');
+    const isPluginAdd = /^(Add|docs:\s*add)\s+\S+\/\S+\s+to\s+/i.test(title) && hasReadme;
+    const prefixMatch = title.match(/^(\w+)(\(.+\))?:/);
+    const prefix = prefixMatch ? prefixMatch[1].toLowerCase() : '';
+
+    // ai-draft: only for bot curator reports
+    if (isBot) {
+      labelsToAdd.add('ai-draft');
+    } else {
+      // Human PR should NOT have ai-draft — schedule removal if present
+      // (we handle removal after)
+    }
+
+    // curator: only for infra/curator-related PRs (workflow, opencode, scripts, or curator-report) — NOT for plugin adds
+    if (hasWorkflow || hasCuratorReport || lowerTitle.includes('curator') || headRef.startsWith('curator/')) {
+      labelsToAdd.add('curator');
+    }
+
+    // Category based on real context (files + title), not just preChecks keywords
+    if (isPluginAdd) {
+      labelsToAdd.add('plugin');
+      labelsToAdd.add('enhancement');
+      if (lowerPre.includes('missing dsh-plugin')) labelsToAdd.add('invalid');
+    } else if (hasWorkflow) {
+      // Infra / automation PR (like feat(curator): every 3 days...)
+      // Map prefix to smarter label: feat/chore/ci/refactor -> enhancement, fix -> bug, docs -> documentation
+      if (prefix === 'fix') labelsToAdd.add('bug');
+      else if (prefix === 'docs') labelsToAdd.add('documentation');
+      else labelsToAdd.add('enhancement'); // feat, chore, ci, refactor all enhance the repo
+      // invalid/plugin must NOT be added for infra
+    } else if (files.some(f => f.includes('CONTRIBUTING') || f.includes('.github/pull_request_template') || f.includes('docs/'))) {
+      labelsToAdd.add('documentation');
+    } else {
+      // Fallback by conventional prefix for generic code PRs
+      if (prefix === 'feat') labelsToAdd.add('enhancement');
+      else if (prefix === 'fix') labelsToAdd.add('bug');
+      else if (prefix === 'docs') labelsToAdd.add('documentation');
+      else if (prefix === 'chore') {
+        if (lowerTitle.includes('curator')) labelsToAdd.add('curator');
+        labelsToAdd.add('enhancement');
+      } else if (files.some(f => f.endsWith('.md'))) {
+        labelsToAdd.add('documentation');
+      }
+      // keep plugin only if actually plugin-related (checked above)
+      if (lowerPre.includes('missing dsh-plugin') && isPluginAdd) labelsToAdd.add('invalid');
+    }
+
+    // Opencode-style intelligent refinement: try LLM suggestion for ambiguous titles (non-plugin, non-workflow)
+    // This reuses opencode free-model traversal style but lightweight: if opencode available and PR is not clearly plugin/workflow, ask small model for 1 label
     try {
-      const issRaw = await exec('gh', ['issue', 'view', target, '--json', 'title,body', '--jq', '.']);
-      if (issRaw.code === 0) {
-        const ij = JSON.parse(issRaw.out);
-        const t = ((ij.title||'') + ' ' + (ij.body||'')).toLowerCase();
-        // Very simple classifier
-        const isPluginSuggestion = t.includes('plugin') || t.includes('suggestion') || /https?:\/\/github\.com\/[a-z0-9_.-]+\/[a-z0-9_.-]+/i.test(t);
-        const isBug = t.includes('bug') || t.includes('fix') || t.includes('broken') || t.includes('error') || t.includes('fail');
-        const isQuestion = t.includes('question') || t.includes('how to') || t.includes('help') || t.includes('?');
-        if (isPluginSuggestion && !isBug && !isQuestion) labelsToAdd.add('plugin');
-        if (isPluginSuggestion) labelsToAdd.add('enhancement');
-        else if (isBug) labelsToAdd.add('bug');
-        else if (isQuestion) labelsToAdd.add('question');
-        else labelsToAdd.add('question'); // default for issues without repo
+      const isAmbiguous = !isPluginAdd && !hasWorkflow && !prefix;
+      if (isAmbiguous) {
+        const hasOpencode = await new Promise(res => {
+          const c = spawn('opencode', ['--version'], { stdio: 'ignore', shell: process.platform === 'win32' });
+          c.on('close', code => res(code === 0)); c.on('error', () => res(false));
+        });
+        if (hasOpencode) {
+          const prompt = `Classify this PR title/files into one label: plugin, enhancement, bug, documentation, question. Title: "${title}" Files: ${files.join(', ')}. Reply only with the label.`;
+          const tmpPrompt = prompt.slice(0, 400);
+          // Fire-and-forget suggestion with 25s timeout; fallback deterministic if fails
+          const llm = await new Promise(res => {
+            const isWin = process.platform === 'win32';
+            const child = spawn('opencode', ['run', '--model', 'opencode/qwen3-coder-free', '--agent', 'curator', tmpPrompt], { stdio: ['pipe','pipe','pipe'], shell: isWin, cwd: ROOT });
+            let out = '';
+            const t = setTimeout(() => { child.kill('SIGTERM'); res(''); }, 25000);
+            child.stdout.on('data', d => out += d.toString());
+            child.on('close', () => { clearTimeout(t); res(out); });
+            child.on('error', () => { clearTimeout(t); res(''); });
+          });
+          const suggested = (llm.match(/\b(plugin|enhancement|bug|documentation|question)\b/i) || [])[1];
+          if (suggested) {
+            const s = suggested.toLowerCase();
+            if (['plugin','enhancement','bug','documentation','question'].includes(s)) {
+              console.log(`[curate] opencode suggested label: ${s}`);
+              labelsToAdd.add(s);
+            }
+          }
+        }
       }
     } catch {}
-    // Fallback if no specific
-    if (![...labelsToAdd].some(l => ['plugin','enhancement','bug','question'].includes(l))) {
-      labelsToAdd.add('question');
-    }
+  } else if (!isPR && issueInfo) {
+    // --- Issue: smarter classifier based on real issue context (reuse opencode style) ---
+    const t = ((issueInfo.title || '') + ' ' + (issueInfo.body || '')).toLowerCase();
+    const isPluginSuggestion = t.includes('plugin') || /https?:\/\/github\.com\/[a-z0-9_.-]+\/[a-z0-9_.-]+/i.test(t);
+    const isBug = /\b(bug|fix|broken|error|fail|crash)\b/.test(t);
+    const isQuestion = /\b(question|how to|help|\?)\b/.test(t) || t.includes('怎么') || t.includes('如何');
+    const isDocs = t.includes('readme') || t.includes('doc');
+    if (isPluginSuggestion && !isBug) { labelsToAdd.add('plugin'); labelsToAdd.add('enhancement'); }
+    else if (isBug) labelsToAdd.add('bug');
+    else if (isQuestion) labelsToAdd.add('question');
+    else if (isDocs) labelsToAdd.add('documentation');
+    else labelsToAdd.add('question');
+    // curator issues (automation) get curator label
+    if (t.includes('curator') || t.includes('workflow')) labelsToAdd.add('curator');
+  } else {
+    // Fallback: old heuristic if gh fetch failed
+    if (lowerPre.includes('missing dsh-plugin')) labelsToAdd.add('invalid');
+    else if (lowerPre.includes('dsh-plugin') && lowerPre.includes('detected repo:')) labelsToAdd.add('plugin');
   }
-  // Always add curator for tracking (only for PR/Issue that triggered curator, not for schedule)
-  labelsToAdd.add('curator');
+
+  // --- Cleanup wrong labels that may have been added before (smart removal) ---
+  // For non-bot human PRs, ensure ai-draft is removed; for infra PRs, ensure plugin is removed
+  try {
+    if (isPR && prInfo) {
+      const existing = (prInfo.labels || []).map(l => l.name);
+      const toRemove = [];
+      const title = prInfo.title || '';
+      const files = (prInfo.files || []).map(f => f.path);
+      const hasWorkflow = files.some(f => f.includes('.github/workflows') || f.includes('.opencode/') || f.includes('scripts/curate'));
+      const isPluginAdd = /^(Add|docs:\s*add)\s+\S+\/\S+\s+to\s+/i.test(title) && (files.includes('README.md') || files.includes('README.zh.md'));
+      const isBot = (prInfo.author?.login || '').endsWith('[bot]') || (prInfo.headRefName || '').startsWith('curator/') || /^chore\(curator\)/i.test(title);
+      if (!isBot && existing.includes('ai-draft')) toRemove.push('ai-draft');
+      if (hasWorkflow && !isPluginAdd && existing.includes('plugin')) toRemove.push('plugin');
+      // Also remove curator from pure plugin PRs if desired? Keep curator only for infra, so remove curator from plugin PRs
+      if (isPluginAdd && existing.includes('curator') && !hasWorkflow) toRemove.push('curator');
+      for (const lbl of toRemove) {
+        console.log(`[curate] Removing mis-applied label: ${lbl}`);
+        await exec('gh', [isPR ? 'pr' : 'issue', 'edit', String(target), '--remove-label', lbl]);
+        labelsToAdd.delete(lbl);
+      }
+    }
+  } catch {}
 
   const labels = [...labelsToAdd].join(',');
-  console.log(`[curate] Auto labeling ${isPR ? 'PR' : 'Issue'} #${target} with: ${labels}`);
+  console.log(`[curate] Auto labeling ${isPR ? 'PR' : 'Issue'} #${target} with: ${labels} (smart context-aware)`);
   const cmd = isPR ? 'pr' : 'issue';
   const res = await exec('gh', [cmd, 'edit', target, '--add-label', labels]);
   if (res.code === 0) console.log(`[curate] Labels added: ${labels}`);
   else console.warn(`[curate] Label add failed: ${res.err.slice(0,300)} — trying individual`);
-  // Fallback: try one by one if bulk failed
   if (res.code !== 0) {
     for (const lbl of labelsToAdd) {
       const r = await exec('gh', [cmd, 'edit', target, '--add-label', lbl]);

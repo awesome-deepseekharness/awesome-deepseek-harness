@@ -1,15 +1,9 @@
-name: Curator — Opencode Headless (experimental)
+name: Curator — Health Audit (every 3 days)
 
 on:
   schedule:
-    - cron: '17 2 */3 * *'  # every 3 days 02:17 UTC, staggered from track/discover
+    - cron: '17 2 */3 * *'  # every 3 days 02:17 UTC
   workflow_dispatch:
-  issues:
-    types: [opened, edited, labeled]
-  pull_request_target:
-    types: [opened]
-  issue_comment:
-    types: [created]
   push:
     branches: [main]
     paths:
@@ -24,61 +18,24 @@ permissions:
   id-token: write
 
 concurrency:
-  group: curator-${{ github.event_name }}-${{ github.event.number || github.event.issue.number || github.run_id }}
+  group: curator-health-${{ github.run_id }}
   cancel-in-progress: false
 
 jobs:
   curate:
-    # Guard: schedule/dispatch/push/issues/pull_request_target(auto first open) run unconditionally (except bots);
-    # pull_request_target handles both same-repo and fork PR first open without approval (fork would need approval with pull_request);
-    # issue_comment only runs when comment contains /curator and actor is OWNER/MEMBER/COLLABORATOR (for re-trigger)
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
     if: >
       github.event_name == 'workflow_dispatch' ||
       github.event_name == 'schedule' ||
       (
         github.event_name == 'push' &&
         !endsWith(github.actor, '[bot]')
-      ) ||
-      (
-        github.event_name == 'issues' &&
-        !endsWith(github.actor, '[bot]')
-      ) ||
-      (
-        github.event_name == 'pull_request_target' &&
-        !endsWith(github.actor, '[bot]')
-      ) ||
-      (
-        github.event_name == 'issue_comment' &&
-        !endsWith(github.actor, '[bot]') &&
-        contains(github.event.comment.body, '/curator') &&
-        (
-          github.event.comment.author_association == 'OWNER' ||
-          github.event.comment.author_association == 'MEMBER' ||
-          github.event.comment.author_association == 'COLLABORATOR'
-        )
       )
-    runs-on: ubuntu-latest
-    timeout-minutes: 18
     steps:
-      - name: Checkout (PR comment)
-        if: github.event_name == 'issue_comment' && github.event.issue.pull_request
+      - name: Checkout (main)
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
-          ref: refs/pull/${{ github.event.issue.number }}/head
-
-      - name: Checkout (PR target - fork auto)
-        if: github.event_name == 'pull_request_target'
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          ref: refs/pull/${{ github.event.number }}/head
-
-      - name: Checkout (default)
-        if: github.event_name != 'issue_comment' && github.event_name != 'pull_request_target'
-        uses: actions/checkout@v4
-        with:
-          # for schedule/issues/workflow_dispatch, checkout main
           fetch-depth: 0
 
       - name: Setup Node.js
@@ -100,55 +57,25 @@ jobs:
           curl -s https://opencode.ai/zen/v1/models | head -c 800 || true
           echo ""
 
-      - name: Run curator (free-model traversal)
+      - name: Run curator — health audit (free-model traversal)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GH_PR: ${{ github.event.number || '' }}
-          GH_ISSUE: ${{ github.event.issue.number || '' }}
-          GH_COMMENT_PR: ${{ github.event.issue.number || '' }}
-          GH_COMMENT_IS_PR: ${{ github.event.issue.pull_request && 'true' || 'false' }}
-          GH_COMMENT_BODY: ${{ github.event.comment.body || '' }}
+          GH_PR: ''
+          GH_ISSUE: ''
           GITHUB_EVENT_NAME: ${{ github.event_name }}
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: |
           set -e
-          echo "Event: ${{ github.event_name }} PR=${{ github.event.number }} Issue=${{ github.event.issue.number }} CommentIsPR=${{ github.event.issue.pull_request && 'true' || 'false' }}"
-          # Resolve effective PR/ISSUE for issue_comment on PR:
-          # - issue_comment on PR: GH_PR empty, GH_ISSUE == PR number, GH_COMMENT_IS_PR == true → treat as PR
-          # - issue_comment on Issue: GH_COMMENT_IS_PR == false → treat as Issue
-          # Export resolved vars for curate.mjs (it also has internal fallback)
-          if [ "${{ github.event_name }}" = "issue_comment" ] && [ "${{ github.event.issue.pull_request && 'true' || 'false' }}" = "true" ]; then
-            export GH_PR="${{ github.event.issue.number }}"
-            export GH_ISSUE=""
-            echo "Resolved issue_comment on PR → GH_PR=$GH_PR"
-          fi
+          echo "Event: ${{ github.event_name }} — health audit (no PR/Issue)"
           node scripts/curate.mjs
           echo "--- curator-report preview ---"
           head -n 150 curator-report.md || true
           echo "--- .curate-prompt preview ---"
           head -n 40 .curate-prompt.md 2>/dev/null || true
 
-      - name: Comment on PR/Issue if report changed
-        if: github.event_name == 'pull_request_target' || github.event_name == 'issues' || github.event_name == 'issue_comment'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          set -e
-          if [ ! -f curator-report.md ]; then exit 0; fi
-          # Post report as comment (truncated to 6000 chars)
-          BODY=$(head -c 6000 curator-report.md)
-          if [ "${{ github.event_name }}" = "pull_request_target" ]; then
-            gh pr comment ${{ github.event.number }} --body "$BODY" || echo "pr comment failed"
-          elif [ "${{ github.event_name }}" = "issue_comment" ]; then
-            gh issue comment ${{ github.event.issue.number }} --body "$BODY" || echo "issue comment failed"
-          else
-            gh issue comment ${{ github.event.issue.number }} --body "$BODY" || echo "issue comment failed"
-          fi
-
-      - name: Create PR if report changed on schedule/dispatch/push
-        if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push'
+      - name: Create PR if report changed
         id: cpr
         continue-on-error: true
         uses: peter-evans/create-pull-request@v6
@@ -159,160 +86,35 @@ jobs:
           delete-branch: true
           title: "chore(curator): AI draft — ${{ github.run_number }}"
           body: |
-            **Experimental headless curator — needs human review before merge**
+            **Health audit — needs human review before merge**
 
             - Generated by `scripts/curate.mjs` with **free-model traversal** (live Zen `/v1/models` → `opencode/<id>` fallback, latest-first).
             - Provider: `opencode` via `https://opencode.ai/zen/v1` with `apiKey: public` (no key required, auto-rotates if a free model expires).
             - Prompt: `.curate-prompt.md` (see Action logs, not committed)
             - Report: `curator-report.md`
-            - **Do not auto-merge**: verify star counts, links, and any proposed patches.
+            - **Do not auto-merge directly**: second AI gate (`curator-gate.yml`) will re-review and auto-merge/close.
 
-            Triggered on `${{ github.event_name }}`. Close if no actionable findings.
+            Triggered on `${{ github.event_name }}`. Second AI will gate this PR.
+
+            <!-- curator-health: gate will handle merge/close -->
           add-paths: |
             curator-report.md
           labels: |
             ai-draft
             needs-review
+            curator
+            auto-labeled
 
       - name: Handle PR permission fallback
-        if: steps.cpr.outcome == 'failure' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.event_name == 'push')
+        if: steps.cpr.outcome == 'failure'
         run: |
           echo "::warning::PR creation blocked — enable 'Allow GitHub Actions to create and approve PRs' at https://github.com/organizations/awesome-deepseekharness/settings/actions"
           git ls-remote --heads origin curator/report-${{ github.run_id }} | head -n 5 || true
 
-      - name: Second AI review — auto merge or close (independent gate)
-        if: steps.cpr.outputs.pull-request-number != ''
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-        run: |
-          set -e
-          PR="${{ steps.cpr.outputs.pull-request-number }}"
-          echo "=== Second AI reviewer (independent gate) for PR #$PR ==="
-          echo "PR branch: ${{ steps.cpr.outputs.pull-request-branch }}"
-          echo "--- curator-report.md preview ---"
-          head -n 120 curator-report.md || true
-          echo "--- git diff preview ---"
-          git fetch origin "curator/report-${{ github.run_id }}" --depth 1 2>&1 | head -n 20 || true
-          git diff HEAD~1 --stat 2>&1 | head -n 30 || git diff --stat 2>&1 | head -n 30 || true
-
-          # Prepare reviewer prompt (independent audit, not just echo)
-          cat > /tmp/reviewer-prompt.md <<'PROMPT_EOF'
-          You are the Second AI Reviewer — independent gate for curator PRs.
-          Read curator-report.md on disk, run deterministic checks, and emit one DECISION line first.
-
-          Steps you MUST do via tools:
-          - read curator-report.md (full)
-          - bash: git diff origin/main...HEAD --stat or cat curator-report.md | head
-          - if report claims star drift, verify 1 sample via bash: gh api repos/owner/repo --jq .stargazers_count
-          - then output:
-          DECISION: APPROVE  # only if bilingual ✅, no duplicates, no broken links, report has Sources, and curator opinion is Approve or Needs discussion with low-risk star-refresh only
-          DECISION: CLOSE    # if report says "no actionable findings" / "No PR/Issue — health audit only" with no patch, or invalid/duplicate
-          DECISION: REQUEST_CHANGES # otherwise (minor bilingual/star drift within fixable range)
-
-          Then 2-3 sentence rationale citing file:line and gh api evidence.
-          PROMPT_EOF
-          cat /tmp/reviewer-prompt.md
-
-          REVIEW_MODEL="qwen3-coder-free"
-          SECOND_LOG="/tmp/second-ai.log"
-          DECISION="REQUEST_CHANGES"
-
-          if command -v opencode >/dev/null 2>&1; then
-            echo "Running second AI: opencode/$REVIEW_MODEL with --agent reviewer ..."
-            # Prefer reviewer agent; fallback to curator if reviewer not found
-            if [ -f .opencode/agent/reviewer.md ]; then
-              AGENT="reviewer"
-            else
-              AGENT="curator"
-            fi
-            set +e
-            timeout 170 opencode run --model "opencode/$REVIEW_MODEL" --agent "$AGENT" "$(cat /tmp/reviewer-prompt.md)" 2>&1 | tee "$SECOND_LOG"
-            OC_EXIT=${PIPESTATUS[0]}
-            set -e
-            echo "opencode exit: $OC_EXIT"
-            if [ -f "$SECOND_LOG" ] && grep -q "DECISION: APPROVE" "$SECOND_LOG"; then
-              DECISION="APPROVE"
-            elif grep -q "DECISION: CLOSE" "$SECOND_LOG"; then
-              DECISION="CLOSE"
-            elif grep -q "DECISION: REQUEST_CHANGES" "$SECOND_LOG"; then
-              DECISION="REQUEST_CHANGES"
-            else
-              echo "Second AI did not emit clear DECISION, falling back to deterministic parse of curator-report.md"
-            fi
-          else
-            echo "opencode not found — deterministic fallback"
-          fi
-
-          # Deterministic fallback: parse curator-report.md's Maintainer Review Opinion + health
-          if [ "$DECISION" = "REQUEST_CHANGES" ]; then
-            if grep -q "RECOMMEND: Approve" curator-report.md; then
-              echo "Fallback: curator says Approve → treat as APPROVE"
-              DECISION="APPROVE"
-            elif grep -q "no actionable findings" curator-report.md || grep -qi "No PR/Issue.*health audit only" curator-report.md; then
-              # Check if health audit found major drift (>20%) — if yes, it's actionable, don't close lightly
-              if grep -q "STALE\|drift.*>20%\|\+.*% 🔴" curator-report.md; then
-                echo "Fallback: health audit has actionable star drift → REQUEST_CHANGES (needs star refresh, not close)"
-                DECISION="REQUEST_CHANGES"
-              else
-                echo "Fallback: no actionable findings → CLOSE"
-                DECISION="CLOSE"
-              fi
-            fi
-          fi
-
-          echo "=== Final DECISION: $DECISION ==="
-          echo "$DECISION" > /tmp/decision.txt
-
-          if [ "$DECISION" = "APPROVE" ]; then
-            echo "✅ Second AI approves → auto-merging PR #$PR"
-            gh pr review "$PR" --approve --body "✅ **Second AI reviewer** (\`opencode/$REVIEW_MODEL\` via \`reviewer\` agent) independently approves.
-
-          - Verified \`curator-report.md\` has Sources + bilingual ✅ + no duplicates
-          - Star drift is documented, low-risk
-          - Auto-merge after first AI curator + second AI gate.
-
-          *If branch protection blocks, maintainer please merge manually.*" || echo "approve failed"
-            # Try squash merge; fallback to merge
-            if gh pr merge "$PR" --squash --delete-branch 2>&1 | tee /tmp/merge.log; then
-              echo "Merged via squash"
-            elif gh pr merge "$PR" --merge --delete-branch 2>&1 | tee /tmp/merge.log; then
-              echo "Merged via merge"
-            else
-              echo "Merge failed (branch protection?) — leaving approved for manual merge"
-              gh pr comment "$PR" --body "⚠️ Second AI approved but auto-merge blocked by branch protection. Please merge manually. \`gh pr merge $PR --squash\`" || true
-            fi
-          elif [ "$DECISION" = "CLOSE" ]; then
-            echo "❌ Second AI says CLOSE → closing PR #$PR"
-            gh pr comment "$PR" --body "❌ **Second AI reviewer** (\`opencode/$REVIEW_MODEL\`) decision: **CLOSE**
-
-          - Reason: \`curator-report.md\` shows no actionable findings / health audit only, or duplicate/invalid.
-          - Reviewer log preview:
-          \`\`\`
-          $(head -n 60 "$SECOND_LOG" 2>/dev/null | head -c 2000)
-          \`\`\`
-          *Closed automatically by second AI gate. Re-trigger with \`/curator\` if needed.*" || true
-            gh pr close "$PR" --delete-branch || gh pr close "$PR" || echo "close failed"
-          else
-            echo "⚠️ Second AI: REQUEST_CHANGES → commenting, not merging/closing"
-            gh pr comment "$PR" --body "⚠️ **Second AI reviewer** (\`opencode/$REVIEW_MODEL\`) decision: **REQUEST_CHANGES**
-
-          - Not auto-merged. Please address \`curator-report.md\` notes (bilingual, star refresh, or minor fix).
-          - Log preview:
-          \`\`\`
-          $(head -n 60 "$SECOND_LOG" 2>/dev/null | head -c 2000)
-          \`\`\`
-          *Needs maintainer follow-up.*" || true
-            gh pr edit "$PR" --add-label "needs-review" || true
-          fi
-
-          echo "Second AI gate done."
-
       - name: Summary
         if: always()
         run: |
-          echo "Curator run done."
+          echo "Health audit done."
           ls -lh curator-report.md .curate-prompt.md 2>&1 | head -n 20
+          echo "Gate workflow (curator-gate.yml) will auto-review the PR if created."
           echo "To test locally: npm i -g opencode-ai && node scripts/curate.mjs"
