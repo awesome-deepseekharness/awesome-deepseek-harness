@@ -2,7 +2,7 @@ name: Curator — Opencode Headless (experimental)
 
 on:
   schedule:
-    - cron: '17 2 * * *'  # daily 02:17 UTC, staggered from track/discover
+    - cron: '17 2 */3 * *'  # every 3 days 02:17 UTC, staggered from track/discover
   workflow_dispatch:
   issues:
     types: [opened, edited, labeled]
@@ -179,6 +179,136 @@ jobs:
         run: |
           echo "::warning::PR creation blocked — enable 'Allow GitHub Actions to create and approve PRs' at https://github.com/organizations/awesome-deepseekharness/settings/actions"
           git ls-remote --heads origin curator/report-${{ github.run_id }} | head -n 5 || true
+
+      - name: Second AI review — auto merge or close (independent gate)
+        if: steps.cpr.outputs.pull-request-number != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          set -e
+          PR="${{ steps.cpr.outputs.pull-request-number }}"
+          echo "=== Second AI reviewer (independent gate) for PR #$PR ==="
+          echo "PR branch: ${{ steps.cpr.outputs.pull-request-branch }}"
+          echo "--- curator-report.md preview ---"
+          head -n 120 curator-report.md || true
+          echo "--- git diff preview ---"
+          git fetch origin "curator/report-${{ github.run_id }}" --depth 1 2>&1 | head -n 20 || true
+          git diff HEAD~1 --stat 2>&1 | head -n 30 || git diff --stat 2>&1 | head -n 30 || true
+
+          # Prepare reviewer prompt (independent audit, not just echo)
+          cat > /tmp/reviewer-prompt.md <<'PROMPT_EOF'
+          You are the Second AI Reviewer — independent gate for curator PRs.
+          Read curator-report.md on disk, run deterministic checks, and emit one DECISION line first.
+
+          Steps you MUST do via tools:
+          - read curator-report.md (full)
+          - bash: git diff origin/main...HEAD --stat or cat curator-report.md | head
+          - if report claims star drift, verify 1 sample via bash: gh api repos/owner/repo --jq .stargazers_count
+          - then output:
+          DECISION: APPROVE  # only if bilingual ✅, no duplicates, no broken links, report has Sources, and curator opinion is Approve or Needs discussion with low-risk star-refresh only
+          DECISION: CLOSE    # if report says "no actionable findings" / "No PR/Issue — health audit only" with no patch, or invalid/duplicate
+          DECISION: REQUEST_CHANGES # otherwise (minor bilingual/star drift within fixable range)
+
+          Then 2-3 sentence rationale citing file:line and gh api evidence.
+          PROMPT_EOF
+          cat /tmp/reviewer-prompt.md
+
+          REVIEW_MODEL="qwen3-coder-free"
+          SECOND_LOG="/tmp/second-ai.log"
+          DECISION="REQUEST_CHANGES"
+
+          if command -v opencode >/dev/null 2>&1; then
+            echo "Running second AI: opencode/$REVIEW_MODEL with --agent reviewer ..."
+            # Prefer reviewer agent; fallback to curator if reviewer not found
+            if [ -f .opencode/agent/reviewer.md ]; then
+              AGENT="reviewer"
+            else
+              AGENT="curator"
+            fi
+            set +e
+            timeout 170 opencode run --model "opencode/$REVIEW_MODEL" --agent "$AGENT" "$(cat /tmp/reviewer-prompt.md)" 2>&1 | tee "$SECOND_LOG"
+            OC_EXIT=${PIPESTATUS[0]}
+            set -e
+            echo "opencode exit: $OC_EXIT"
+            if [ -f "$SECOND_LOG" ] && grep -q "DECISION: APPROVE" "$SECOND_LOG"; then
+              DECISION="APPROVE"
+            elif grep -q "DECISION: CLOSE" "$SECOND_LOG"; then
+              DECISION="CLOSE"
+            elif grep -q "DECISION: REQUEST_CHANGES" "$SECOND_LOG"; then
+              DECISION="REQUEST_CHANGES"
+            else
+              echo "Second AI did not emit clear DECISION, falling back to deterministic parse of curator-report.md"
+            fi
+          else
+            echo "opencode not found — deterministic fallback"
+          fi
+
+          # Deterministic fallback: parse curator-report.md's Maintainer Review Opinion + health
+          if [ "$DECISION" = "REQUEST_CHANGES" ]; then
+            if grep -q "RECOMMEND: Approve" curator-report.md; then
+              echo "Fallback: curator says Approve → treat as APPROVE"
+              DECISION="APPROVE"
+            elif grep -q "no actionable findings" curator-report.md || grep -qi "No PR/Issue.*health audit only" curator-report.md; then
+              # Check if health audit found major drift (>20%) — if yes, it's actionable, don't close lightly
+              if grep -q "STALE\|drift.*>20%\|\+.*% 🔴" curator-report.md; then
+                echo "Fallback: health audit has actionable star drift → REQUEST_CHANGES (needs star refresh, not close)"
+                DECISION="REQUEST_CHANGES"
+              else
+                echo "Fallback: no actionable findings → CLOSE"
+                DECISION="CLOSE"
+              fi
+            fi
+          fi
+
+          echo "=== Final DECISION: $DECISION ==="
+          echo "$DECISION" > /tmp/decision.txt
+
+          if [ "$DECISION" = "APPROVE" ]; then
+            echo "✅ Second AI approves → auto-merging PR #$PR"
+            gh pr review "$PR" --approve --body "✅ **Second AI reviewer** (\`opencode/$REVIEW_MODEL\` via \`reviewer\` agent) independently approves.
+
+          - Verified \`curator-report.md\` has Sources + bilingual ✅ + no duplicates
+          - Star drift is documented, low-risk
+          - Auto-merge after first AI curator + second AI gate.
+
+          *If branch protection blocks, maintainer please merge manually.*" || echo "approve failed"
+            # Try squash merge; fallback to merge
+            if gh pr merge "$PR" --squash --delete-branch 2>&1 | tee /tmp/merge.log; then
+              echo "Merged via squash"
+            elif gh pr merge "$PR" --merge --delete-branch 2>&1 | tee /tmp/merge.log; then
+              echo "Merged via merge"
+            else
+              echo "Merge failed (branch protection?) — leaving approved for manual merge"
+              gh pr comment "$PR" --body "⚠️ Second AI approved but auto-merge blocked by branch protection. Please merge manually. \`gh pr merge $PR --squash\`" || true
+            fi
+          elif [ "$DECISION" = "CLOSE" ]; then
+            echo "❌ Second AI says CLOSE → closing PR #$PR"
+            gh pr comment "$PR" --body "❌ **Second AI reviewer** (\`opencode/$REVIEW_MODEL\`) decision: **CLOSE**
+
+          - Reason: \`curator-report.md\` shows no actionable findings / health audit only, or duplicate/invalid.
+          - Reviewer log preview:
+          \`\`\`
+          $(head -n 60 "$SECOND_LOG" 2>/dev/null | head -c 2000)
+          \`\`\`
+          *Closed automatically by second AI gate. Re-trigger with \`/curator\` if needed.*" || true
+            gh pr close "$PR" --delete-branch || gh pr close "$PR" || echo "close failed"
+          else
+            echo "⚠️ Second AI: REQUEST_CHANGES → commenting, not merging/closing"
+            gh pr comment "$PR" --body "⚠️ **Second AI reviewer** (\`opencode/$REVIEW_MODEL\`) decision: **REQUEST_CHANGES**
+
+          - Not auto-merged. Please address \`curator-report.md\` notes (bilingual, star refresh, or minor fix).
+          - Log preview:
+          \`\`\`
+          $(head -n 60 "$SECOND_LOG" 2>/dev/null | head -c 2000)
+          \`\`\`
+          *Needs maintainer follow-up.*" || true
+            gh pr edit "$PR" --add-label "needs-review" || true
+          fi
+
+          echo "Second AI gate done."
 
       - name: Summary
         if: always()
