@@ -134,6 +134,7 @@ The hottest category — giving text-only models "eyes."
 | [Cassius0924/dsh-usage-dashboard](https://github.com/Cassius0924/dsh-usage-dashboard) | DeepSeek quota & usage dashboard | 4 |
 | [dustinmoon78/dsh-usage-stats](https://github.com/dustinmoon78/dsh-usage-stats) | DSH usage stats: aggregated token usage (overview/by-model/by-day) + pricing & cost estimate in Settings | 0 |
 | [null5069/dsh-better-stats](https://github.com/null5069/dsh-better-stats) | Enhanced DSH Web composer stats strip: official CNY pricing (peak/off-peak, per-model), real-time settlement, live LLM/tool timers, provider balance, budget alerts | 2 |
+| [WinnieJQ/dsh-conversation-cost](https://github.com/WinnieJQ/dsh-conversation-cost) | Per-conversation cost badge in the web conversation header: per-step official peak/off-peak pricing, live ¥/$ hover card with token breakdown; `dsh plugin --profile web add dsh-conversation-cost` | 0 |
 | [NanmiCoder/dsh-agent-teams](https://github.com/NanmiCoder/dsh-agent-teams) | AgentTeams multi-agent collaboration plugin for DSH | 290 |
 | [btspoony/mstar-harness](https://github.com/btspoony/mstar-harness) | Skill-driven harness/loop engineering workflow agent plugin | 43 |
 | [weshopai/weshop-dsh-plugin](https://github.com/weshopai/weshop-dsh-plugin) | Native WeShop plugin: infinite canvas with infinite creative skills | 6 |
