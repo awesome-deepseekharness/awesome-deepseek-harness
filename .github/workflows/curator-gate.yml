@@ -4,6 +4,9 @@ on:
   pull_request_target:
     types: [opened, synchronize, reopened]
     branches: [main]
+  workflow_run:
+    workflows: ["Curator — Health Audit (every 3 days)"]
+    types: [completed]
   workflow_dispatch:
     inputs:
       pr:
@@ -22,13 +25,14 @@ concurrency:
 
 jobs:
   gate:
-    # Only for curator report PRs, or manual dispatch; independent retryable gate
+    # Only for curator report PRs, manual dispatch, or health workflow completion; independent retryable gate
     if: >
       github.event_name == 'workflow_dispatch' ||
       (
         github.event_name == 'pull_request_target' &&
         startsWith(github.head_ref, 'curator/report-')
-      )
+      ) ||
+      github.event_name == 'workflow_run'
     runs-on: ubuntu-latest
     timeout-minutes: 18
     steps:
@@ -42,8 +46,19 @@ jobs:
             echo "pr=${{ inputs.pr }}" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" = "pull_request_target" ]; then
             echo "pr=${{ github.event.number }}" >> $GITHUB_OUTPUT
+          elif [ "${{ github.event_name }}" = "workflow_run" ]; then
+            # Health workflow just completed (via GITHUB_TOKEN, so pull_request_target didn't fire) — find newest open curator PR
+            echo "Triggered by workflow_run: ${{ github.event.workflow_run.name }} conclusion=${{ github.event.workflow_run.conclusion }}"
+            if [ "${{ github.event.workflow_run.conclusion }}" != "success" ]; then
+              echo "Health workflow failed — skip gate"
+              echo "pr=" >> $GITHUB_OUTPUT
+              cat $GITHUB_OUTPUT
+              exit 0
+            fi
+            PR=$(gh pr list --state open --search "head:curator/report-" --json number --jq 'sort_by(.createdAt) | reverse | .[0].number' || echo "")
+            echo "Resolved via workflow_run → pr=$PR"
+            echo "pr=$PR" >> $GITHUB_OUTPUT
           else
-            # fallback: try to find open curator PRs
             PR=$(gh pr list --state open --search "head:curator/report-" --json number --jq '.[0].number' || echo "")
             echo "pr=$PR" >> $GITHUB_OUTPUT
           fi
