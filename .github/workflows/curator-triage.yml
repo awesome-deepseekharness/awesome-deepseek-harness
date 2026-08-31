@@ -1,0 +1,137 @@
+name: Curator — Triage (PR/Issue smart labels)
+
+on:
+  issues:
+    types: [opened, edited, labeled]
+  pull_request_target:
+    types: [opened, synchronize, reopened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+  id-token: write
+
+concurrency:
+  group: curator-triage-${{ github.event_name }}-${{ github.event.number || github.event.issue.number || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  curate:
+    # PR/Issue triage: runs for issues/pr first open, or /curator comment; skip curator/report-* PRs (handled by gate)
+    # Keep job id `curate` to satisfy branch protection required_status_checks: curate
+    if: >
+      (
+        github.event_name == 'issues' &&
+        !endsWith(github.actor, '[bot]')
+      ) ||
+      (
+        github.event_name == 'pull_request_target' &&
+        !endsWith(github.actor, '[bot]') &&
+        !startsWith(github.head_ref, 'curator/report-')
+      ) ||
+      (
+        github.event_name == 'issue_comment' &&
+        !endsWith(github.actor, '[bot]') &&
+        contains(github.event.comment.body, '/curator') &&
+        (
+          github.event.comment.author_association == 'OWNER' ||
+          github.event.comment.author_association == 'MEMBER' ||
+          github.event.comment.author_association == 'COLLABORATOR'
+        )
+      )
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - name: Checkout (PR comment)
+        if: github.event_name == 'issue_comment' && github.event.issue.pull_request
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: refs/pull/${{ github.event.issue.number }}/head
+
+      - name: Checkout (PR target - fork auto)
+        if: github.event_name == 'pull_request_target'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: refs/pull/${{ github.event.number }}/head
+
+      - name: Checkout (Issue - main)
+        if: github.event_name == 'issues'
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout (Issue comment on Issue)
+        if: github.event_name == 'issue_comment' && !github.event.issue.pull_request
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install opencode
+        run: |
+          set -e
+          if npm install -g opencode-ai 2>&1 | tail -n 5; then
+            echo "opencode via npm done"
+          else
+            curl -fsSL https://opencode.ai/install | bash
+            echo "$HOME/.local/bin" >> $GITHUB_PATH
+          fi
+          opencode --version || echo "opencode not found, fallback deterministic"
+          echo "--- zen models preview ---"
+          curl -s https://opencode.ai/zen/v1/models | head -c 800 || true
+          echo ""
+
+      - name: Run curator — PR/Issue triage (smart labels)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PR: ${{ github.event.number || '' }}
+          GH_ISSUE: ${{ github.event.issue.number || '' }}
+          GH_COMMENT_PR: ${{ github.event.issue.number || '' }}
+          GH_COMMENT_IS_PR: ${{ github.event.issue.pull_request && 'true' || 'false' }}
+          GH_COMMENT_BODY: ${{ github.event.comment.body || '' }}
+          GITHUB_EVENT_NAME: ${{ github.event_name }}
+          OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          set -e
+          echo "Event: ${{ github.event_name }} PR=${{ github.event.number }} Issue=${{ github.event.issue.number }} CommentIsPR=${{ github.event.issue.pull_request && 'true' || 'false' }}"
+          # Normalize issue_comment on PR → GH_PR
+          if [ "${{ github.event_name }}" = "issue_comment" ] && [ "${{ github.event.issue.pull_request && 'true' || 'false' }}" = "true" ]; then
+            export GH_PR="${{ github.event.issue.number }}"
+            export GH_ISSUE=""
+            echo "Resolved issue_comment on PR → GH_PR=$GH_PR"
+          fi
+          node scripts/curate.mjs
+          echo "--- curator-report preview ---"
+          head -n 150 curator-report.md || true
+
+      - name: Comment on PR/Issue
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          if [ ! -f curator-report.md ]; then exit 0; fi
+          BODY=$(head -c 6000 curator-report.md)
+          if [ "${{ github.event_name }}" = "pull_request_target" ]; then
+            gh pr comment ${{ github.event.number }} --body "$BODY" || echo "pr comment failed"
+          elif [ "${{ github.event_name }}" = "issue_comment" ]; then
+            gh issue comment ${{ github.event.issue.number }} --body "$BODY" || echo "issue comment failed"
+          else
+            gh issue comment ${{ github.event.issue.number }} --body "$BODY" || echo "issue comment failed"
+          fi
+
+      - name: Summary
+        if: always()
+        run: |
+          echo "Triage done — labels were applied via scripts/curate.mjs smart context-aware logic (title+files+body, not keyword-only)."
+          ls -lh curator-report.md .curate-prompt.md 2>&1 | head -n 20

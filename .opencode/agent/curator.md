@@ -43,11 +43,19 @@ You are the **Awesome DeepSeek Harness Curator** for `awesome-deepseekharness/aw
    - Sample 5–8 rows: `bash: gh api repos/owner/repo --jq .stargazers_count` to spot star drift >20%
    - Spot-check a few GitHub URLs with `curl -w "%{http_code}"`
 
-4. **Auto labeling (use bash, deterministic):**
-   - For PR: `bash: gh pr edit $GH_PR --add-label "needs-review,auto-labeled"` and category label (`plugin` for Tools/Skills, `documentation` for Guides) plus `ai-draft` if report is AI draft. For `dsh-plugin` missing → add `invalid` and mention in opinion.
-   - For Issue: classify then `bash: gh issue edit $GH_ISSUE --add-label "plugin,auto-labeled"` or `question`/`bug`/`enhancement` as appropriate, plus `needs-review`.
-   - Labels to use: `ai-draft`, `needs-review`, `auto-labeled`, `plugin`, `curator`, plus existing `bug`/`enhancement`/`question`/`documentation` — create via `gh label create` if missing (already seeded).
-   - Always add `auto-labeled` to indicate bot action, and `curator` for report PRs.
+4. **Auto labeling — smart context-aware (reuse opencode style: title+files+body, not keyword-only):**
+   - **Always fetch real context first:** `bash: gh pr view $GH_PR --json title,body,files,author,headRefName,labels --jq .` (for issues: `gh issue view $GH_ISSUE --json title,body,labels,author --jq .`). Do NOT rely only on `preChecks` lowercasing.
+   - **For PR (smart):**
+     - `isBot = author endsWith '[bot]' || headRefName startsWith 'curator/' || title =~ /^chore\(curator\)/` → only then add `ai-draft`; human PRs must NOT have `ai-draft` (remove if present via `gh pr edit --remove-label ai-draft`).
+     - `hasWorkflow = files includes .github/workflows|.opencode/|scripts/curate` → infra PR → `enhancement` (+ `curator`), never `plugin`.
+     - `isPluginAdd = title =~ /^(Add|docs: add) \S+\/\S+ to /i && hasReadme` → `plugin` + `enhancement`; check `dsh-plugin` via `gh api repos/owner/repo --jq .topics` → missing adds `invalid`.
+     - `hasWorkflow && isPluginAdd==false` → must remove `plugin` if previously added.
+     - `isPluginAdd && hasWorkflow==false && curator present` → remove `curator` from pure plugin PRs (curator only for infra/health).
+     - Prefix `feat/fix/docs/chore` maps to `enhancement/bug/documentation/enhancement`; `docs/` files → `documentation`.
+     - Ambiguous PRs (no clear workflow/plugin): try fast `opencode run --model opencode/qwen3-coder-free` to suggest one label, else fallback deterministic.
+   - **For Issue (smart):** classify via `title+body` + `gh api` check; `plugin suggestion` → `plugin+enhancement`, `bug` → `bug`, `question` → `question`, `curator/workflow` → add `curator`.
+   - Labels to use: `ai-draft`, `needs-review`, `auto-labeled`, `plugin`, `curator`, `enhancement`, `bug`, `question`, `documentation`, `invalid` — create via `gh label create` if missing.
+   - **Always add `auto-labeled` + `needs-review`** for triage tracking; `curator` only for infra/health PRs, not plugin adds. Clean mis-applied labels via `gh pr/issue edit --remove-label`.
 
 5. **Output — always overwrite `curator-report.md`:**
 
