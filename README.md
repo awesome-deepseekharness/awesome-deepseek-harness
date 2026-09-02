@@ -120,6 +120,7 @@ The hottest category — giving text-only models "eyes."
 
 | Project | Description | ⭐ |
 | --- | --- | --- |
+| [dsh-wps](https://github.com/zhengjy01/dsh-wps) | WPS / 金山文档 cloud-docs integration for DSH via the official Kingsoft SkillHub MCP (mcp__wps__*). | 0 |
 | [xiaobright/dsh-anchored-standard](https://github.com/xiaobright/dsh-anchored-standard) | Two-phase DSH preset: Minimal-aligned bootstrap, then full Standard tools | 1336 |
 | [icetomoyo/dsh_workflow](https://github.com/icetomoyo/dsh_workflow) | Upgrade one-shot multi-agent scheduling into a generatable, savable, governable workflow layer | 55 |
 | [liceses/dsh-gitbash-preset](https://github.com/liceses/dsh-gitbash-preset) | One-click "Minimal (Git Bash)" preset so Minimal mode works on Windows | 48 |
