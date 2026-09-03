@@ -143,6 +143,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [thedeveloper256/dsh-model-router](https://github.com/thedeveloper256/dsh-model-router) | 基于角色的模型路由:规划者(根 agent)跑 deepseek-v4-pro,委派执行子 agent 跑 deepseek-v4-flash;附带 prompt 段与 `pro-flash-routing` 技能 | 1 |
 | [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | 滴答清单每日任务分发器：定时拉取今日到期任务、变更感知 flomo+macOS 通知、可选无头会话自动执行、工作区选择、Web 任务看板 | 0 |
 | [zhengjy01/dsh-vercel-mcp](https://github.com/zhengjy01/dsh-vercel-mcp) | Vercel MCP 连接：官方 OAuth 2.0 流程对接 mcp.vercel.com，暴露 Vercel 平台工具 mcp__vercel__* | 0 |
+| [PerryLink/dsh-auto-review](https://github.com/PerryLink/dsh-auto-review) | dsh 第二模型审批：只读评审子代理在动作执行前返回带理由的结构化 allow/deny 裁决，默认故障关闭（`dsh plugin --profile web add dsh-auto-review` 安装） | 130 |
 
 ### 📚 Skills 与技能包
 
