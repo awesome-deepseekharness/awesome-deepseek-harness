@@ -86,6 +86,7 @@ The hottest category — giving text-only models "eyes."
 | [tinqiao-oss/engramory](https://github.com/tinqiao-oss/engramory) | Portable memory protocol for AI agents: load as standing rules, curation discipline + reference spec | 152 |
 | [text2future/flowix](https://github.com/text2future/flowix) | Notes for you, memory for your agents | 280 |
 | [Ariestar/sivtr](https://github.com/Ariestar/sivtr) | A unified agent memory workspace for human and agent | 131 |
+| [PerryLink/dsh-memento](https://github.com/PerryLink/dsh-memento) | Bounded, layered, approval-gated cross-session memory for dsh with frozen snapshot injection (`dsh plugin --profile web add dsh-memento`) | 85 |
 
 ### 🎨 Web UI, Skins & Desktop Pets
 
