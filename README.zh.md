@@ -80,6 +80,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 | 项目 | 说明 | ⭐ |
 | --- | --- | --- |
+| [lcthe/dsh-hermes-memory](https://github.com/lcthe/dsh-hermes-memory) | 面向 DSH 的原生持久记忆插件：会话检索、常驻上下文、崩溃安全合并和本地技能存储 | 0 |
 | [csyangwen/dsh-memory-evolve](https://github.com/csyangwen/dsh-memory-evolve) | 跨会话长期记忆 + 后台自我进化:五轨记忆、git 分支感知、技能自我进化、四轨待办 | 68 |
 | [adoresever/graph-memory](https://github.com/adoresever/graph-memory) | 知识图谱记忆:从对话抽取三元组,上下文压缩 75%,跨会话经验复用 | 513 |
 | [mnemon-dev/mnemon](https://github.com/mnemon-dev/mnemon) | LLM 监督的持久记忆:图召回、跨会话知识,单二进制,兼容 DSH/Claude Code/OpenClaw | 443 |
