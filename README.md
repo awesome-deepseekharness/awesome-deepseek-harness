@@ -178,6 +178,7 @@ The hottest category — giving text-only models "eyes."
 | [xiufengsun/TokenTracker](https://github.com/xiufengsun/TokenTracker) | Local-first token & cost tracker for 31 coding tools incl. DSH, with native apps | 1315 |
 | [JingbiaoMei/Tokdash](https://github.com/JingbiaoMei/Tokdash) | Visualization & analytics for sessions and quota usage: heatmaps, cost tracking | 54 |
 | [EthanYoQ/Invoice-Downloader](https://github.com/EthanYoQ/Invoice-Downloader) | DSH bundle for local IMAP invoice download, OCR, archival, and Excel reimbursement summaries | 141 |
+| [Renjie-hub-byte/DSH-AutoKnit](https://github.com/Renjie-hub-byte/DSH-AutoKnit) | Divide-and-conquer PRD execution framework: PRD in, stable maintainable code out — programmatic scheduling (0 token), item-by-item auditor acceptance, recursive splitting; benchmarks show 16-41% cheaper with thicker deliveries | 0 |
 
 ---
 
