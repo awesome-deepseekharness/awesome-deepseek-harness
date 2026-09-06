@@ -86,6 +86,7 @@ The hottest category — giving text-only models "eyes."
 | [tinqiao-oss/engramory](https://github.com/tinqiao-oss/engramory) | Portable memory protocol for AI agents: load as standing rules, curation discipline + reference spec | 152 |
 | [text2future/flowix](https://github.com/text2future/flowix) | Notes for you, memory for your agents | 280 |
 | [Ariestar/sivtr](https://github.com/Ariestar/sivtr) | A unified agent memory workspace for human and agent | 131 |
+| [hardes11/dsh-squeeze-command](https://github.com/hardes11/dsh-squeeze-command) | Manual budget-targeted context compression: the conversation model picks the ranges to summarize and a cheap flash-tier route writes the checkpoint summaries; `dsh plugin add dsh-squeeze-command` | 0 |
 
 ### 🎨 Web UI, Skins & Desktop Pets
 

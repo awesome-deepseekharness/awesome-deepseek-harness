@@ -86,6 +86,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [tinqiao-oss/engramory](https://github.com/tinqiao-oss/engramory) | 可移植的 agent 记忆协议:常驻规则加载、策展纪律 + 参考规范 | 152 |
 | [text2future/flowix](https://github.com/text2future/flowix) | 给你笔记、给 agent 记忆 | 280 |
 | [Ariestar/sivtr](https://github.com/Ariestar/sivtr) | 人与 agent 的统一记忆工作区 | 131 |
+| [hardes11/dsh-squeeze-command](https://github.com/hardes11/dsh-squeeze-command) | 手动、面向预算的上下文压缩:对话模型圈定要总结的范围,廉价 flash 级路由生成检查点摘要;`dsh plugin add dsh-squeeze-command` | 0 |
 
 ### 🎨 Web UI、皮肤与桌面宠物
 
