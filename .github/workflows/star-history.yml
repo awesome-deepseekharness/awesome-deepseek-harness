@@ -19,8 +19,61 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: narayann7/star-history-action@v1
+
+      # Render locally first (commit:false) so we can also sync README.zh.md,
+      # then push directly — main allows direct push (no required reviews/checks;
+      # only force-push/deletion are still blocked).
+      - id: render
+        uses: narayann7/star-history-action@v1
         with:
           repos: ${{ github.repository }}
+          commit: false
           # output-dir, themes, etc. keep defaults: assets/star-history/star-history-{light,dark}.svg + png
           # token defaults to github.token which works for own repo; if 403, supply PAT via token: ${{ secrets.STAR_HISTORY_TOKEN }}
+
+      - name: Sync embed to README.zh.md (action only updates README.md)
+        if: steps.render.outputs.changed == 'true'
+        run: |
+          set -e
+          # action updated README.md between <!-- star-history:start/end --> markers;
+          # mirror the same <picture> block into README.zh.md so both languages stay in sync.
+          python3 - <<'PY'
+          import re
+          def extract(p):
+              t = open(p, encoding='utf-8').read()
+              m = re.search(r'<!-- star-history:start -->.*?<!-- star-history:end -->', t, re.S)
+              return m.group(0) if m else None
+          try:
+              block = extract('README.md')
+              if not block:
+                  print('no block in README.md, skip zh sync')
+              else:
+                  zh = open('README.zh.md', encoding='utf-8').read()
+                  if '<!-- star-history:start -->' in zh and '<!-- star-history:end -->' in zh:
+                      new_zh = re.sub(r'<!-- star-history:start -->.*?<!-- star-history:end -->', lambda _: block, zh, count=1, flags=re.S)
+                      open('README.zh.md', 'w', encoding='utf-8').write(new_zh)
+                      print('synced README.zh.md embed')
+                  else:
+                      print('zh markers (colon form) not found, skip')
+          except FileNotFoundError as e:
+              print(f'skip zh sync: {e}')
+          PY
+
+      - name: Commit and push directly to main
+        if: steps.render.outputs.changed == 'true'
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/star-history README.md README.zh.md
+          if git diff --cached --quiet; then
+            echo "No staged changes to commit."
+            exit 0
+          fi
+          git commit -m "chore: update star history [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main
+
+      - name: No change — nothing to do
+        if: steps.render.outputs.changed != 'true'
+        run: echo "Star chart unchanged — no push needed."
