@@ -72,6 +72,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 | 项目 | 说明 | ⭐ |
 | --- | --- | --- |
+| [superdesigndev/treg](https://github.com/superdesigndev/treg) | Agent 工具目录：按任务检索约 2600 个外部接口（SEO/富化/抓取），查看价格后直接调用 | 1204 |
 | [liustack/modsearch](https://github.com/liustack/modsearch) | DSH 的 web 插件:问网页或 X,拿回结构化 JSON 证据(搜索、抓取、引用) | 98 |
 | [Lum1104/dsh-browser](https://github.com/Lum1104/dsh-browser) | Chrome 侧边栏扩展,让 DSH 直接操控浏览器——无需视觉能力 | 114 |
 | [taxueseek/argo](https://github.com/taxueseek/argo) | 为 agent 打造的搜索工具:中/英/学术/代码/购物/金融/新闻/百科 | 73 |
@@ -80,6 +81,9 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 | 项目 | 说明 | ⭐ |
 | --- | --- | --- |
+| [volcengine/OpenViking](https://github.com/volcengine/OpenViking/tree/main/examples/dsh-memory-plugin) | 面向 DSH 的 OpenViking 记忆与上下文插件：pre-step 自动召回与画像注入、会话捕获、`viking://` 防护及 recall/write 记忆工具 | 35688 |
+| [vectorize-io/hindsight](https://github.com/vectorize-io/hindsight/tree/main/hindsight-integrations/coding-agents) | 会学习的 Agent 长期记忆：自动召回/沉淀项目记忆、知识页、深度反思、按仓库隔离 | 22703 |
+| [bowenliang123/dsh-context](https://github.com/bowenliang123/dsh-context) | 上下文洞察面板：仪表盘 + `/context` 命令 + 浏览器，管理分类组成、演进趋势与压缩/注入事件 | 1299 |
 | [csyangwen/dsh-memory-evolve](https://github.com/csyangwen/dsh-memory-evolve) | 跨会话长期记忆 + 后台自我进化:五轨记忆、git 分支感知、技能自我进化、四轨待办 | 68 |
 | [adoresever/graph-memory](https://github.com/adoresever/graph-memory) | 知识图谱记忆:从对话抽取三元组,上下文压缩 75%,跨会话经验复用 | 513 |
 | [mnemon-dev/mnemon](https://github.com/mnemon-dev/mnemon) | LLM 监督的持久记忆:图召回、跨会话知识,单二进制,兼容 DSH/Claude Code/OpenClaw | 443 |
@@ -101,6 +105,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [Nagi-ovo/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | 把 DSH 变成 2005 年门户网站:恶搞广告、小游戏与弹窗 | 371 |
 | [Nagi-ovo/dsh-visualize](https://github.com/Nagi-ovo/dsh-visualize) | 在 DSH 对话中生成交互式可视化卡片 | 88 |
 | [omdsh-dev/dsh-genui](https://github.com/omdsh-dev/dsh-genui) | GenUI:内联交互式 UI 组件(layout、图表、表单、mermaid、3D)+ 动作事件回环 | 87 |
+| [pengyue-polaron/deepseek-harness-genui](https://github.com/pengyue-polaron/deepseek-harness-genui) | Code-first React+TS 任务应用：内联/Canvas/全屏/localhost 渲染，交互状态可供后续轮次读取 | 107 |
 | [ZSeven-W/dsh-openpencil](https://github.com/ZSeven-W/dsh-openpencil) | OpenPencil 设计预览与编辑插件 | 71 |
 | [zizaiwo/dsh_plugins](https://github.com/zizaiwo/dsh_plugins) | dsh 侧边栏会话分类插件：零配置接管官方工作区浏览器，按自定义分类文件夹管理会话（拖拽归类/分类内建会话/每工作区独立） | 0 |
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | 输入框上方的快捷指令胶囊栏：按分类存常用 prompt，橙色高亮占位符，两栏管理，分类记忆按会话独立持久化 | 0 |
@@ -111,6 +116,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | 项目 | 说明 | ⭐ |
 | --- | --- | --- |
 | [ccch1mneyyy/dsh-TUI](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code 风格全屏交互终端插件:像素鲸鱼顶栏、思考流式展开、双击 Esc 回滚、TPS 仪表 | 1047 |
+| [shaobeichen/dsh-pocket](https://github.com/shaobeichen/dsh-pocket) | 手机远程访问 Web 界面：扫码直连局域网/公网隧道，实时同屏、移动端适配 | 965 |
 | [huiliyi37/dsh-tianshu-tui](https://github.com/huiliyi37/dsh-tianshu-tui) | 交互式终端 UI + harness 工作流:增加 TDD、证据门、视觉图像模块 | 143 |
 | [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop) | 为 DSH 生态打造的现代化桌面端体验 | 3596 |
 | [hust-open-atom-club/oh-dsh](https://github.com/hust-open-atom-club/oh-dsh) | DSH 社区发行版:TUI、桌面端与 Web UI 三种形态统一,分层安装 | 176 |
@@ -123,6 +129,12 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 | 项目 | 说明 | ⭐ |
 | --- | --- | --- |
+| [Q00/ouroboros](https://github.com/Q00/ouroboros/tree/main/integrations/dsh-plugin) | 纯配置包，经 MCP 挂载 Ouroboros，提供 36 个访谈/Seed/执行/评估/演化工作流工具 | 5777 |
+| [xmanrui/dsh-im](https://github.com/xmanrui/dsh-im) | 9 渠道 IM 接入：飞书/微信/钉钉/企微/QQ/Slack/TG/Discord/WhatsApp，扫码或凭据接入 | 1122 |
+| [zh667/TokenLedger](https://github.com/zh667/TokenLedger) | 侧边栏用量面板：按中转站归因 Token，今日/本月/累计+热力图，支持 New API/Sub2API/官方余额 | 195 |
+| [omdsh-dev/dsh-data-agent](https://github.com/omdsh-dev/dsh-data-agent) | 让 AI 帮你连数据库、写 SQL | 185 |
+| [Nwflower/dsh-chat-import](https://github.com/Nwflower/dsh-chat-import) | 把 13 家 coding agent 的对话历史导入为可续聊的 DSH 会话，支持导出回 Claude Code | 135 |
+| [THEWOLFWALKER/dsh-notifier](https://github.com/THEWOLFWALKER/dsh-notifier) | 多渠道通知与手机控制：一个 `notify()` 接 27 渠道，事件推送、手机审批/提问 | 88 |
 | [zhengjy01/dsh-wps](https://github.com/zhengjy01/dsh-wps) | 经官方金山 SkillHub MCP 的 WPS / 金山文档云文档集成（mcp__wps__*）。 | 0 |
 | [xiaobright/dsh-anchored-standard](https://github.com/xiaobright/dsh-anchored-standard) | 两阶段 DSH 预设:先 Minimal 对齐启动,再补全 Standard 工具 | 1336 |
 | [icetomoyo/dsh_workflow](https://github.com/icetomoyo/dsh_workflow) | 把 DSH 一次性多 Agent 调度升级为可生成/保存/治理/观察/恢复的 Workflow 层 | 55 |

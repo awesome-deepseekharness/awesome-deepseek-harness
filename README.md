@@ -72,6 +72,7 @@ The hottest category — giving text-only models "eyes."
 
 | Project | Description | ⭐ |
 | --- | --- | --- |
+| [superdesigndev/treg](https://github.com/superdesigndev/treg) | Tool catalog for agents: search ~2,600 external endpoints (SEO/SERP, enrichment, scraping) by task, then call directly | 1204 |
 | [liustack/modsearch](https://github.com/liustack/modsearch) | Web plugin for DSH: ask the web or X, get structured JSON evidence (search, fetch, citations) | 98 |
 | [Lum1104/dsh-browser](https://github.com/Lum1104/dsh-browser) | Chrome sidebar extension that lets DSH operate your browser directly — no vision required | 114 |
 | [taxueseek/argo](https://github.com/taxueseek/argo) | Agent search tool: Chinese/English/academic/code/shopping/finance/news/encyclopedia | 73 |
@@ -80,6 +81,9 @@ The hottest category — giving text-only models "eyes."
 
 | Project | Description | ⭐ |
 | --- | --- | --- |
+| [volcengine/OpenViking](https://github.com/volcengine/OpenViking/tree/main/examples/dsh-memory-plugin) | OpenViking memory and context bundle for DSH: pre-step auto-recall, profile injection, session capture, `viking://` guarding + recall/write tools | 35688 |
+| [vectorize-io/hindsight](https://github.com/vectorize-io/hindsight/tree/main/hindsight-integrations/coding-agents) | Hindsight agent memory that learns: auto recall/retain long-term project memory, knowledge pages, deep reflection, per-repo banks | 22703 |
+| [bowenliang123/dsh-context](https://github.com/bowenliang123/dsh-context) | DSH context insight panel: dashboard + `/context` command + browser for composition, evolution, compression/inject events | 1299 |
 | [csyangwen/dsh-memory-evolve](https://github.com/csyangwen/dsh-memory-evolve) | Cross-session long-term memory + background self-evolution: 5-track memory, git-branch awareness, skill self-evolution | 68 |
 | [adoresever/graph-memory](https://github.com/adoresever/graph-memory) | Knowledge-graph memory: extract triples from conversations, compress context 75%, reuse experience across sessions | 513 |
 | [mnemon-dev/mnemon](https://github.com/mnemon-dev/mnemon) | LLM-supervised persistent memory — graph recall, cross-session knowledge, single binary; works with DSH/Claude Code/OpenClaw | 443 |
@@ -101,6 +105,7 @@ The hottest category — giving text-only models "eyes."
 | [Nagi-ovo/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | Turn DSH into a 2005-era portal: parody ads, fake games, and popups | 371 |
 | [Nagi-ovo/dsh-visualize](https://github.com/Nagi-ovo/dsh-visualize) | Render interactive visualization cards inside DSH conversations | 88 |
 | [omdsh-dev/dsh-genui](https://github.com/omdsh-dev/dsh-genui) | GenUI: interactive UI components inline in replies (layout, charts, forms, mermaid, 3D) + action event loop | 87 |
+| [pengyue-polaron/deepseek-harness-genui](https://github.com/pengyue-polaron/deepseek-harness-genui) | Code-first React + TypeScript task apps rendered inline/Canvas/fullscreen/localhost, interaction state reusable by later turns | 107 |
 | [ZSeven-W/dsh-openpencil](https://github.com/ZSeven-W/dsh-openpencil) | OpenPencil design preview & editing plugin for DSH | 71 |
 | [zizaiwo/dsh_plugins](https://github.com/zizaiwo/dsh_plugins) | Sidebar session categories for dsh Web UI: zero-config takeover of official workspace browser, organize sessions by custom folders (drag & drop, in-category creation, per-workspace isolation) | 0 |
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | Quick-prompts bar above composer: per-category snippet chips, orange {{placeholder}} highlighting, two-column management, per-session category memory | 0 |
@@ -110,6 +115,7 @@ The hottest category — giving text-only models "eyes."
 | Project | Description | ⭐ |
 | --- | --- | --- |
 | [ccch1mneyyy/dsh-TUI](https://github.com/ccch1mneyyy/dsh-TUI) | Claude Code-style full-screen terminal plugin: pixel-whale top bar, streaming thoughts, double-Esc rollback, TPS gauge | 1047 |
+| [shaobeichen/dsh-pocket](https://github.com/shaobeichen/dsh-pocket) | Remote phone access to the DSH Web UI: QR for LAN/cloudflared public access, live sync, mobile layout, settings page | 965 |
 | [huiliyi37/dsh-tianshu-tui](https://github.com/huiliyi37/dsh-tianshu-tui) | Interactive terminal UI + harness workflows: adds TDD, evidence gates, vision modules | 143 |
 | [anywhere-labs/deepseek-harness-desktop](https://github.com/anywhere-labs/deepseek-harness-desktop) | A modern desktop experience for the DSH ecosystem | 3596 |
 | [hust-open-atom-club/oh-dsh](https://github.com/hust-open-atom-club/oh-dsh) | Community DSH distribution: unified TUI, desktop, and Web UI with layered install | 176 |
@@ -122,6 +128,12 @@ The hottest category — giving text-only models "eyes."
 
 | Project | Description | ⭐ |
 | --- | --- | --- |
+| [Q00/ouroboros](https://github.com/Q00/ouroboros/tree/main/integrations/dsh-plugin) | Config-only bundle mounting Ouroboros via MCP: 36 interview/Seed/execution/eval/evolution workflow tools | 5777 |
+| [xmanrui/dsh-im](https://github.com/xmanrui/dsh-im) | 9-channel IM bots for DSH via QR/credentials: Feishu, WeChat, DingTalk, WeCom, QQ, Slack, Telegram, Discord, WhatsApp | 1122 |
+| [zh667/TokenLedger](https://github.com/zh667/TokenLedger) | Sidebar usage panel attributing tokens to relay site (New API/Sub2API/DeepSeek balance), today/month/total + heatmap | 195 |
+| [omdsh-dev/dsh-data-agent](https://github.com/omdsh-dev/dsh-data-agent) | Let the AI connect to databases and write SQL for you | 185 |
+| [Nwflower/dsh-chat-import](https://github.com/Nwflower/dsh-chat-import) | Import chat histories from 13 coding agents (Claude Code/Codex/ChatGPT/Cursor/Gemini/opencode) as resumable DSH sessions | 135 |
+| [THEWOLFWALKER/dsh-notifier](https://github.com/THEWOLFWALKER/dsh-notifier) | Multi-channel notify + phone control: one `notify()` API across 27 channels, event pushes, approvals/questions from phone | 88 |
 | [zhengjy01/dsh-wps](https://github.com/zhengjy01/dsh-wps) | WPS / 金山文档 cloud-docs integration for DSH via the official Kingsoft SkillHub MCP (mcp__wps__*). | 0 |
 | [xiaobright/dsh-anchored-standard](https://github.com/xiaobright/dsh-anchored-standard) | Two-phase DSH preset: Minimal-aligned bootstrap, then full Standard tools | 1336 |
 | [icetomoyo/dsh_workflow](https://github.com/icetomoyo/dsh_workflow) | Upgrade one-shot multi-agent scheduling into a generatable, savable, governable workflow layer | 55 |
