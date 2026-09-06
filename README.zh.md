@@ -87,6 +87,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [text2future/flowix](https://github.com/text2future/flowix) | 给你笔记、给 agent 记忆 | 280 |
 | [Ariestar/sivtr](https://github.com/Ariestar/sivtr) | 人与 agent 的统一记忆工作区 | 131 |
 | [hardes11/dsh-squeeze-command](https://github.com/hardes11/dsh-squeeze-command) | 手动、面向预算的上下文压缩:对话模型圈定要总结的范围,廉价 flash 级路由生成检查点摘要;`dsh plugin add dsh-squeeze-command` | 0 |
+| [PerryLink/dsh-memento](https://github.com/PerryLink/dsh-memento) | dsh 有界分层、审批门控、可审计的跨会话记忆，支持冻结快照注入（`dsh plugin --profile web add dsh-memento` 安装） | 85 |
 
 ### 🎨 Web UI、皮肤与桌面宠物
 
@@ -122,6 +123,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 | 项目 | 说明 | ⭐ |
 | --- | --- | --- |
+| [zhengjy01/dsh-wps](https://github.com/zhengjy01/dsh-wps) | 经官方金山 SkillHub MCP 的 WPS / 金山文档云文档集成（mcp__wps__*）。 | 0 |
 | [xiaobright/dsh-anchored-standard](https://github.com/xiaobright/dsh-anchored-standard) | 两阶段 DSH 预设:先 Minimal 对齐启动,再补全 Standard 工具 | 1336 |
 | [icetomoyo/dsh_workflow](https://github.com/icetomoyo/dsh_workflow) | 把 DSH 一次性多 Agent 调度升级为可生成/保存/治理/观察/恢复的 Workflow 层 | 55 |
 | [liceses/dsh-gitbash-preset](https://github.com/liceses/dsh-gitbash-preset) | 一键安装「极简模式 (Git Bash)」预设,让 Windows 极简模式真正可用 | 48 |
@@ -145,6 +147,11 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | 滴答清单每日任务分发器：定时拉取今日到期任务、变更感知 flomo+macOS 通知、可选无头会话自动执行、工作区选择、Web 任务看板 | 0 |
 | [zhengjy01/dsh-vercel-mcp](https://github.com/zhengjy01/dsh-vercel-mcp) | Vercel MCP 连接：官方 OAuth 2.0 流程对接 mcp.vercel.com，暴露 Vercel 平台工具 mcp__vercel__* | 0 |
 | [PerryLink/dsh-auto-review](https://github.com/PerryLink/dsh-auto-review) | dsh 第二模型审批：只读评审子代理在动作执行前返回带理由的结构化 allow/deny 裁决，默认故障关闭（`dsh plugin --profile web add dsh-auto-review` 安装） | 130 |
+| [PerryLink/dsh-permission-rules](https://github.com/PerryLink/dsh-permission-rules) | dsh 声明式权限规则：按 allow/deny 规则门控工具、路径与命令（`dsh plugin --profile web add dsh-permission-rules` 安装） | 106 |
+| [PerryLink/dsh-reach](https://github.com/PerryLink/dsh-reach) | 将 DSH 的审批卡与提问卡推送到 IM 渠道（先微信）并在聊天中作答，带逐渠道安全与开放推送服务 | 0 |
+| [PerryLink/dsh-ticktick](https://github.com/PerryLink/dsh-ticktick) | TickTick（滴答清单）任务桥：会话页头部任务面板与精选代理工具，走官方 TickTick MCP 端点 | 0 |
+| [PerryLink/dsh-wechat](https://github.com/PerryLink/dsh-wechat) | 将微信私聊消息桥接到 DSH，支持文本、图片、文件与音视频双向传输 | 0 |
+| [zhengjy01/dsh-qqbot-panel](https://github.com/zhengjy01/dsh-qqbot-panel) | 官方 @tencent-connect/dsh-qqbot 插件的可视化 Web 设置面板（凭据、访问模式/白名单、工作区选择、扫码绑定）。 | 0 |
 
 ### 📚 Skills 与技能包
 
