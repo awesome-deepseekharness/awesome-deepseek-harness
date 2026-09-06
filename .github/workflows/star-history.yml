@@ -65,7 +65,11 @@ jobs:
         if: steps.render.outputs.changed == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # PAT preferred: PRs opened with GITHUB_TOKEN do NOT trigger other workflows
+          # (no pull_request_target → no `curate` check → PR can never satisfy branch protection).
+          # Create a fine-grained PAT (contents:write + pull-requests:write, only this repo)
+          # and store as secret STAR_HISTORY_TOKEN. Falls back to GITHUB_TOKEN (PR will need manual CI).
+          token: ${{ secrets.STAR_HISTORY_TOKEN || github.token }}
           commit-message: "chore: update star history"
           branch: bot/star-history
           delete-branch: true
@@ -90,6 +94,17 @@ jobs:
             documentation
             auto-labeled
             needs-review
+
+      - name: Warn if PAT missing (bot PRs won't get CI checks)
+        if: steps.render.outputs.changed == 'true'
+        env:
+          HAS_PAT: ${{ secrets.STAR_HISTORY_TOKEN != '' }}
+        run: |
+          if [ "$HAS_PAT" != "true" ]; then
+            echo "::warning::STAR_HISTORY_TOKEN not set — bot PR opened with GITHUB_TOKEN won't trigger pull_request_target (no curate check). Add a fine-grained PAT as secret STAR_HISTORY_TOKEN to fully automate."
+          else
+            echo "STAR_HISTORY_TOKEN present — bot PR will trigger CI normally."
+          fi
 
       - name: Enable auto-merge (waits for `curate` ✅ + CODEOWNERS approval)
         if: steps.cpr.outputs.pull-request-number != ''
