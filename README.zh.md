@@ -222,8 +222,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 <!-- star-history:start -->
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="assets/star-history/star-history-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="assets/star-history/star-history-light.svg">
-  <img alt="Star History Chart" src="assets/star-history/star-history-light.svg" width="600">
+  <img alt="Star history" src="assets/star-history/star-history-light.svg">
 </picture>
 <!-- star-history:end -->
 
