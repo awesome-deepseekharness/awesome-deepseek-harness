@@ -201,6 +201,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [JingbiaoMei/Tokdash](https://github.com/JingbiaoMei/Tokdash) | Sessions 与配额的可视化分析:热力图、成本追踪 | 54 |
 | [EthanYoQ/Invoice-Downloader](https://github.com/EthanYoQ/Invoice-Downloader) | 用于本地 IMAP 发票下载、OCR 识别、归档和 Excel 报销汇总的 DSH bundle | 141 |
 | [Renjie-hub-byte/DSH-AutoKnit](https://github.com/Renjie-hub-byte/DSH-AutoKnit) | 分治执行框架：PRD 进，稳定可维护的代码出——程序调度(0 token)、auditor 逐条采证验收、递归拆分；实测比同类省 16-41%，交付更厚 | 0 |
+| [SuperJJ007/papermachine](https://github.com/SuperJJ007/papermachine) | 基于 DeepSeek Harness 的桌面数据分析应用，在本机运行 Python 和 R，支持检查执行步骤及追溯图表和表格的来源。 | 48 |
 
 ---
 
