@@ -43,6 +43,7 @@ DeepSeek Harness is DeepSeek AI's open-source agent harness. Its core philosophy
 ---
 
 ## 📦 Plugins (The Core)
+- [col-dsh-plugin](https://github.com/laodonge/col-dsh-plugin) — Context Organization Layer for DSH/Cordis: `ctx.col` provides persistent organizational Contexts with replaceable executors (verified 3-tier write-back, audited history, model-callable `col.create_context` tool). Zero deps besides peer `@deepseek-ai/cordis`.
 
 > Publishing your own plugin? Tag your repository with the [`dsh-plugin`](https://github.com/topics/dsh-plugin) topic for discoverability.
 
