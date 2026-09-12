@@ -164,6 +164,13 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [PerryLink/dsh-ticktick](https://github.com/PerryLink/dsh-ticktick) | TickTick（滴答清单）任务桥：会话页头部任务面板与精选代理工具，走官方 TickTick MCP 端点 | 0 |
 | [PerryLink/dsh-wechat](https://github.com/PerryLink/dsh-wechat) | 将微信私聊消息桥接到 DSH，支持文本、图片、文件与音视频双向传输 | 0 |
 | [zhengjy01/dsh-qqbot-panel](https://github.com/zhengjy01/dsh-qqbot-panel) | 官方 @tencent-connect/dsh-qqbot 插件的可视化 Web 设置面板（凭据、访问模式/白名单、工作区选择、扫码绑定）。 | 0 |
+| [zhengjy01/dsh-zsxq](https://github.com/zhengjy01/dsh-zsxq) | 知识星球（zsxq）集成：基于非官方 Web API 的 Cookie / 扫码登录，提供星球列表、主题列表、主题详情、搜索、发布、评论、点赞等 agent 工具，附 Web 设置面板。 | 0 |
+| [zhengjy01/dsh-skill-recommender](https://github.com/zhengjy01/dsh-skill-recommender) | 会话画像驱动的开源 skill 推荐器：扫描本地 DSH / Codex / Claude 会话，构建加权画像（主题 / 工具 / 任务 / 项目），按可调匹配指数推荐合适的 skill。 | 0 |
+| [zhengjy01/dsh-goofish-mcp](https://github.com/zhengjy01/dsh-goofish-mcp) | 闲鱼（Goofish）只读监控：驱动 goofish-cli MCP 服务器，暴露搜索、商品详情、在售列表、会话历史、类目识别等只读工具，写操作全部过滤。 | 0 |
+| [zhengjy01/dsh-npm](https://github.com/zhengjy01/dsh-npm) | npm registry 管理：查询包信息、列出全部版本、搜索包，以及带可选 token 注入的 publish / deprecate，附 Web 设置面板。 | 0 |
+| [zhengjy01/dsh-backup-migrator](https://github.com/zhengjy01/dsh-backup-migrator) | 插件环境备份与迁移：把各 profile 的插件清单、插件配置与本地源插件 tgz 打包备份进 git 仓库，换新机器一键还原。 | 0 |
+| [zhengjy01/dsh-feishu-mcp](https://github.com/zhengjy01/dsh-feishu-mcp) | 飞书（Lark）OpenAPI MCP 连接：桥接官方 @larksuiteoapi/lark-mcp，以 mcp__feishu__* 暴露 IM、多维表格、云文档、日历、云盘 API，支持 OAuth 用户令牌。 | 0 |
+| [zhengjy01/dsh-aliyun-mcp](https://github.com/zhengjy01/dsh-aliyun-mcp) | 阿里云 OpenAPI MCP 连接：通过官方 OpenAPI MCP 代理的静态凭据模式，以 mcp__aliyun__* 暴露 ECS / OSS / DNS / 函数计算等 API。 | 0 |
 
 ### 📚 Skills 与技能包
 
