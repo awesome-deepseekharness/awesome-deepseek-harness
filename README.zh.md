@@ -124,6 +124,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [ChisaAlter/Deepseek-Harness-Desktop](https://github.com/ChisaAlter/Deepseek-Harness-Desktop) | DSH Web UI 的 Electron 桌面壳,支持主题与背景图 | 74 |
 | [Ruler4396/dsh-launcher](https://github.com/Ruler4396/dsh-launcher) | Windows 轻量启动器:开机静默自启 + WebView2 窗口 | 87 |
 | [Jensen-Yao/dsh-plus-plus](https://github.com/Jensen-Yao/dsh-plus-plus) | Windows WPF 桌面控制台：一键启停 dsh web、手机入口（同一 Wi-Fi/自定义域名/Tailscale）、防火墙放行、存储位置管理与实时日志，深浅双主题 | 0 |
+| [PerryLink/dsh-click](https://github.com/PerryLink/dsh-click) | Windows 优先的桌面控制工具：截图、无障碍树、点击/输入/滚动与应用启动，审批门控（`dsh plugin --profile web add dsh-click` 安装） | 7 |
 
 ### 🧩 工具、工作流与预设
 

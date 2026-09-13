@@ -123,6 +123,7 @@ The hottest category — giving text-only models "eyes."
 | [ChisaAlter/Deepseek-Harness-Desktop](https://github.com/ChisaAlter/Deepseek-Harness-Desktop) | Electron desktop shell for the DSH web UI, with themes & backgrounds | 74 |
 | [Ruler4396/dsh-launcher](https://github.com/Ruler4396/dsh-launcher) | Lightweight Windows launcher: silent autostart + WebView2 window | 87 |
 | [Jensen-Yao/dsh-plus-plus](https://github.com/Jensen-Yao/dsh-plus-plus) | Windows WPF desktop console for `dsh web`: one-click start/stop, phone URL over Wi-Fi/domain/Tailscale, firewall rule, storage locations, live logs, dark/light themes | 0 |
+| [PerryLink/dsh-click](https://github.com/PerryLink/dsh-click) | Windows-first desktop control tools: screenshots, accessibility trees, click/type/scroll and app launch, approval-gated (`dsh plugin --profile web add dsh-click`) | 7 |
 
 ### 🧩 Tools, Workflows & Presets
 
