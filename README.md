@@ -183,6 +183,7 @@ The hottest category — giving text-only models "eyes."
 | [Mikuzjc/dsh-office-for-mso](https://github.com/Mikuzjc/dsh-office-for-mso) | DSH <-> Microsoft Office bridge skill: control open Word/Excel/PowerPoint via Office add-in (33 actions, AI-orchestrated) | 1 |
 | [suyukun/dsh-tech-selection](https://github.com/suyukun/dsh-tech-selection) | Model-agnostic technology-selection research protocol for any AI agent (DSH/Claude/Cursor/Codex): T1-T6 source tiers, quality gates, quantified trade-offs, traceable verdicts | 0 |
 | [morluto/rea](https://github.com/morluto/rea) | Reverse engineer anything with agents, from app behavior down to native binaries | 322 |
+| [PerryLink/dsh-industry-research](https://github.com/PerryLink/dsh-industry-research) | Industry and company research pack: chain maps, public-source policy/news tracking, company cards and auditable reports with source-traced numbers (`dsh plugin --profile web add dsh-industry-research`) | 100 |
 
 ### 🚀 Apps & Runtimes Built on DSH
 
