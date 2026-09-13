@@ -92,6 +92,7 @@ The hottest category — giving text-only models "eyes."
 | [Ariestar/sivtr](https://github.com/Ariestar/sivtr) | A unified agent memory workspace for human and agent | 131 |
 | [hardes11/dsh-squeeze-command](https://github.com/hardes11/dsh-squeeze-command) | Manual budget-targeted context compression: the conversation model picks the ranges to summarize and a cheap flash-tier route writes the checkpoint summaries; `dsh plugin add dsh-squeeze-command` | 0 |
 | [PerryLink/dsh-memento](https://github.com/PerryLink/dsh-memento) | Bounded, layered, approval-gated cross-session memory for dsh with frozen snapshot injection (`dsh plugin --profile web add dsh-memento`) | 85 |
+| [PerryLink/dsh-library](https://github.com/PerryLink/dsh-library) | Local document knowledge base: hybrid semantic+keyword search, citation-aware injection and retrieval diagnostics (`dsh plugin --profile web add dsh-library`) | 7 |
 
 ### 🎨 Web UI, Skins & Desktop Pets
 
