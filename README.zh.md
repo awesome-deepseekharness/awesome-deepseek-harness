@@ -225,6 +225,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [DeepWiki: deepseek-harness](https://deepwiki.com/deepseek-ai/deepseek-harness) | 官方仓库的 DeepWiki 自动文档 | — |
 | [deepseekagent.io 指南](https://deepseekagent.io/guides/deepseek-harness) | dsh 安装与架构指南(社区) | — |
 | [RaulLazaro/dsh-server-setup](https://github.com/RaulLazaro/dsh-server-setup) | VPS 生产部署:systemd、dsh-proxy 插件、Basic Auth、Pangolin 隧道、23 插件栈 | 1 |
+| [PerryLink/dsh-plugin-guide](https://github.com/PerryLink/dsh-plugin-guide) | 插件开发知识库（按需 agent 技能）+ dsh-plugin-dev CLI 工具链（`dsh plugin --profile web add dsh-plugin-guide` 安装） | 38 |
 
 **官方文档:** [development.md](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/development.md) · [architecture.md](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) · [cordis-primer](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-primer.md) · [cordis-tutorial](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-tutorial/index.md)(7 篇插件教程) · [cookbook](https://github.com/deepseek-ai/deepseek-harness/tree/master/docs/cookbook) · [capability-seams](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/capability-seams.md)
 
