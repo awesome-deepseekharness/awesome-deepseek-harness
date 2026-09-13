@@ -163,6 +163,7 @@ The hottest category — giving text-only models "eyes."
 | [PerryLink/dsh-ticktick](https://github.com/PerryLink/dsh-ticktick) | TickTick (Dida365) task bridge: a session-header task panel and curated agent tools over the official TickTick MCP endpoint | 0 |
 | [PerryLink/dsh-wechat](https://github.com/PerryLink/dsh-wechat) | Bridges WeChat private messages to DSH with two-way text, image, file, and media transfer | 0 |
 | [zhengjy01/dsh-qqbot-panel](https://github.com/zhengjy01/dsh-qqbot-panel) | Visual web settings panel for the official @tencent-connect/dsh-qqbot plugin (credentials, access modes/allowlists, workspace picker, scan-to-bind). | 0 |
+| [PerryLink/dsh-cert-mcp](https://github.com/PerryLink/dsh-cert-mcp) | Read-only MCP server exposing the dsh-plugin-certification registry: grades, snapshot dates and five-dimension evidence (`npx @perrylink/dsh-cert-mcp`) | 0 |
 
 ### 📚 Skills
 
