@@ -163,6 +163,7 @@ The hottest category — giving text-only models "eyes."
 | [PerryLink/dsh-ticktick](https://github.com/PerryLink/dsh-ticktick) | TickTick (Dida365) task bridge: a session-header task panel and curated agent tools over the official TickTick MCP endpoint | 0 |
 | [PerryLink/dsh-wechat](https://github.com/PerryLink/dsh-wechat) | Bridges WeChat private messages to DSH with two-way text, image, file, and media transfer | 0 |
 | [zhengjy01/dsh-qqbot-panel](https://github.com/zhengjy01/dsh-qqbot-panel) | Visual web settings panel for the official @tencent-connect/dsh-qqbot plugin (credentials, access modes/allowlists, workspace picker, scan-to-bind). | 0 |
+| [zhengjy01/dsh-restart](https://github.com/zhengjy01/dsh-restart) | One-click restart for DeepSeek Harness: a web restart button plus a `dsh_restart` agent tool hand the relaunch to a detached helper, the page auto-reconnects, and a recovery console shows boot errors when the new host fails (`dsh plugin --profile web add @zhengjunyao/dsh-restart`) | 0 |
 
 ### 📚 Skills
 
