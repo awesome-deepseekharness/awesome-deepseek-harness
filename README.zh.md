@@ -164,6 +164,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [PerryLink/dsh-ticktick](https://github.com/PerryLink/dsh-ticktick) | TickTick（滴答清单）任务桥：会话页头部任务面板与精选代理工具，走官方 TickTick MCP 端点 | 0 |
 | [PerryLink/dsh-wechat](https://github.com/PerryLink/dsh-wechat) | 将微信私聊消息桥接到 DSH，支持文本、图片、文件与音视频双向传输 | 0 |
 | [zhengjy01/dsh-qqbot-panel](https://github.com/zhengjy01/dsh-qqbot-panel) | 官方 @tencent-connect/dsh-qqbot 插件的可视化 Web 设置面板（凭据、访问模式/白名单、工作区选择、扫码绑定）。 | 0 |
+| [PerryLink/dsh-cert-mcp](https://github.com/PerryLink/dsh-cert-mcp) | 只读 MCP 服务器，暴露 dsh-plugin-certification 注册表：等级、快照日期与五维证据（`npx @perrylink/dsh-cert-mcp` 运行） | 0 |
 
 ### 📚 Skills 与技能包
 
