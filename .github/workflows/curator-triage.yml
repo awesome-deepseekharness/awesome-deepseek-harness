@@ -2,7 +2,7 @@ name: Curator — Triage (PR/Issue smart labels)
 
 on:
   issues:
-    types: [opened, edited, labeled]
+    types: [opened, reopened]
   pull_request_target:
     types: [opened, synchronize, reopened]
   issue_comment:
@@ -19,6 +19,98 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  submission-guard:
+    # Submission policy enforcement (lightweight, before AI curation; policy file read from BASE so forks can't tamper):
+    # - watchlist (.github/curator-policy.yml): strict one-open-PR, extras auto-closed.
+    # - everyone else: self-promo velocity (own repos in window) -> friendly tip, reminder, then auto-close.
+    # Recommending others' repos is exempt. Maintainer reopens (sender != author) are exempt.
+    # Exempt: maintainers (OWNER/MEMBER/COLLABORATOR), bots, curator report branches, star-history branches.
+    if: >
+      github.event_name == 'pull_request_target' &&
+      (github.event.action == 'opened' || github.event.action == 'reopened') &&
+      github.event.sender.login == github.event.pull_request.user.login &&
+      !startsWith(github.head_ref, 'curator/report-') &&
+      !startsWith(github.head_ref, 'bot/star-history') &&
+      !endsWith(github.actor, '[bot]') &&
+      github.event.pull_request.author_association != 'OWNER' &&
+      github.event.pull_request.author_association != 'MEMBER' &&
+      github.event.pull_request.author_association != 'COLLABORATOR'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Enforce submission policy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          REPO="${{ github.repository }}"
+          BASE="${{ github.base_ref }}"
+          [ -z "$BASE" ] && BASE="main"
+          AUTHOR="${{ github.event.pull_request.user.login }}"
+          PR="${{ github.event.number }}"
+          ALOW=$(echo "$AUTHOR" | tr '[:upper:]' '[:lower:]')
+
+          have_marker() { # $1 = marker name -> count of bot comments carrying it
+            gh pr view "$PR" --json comments --jq "[.comments[] | select(.author.login == \"github-actions[bot]\" and (.body | contains(\"submission-guard:$1\")))] | length" 2>/dev/null || echo 0
+          }
+
+          # 1. Load policy from base (fork edits can't tamper with it); fall back to defaults.
+          POLICY=$(gh api -H "Accept: application/vnd.github.raw" "repos/$REPO/contents/.github/curator-policy.yml?ref=$BASE" 2>/dev/null || true)
+          WATCHED=$(echo "$POLICY" | awk '/^watchlist:/{f=1;next} /^[^[:space:]#]/{f=0} f' | grep -ciE "^[[:space:]]*-[[:space:]]*${ALOW}[[:space:]]*$" || true)
+          WINDOW=$(echo "$POLICY" | grep -E '^[[:space:]]*window_days:' | grep -oE '[0-9]+' | head -n 1 || true); [ -z "$WINDOW" ] && WINDOW=14
+          WARN_UNTIL=$(echo "$POLICY" | grep -E '^[[:space:]]*warn_until:' | grep -oE '[0-9]+' | head -n 1 || true); [ -z "$WARN_UNTIL" ] && WARN_UNTIL=3
+          CLOSE_FROM=$(echo "$POLICY" | grep -E '^[[:space:]]*close_from:' | grep -oE '[0-9]+' | head -n 1 || true); [ -z "$CLOSE_FROM" ] && CLOSE_FROM=4
+          echo "policy: watched=$WATCHED window=${WINDOW}d warn_until=$WARN_UNTIL close_from=$CLOSE_FROM"
+
+          OPEN_JSON=$(gh pr list --state open --author "$AUTHOR" --json number,createdAt)
+          OPEN_COUNT=$(echo "$OPEN_JSON" | jq 'length')
+          echo "author=$AUTHOR pr=$PR open_count=$OPEN_COUNT"
+
+          # 2. Strict path for watchlisted authors: single open PR.
+          if [ "$WATCHED" -ge 1 ]; then
+            if [ "$OPEN_COUNT" -le 1 ]; then echo "Watchlisted but first/only PR — normal flow."; exit 0; fi
+            KEEP=$(echo "$OPEN_JSON" | jq -r 'sort_by(.createdAt) | .[0].number')
+            if [ "$KEEP" = "$PR" ]; then echo "This IS the oldest open PR — keep it."; exit 0; fi
+            if [ "$(have_marker strict)" -ge 1 ]; then echo "Strict notice already posted — closing without another comment."; gh pr close "$PR" || true; exit 0; fi
+            gh label create batch-submission --color "E99695" --description "Closed by one-open-PR policy, resubmit after earlier PR is handled" 2>/dev/null || true
+            gh pr edit "$PR" --add-label "batch-submission" || true
+            gh pr close "$PR" --comment "<!-- submission-guard:strict -->Hi @$AUTHOR — you are on our submission watchlist (see \`.github/curator-policy.yml\`): one running PR per author. #$KEEP is still unhandled, so this PR is auto-closed — nothing is lost, the diff stays in history. Reopen or resubmit after #$KEEP is merged or closed. 你好，你在投稿观察名单中，一次只评审一个 PR；#$KEEP 还没处理完，本条自动关闭（改动都在历史里）。等它有结论后欢迎重提。" || true
+            exit 0
+          fi
+
+          # 3. General path: is the current PR self-promo? (precise diff check)
+          OWNERS=$(gh pr diff "$PR" 2>/dev/null | grep -oE '\+.*github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+' | grep -oE 'github\.com/[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+' | cut -d/ -f2 | tr '[:upper:]' '[:lower:]' | sort -u || true)
+          SELF=false; for o in $OWNERS; do if [ "$o" = "$ALOW" ]; then SELF=true; fi; done
+          echo "added_owners: $OWNERS self_promo=$SELF"
+          if [ "$SELF" != "true" ]; then echo "Not self-promo (recommending others) — normal flow."; exit 0; fi
+
+          # 4. Count author's self-promo PRs in window, incl. current (title heuristic for history).
+          SINCE=$(date -u -d "$WINDOW days ago" +%Y-%m-%dT%H:%M:%SZ)
+          HIST=$(gh pr list --state all --author "$AUTHOR" --limit 100 --json number,title,createdAt)
+          N=$(echo "$HIST" | jq --arg a "$ALOW" --arg s "$SINCE" '[.[] | select(.createdAt >= $s and ((.title // "") | ascii_downcase | test("^add\\s+" + $a + "/")))] | length')
+          echo "self_promo_in_window(incl current)=$N"
+
+          # 5. Escalate: tip -> reminder -> auto-close.
+          if [ "$N" -ge "$CLOSE_FROM" ]; then
+            KEEP2=$(gh pr list --state open --author "$AUTHOR" --json number,createdAt --jq -r 'sort_by(.createdAt) | .[0].number' 2>/dev/null || true)
+            if [ -z "$KEEP2" ] || [ "$KEEP2" = "null" ]; then KEEP2="$PR"; fi
+            if [ "$KEEP2" = "$PR" ]; then
+              REASON="this is your ${N}th self-promo PR in $WINDOW days (这是你 $WINDOW 天内第 ${N} 个自荐 PR），按投稿策略自动关闭"
+            else
+              REASON="#$KEEP2 is still waiting for review, so this one is auto-closed (#$KEEP2 还没处理完，本条自动关闭）"
+            fi
+            if [ "$(have_marker velocity-close)" -ge 1 ]; then echo "Close notice already posted — closing without another comment."; gh pr close "$PR" || true; exit 0; fi
+            gh label create batch-submission --color "E99695" --description "Closed by self-promo velocity policy, resubmit after earlier PR is handled" 2>/dev/null || true
+            gh pr edit "$PR" --add-label "batch-submission" || true
+            gh pr close "$PR" --comment "<!-- submission-guard:velocity-close -->Hi @$AUTHOR — thanks for contributing to Awesome DSH, but $REASON — nothing is lost, the diff stays in history. Slow down to one PR at a time; recommending someone else's excellent project is always welcome and unaffected. 你好，感谢投稿，但$REASON（改动都在历史里）。请一次只投一个 PR；举荐别人的优秀项目不受影响。" || true
+          elif [ "$N" -gt 1 ]; then
+            if [ "$(have_marker velocity-warn)" -ge 1 ]; then echo "Reminder already posted — nothing to do."; exit 0; fi
+            gh pr comment "$PR" --body "<!-- submission-guard:velocity-warn -->Hi @$AUTHOR — this is your ${N}th self-promo PR in $WINDOW days. Please slow down and let the earlier ones conclude first — from the ${CLOSE_FROM}th on, new self-promo PRs are auto-closed. One quality PR at a time gets reviewed fastest. 你好，这是你 $WINDOW 天内第 ${N} 个自荐 PR，请先等前面的有结论；第 ${CLOSE_FROM} 个起会自动关闭。一次投一个高质量 PR，通过最快。" || true
+          else
+            if [ "$(have_marker velocity-tip)" -ge 1 ]; then echo "Tip already posted — nothing to do."; exit 0; fi
+            gh pr comment "$PR" --body "<!-- submission-guard:velocity-tip -->Hi @$AUTHOR — thanks for submitting your own project to Awesome DSH! A quick heads-up on our submission policy: rapid self-promotion (your own repos, several in a short time) gets extra scrutiny — this is just a friendly first tip; from the ${CLOSE_FROM}th self-promo PR within $WINDOW days, new submissions are auto-closed until earlier ones are handled. Recommending someone else's excellent project is always welcome and unaffected. 你好 @$AUTHOR，感谢投稿！提醒一下本仓策略：短时间内连续自荐自己的项目会被重点关注——这次只是友好提示，$WINDOW 天内第 ${CLOSE_FROM} 个起的新自荐会自动关闭；举荐别人的优秀项目不受影响，正常评审。" || true
+          fi
+
   curate:
     # PR/Issue triage: runs for issues/pr first open, or /curator comment; skip curator/report-* PRs (handled by gate)
     # Keep job id `curate` to satisfy branch protection required_status_checks: curate
@@ -107,13 +199,13 @@ jobs:
           cat curator-report.md
 
       - name: Setup Node.js
-        if: steps.fastpath.outputs.skip_ai != 'true'
+        if: ${{ steps.fastpath.outputs.skip_ai != 'true' && (github.event_name != 'pull_request_target' || github.event.action != 'synchronize') }}
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
       - name: Install opencode
-        if: steps.fastpath.outputs.skip_ai != 'true'
+        if: ${{ steps.fastpath.outputs.skip_ai != 'true' && (github.event_name != 'pull_request_target' || github.event.action != 'synchronize') }}
         run: |
           set -e
           if npm install -g opencode-ai 2>&1 | tail -n 5; then
@@ -128,7 +220,7 @@ jobs:
           echo ""
 
       - name: Run curator — PR/Issue triage (smart labels)
-        if: steps.fastpath.outputs.skip_ai != 'true'
+        if: ${{ steps.fastpath.outputs.skip_ai != 'true' && (github.event_name != 'pull_request_target' || github.event.action != 'synchronize') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GH_PR: ${{ github.event.number || '' }}
@@ -153,21 +245,171 @@ jobs:
           echo "--- curator-report preview ---"
           head -n 150 curator-report.md || true
 
-      - name: Comment on PR/Issue
-        if: steps.fastpath.outputs.skip_ai != 'true'
+      - name: Upsert triage comment (single comment, edit in place)
+        if: ${{ steps.fastpath.outputs.skip_ai != 'true' && (github.event_name != 'pull_request_target' || github.event.action != 'synchronize') }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           set -e
           if [ ! -f curator-report.md ]; then exit 0; fi
-          BODY=$(head -c 6000 curator-report.md)
-          if [ "${{ github.event_name }}" = "pull_request_target" ]; then
-            gh pr comment ${{ github.event.number }} --body "$BODY" || echo "pr comment failed"
-          elif [ "${{ github.event_name }}" = "issue_comment" ]; then
-            gh issue comment ${{ github.event.issue.number }} --body "$BODY" || echo "issue comment failed"
+          NUMBER="${{ github.event.number || github.event.issue.number }}"
+          if [ -z "$NUMBER" ] || [ "$NUMBER" = "null" ]; then echo "no target number, skip"; exit 0; fi
+          REPO="${{ github.repository }}"
+          MARKER="<!-- curator-triage: ai-review -->"
+          TS=$(date -u +"%Y-%m-%d %H:%M UTC")
+          EVENT="${{ github.event_name }}/${{ github.event.action }}"
+          # Defensive cleanup: drop legacy disclaimer + Suggested comment body from report
+          # (new curator.md already writes them separately, this guards old LLM output)
+          python3 - <<'PY'
+          import re
+          src = open('curator-report.md', encoding='utf-8').read()
+          # 1. remove legacy auto-generated disclaimer lines
+          src = re.sub(r'^> Auto-generated by opencode headless.*\n?', '', src, flags=re.M)
+          src = re.sub(r'^> Auto-generated by scripts/curate\.mjs deterministic fallback.*\n?', '', src, flags=re.M)
+          # 2. cut Suggested comment body subsection but keep RECOMMEND + rationale.
+          #    From a line containing 'suggested comment' until the next '## ' heading.
+          lines = src.split('\n')
+          out, skipping = [], False
+          for i, ln in enumerate(lines):
+            low = ln.lower()
+            if not skipping and 'suggested comment' in low:
+              skipping = True
+              continue
+            if skipping:
+              if ln.startswith('## '):
+                skipping = False
+                out.append(ln)
+              continue
+            out.append(ln)
+          open('/tmp/clean-report.md', 'w', encoding='utf-8').write('\n'.join(out).strip() + '\n')
+          PY
+          REPORT=$(head -c 6000 /tmp/clean-report.md)
+          {
+            echo "$MARKER"
+            echo ""
+            echo "$REPORT"
+            echo ""
+            echo "---"
+            echo "<sub>Last full review: $TS via $EVENT • This is the single triage comment — updates edit in place, no new emails. Maintainer: comment \`/curator\` to re-run full review.</sub>"
+          } > /tmp/triage-body.md
+          EXISTING_ID=$(gh api "repos/$REPO/issues/$NUMBER/comments" --paginate --jq '[.[] | select(.body | contains("<!-- curator-triage: ai-review -->")) | .id] | first // empty' || echo "")
+          if [ -n "$EXISTING_ID" ] && [ "$EXISTING_ID" != "null" ]; then
+            echo "Updating existing triage comment $EXISTING_ID"
+            gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING_ID" -F body=@/tmp/triage-body.md --jq .id || echo "patch failed"
           else
-            gh issue comment ${{ github.event.issue.number }} --body "$BODY" || echo "issue comment failed"
+            echo "Creating single triage comment"
+            if [ "${{ github.event_name }}" = "pull_request_target" ] || [ "${{ github.event.issue.pull_request && 'true' || 'false' }}" = "true" ]; then
+              gh pr comment "$NUMBER" --body-file /tmp/triage-body.md || echo "pr comment failed"
+            else
+              gh issue comment "$NUMBER" --body-file /tmp/triage-body.md || echo "issue comment failed"
+            fi
           fi
+
+      - name: Upsert review comment (Thanks @author, separate comment)
+        if: ${{ steps.fastpath.outputs.skip_ai != 'true' && (github.event_name != 'pull_request_target' || github.event.action != 'synchronize') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          NUMBER="${{ github.event.number || github.event.issue.number }}"
+          if [ -z "$NUMBER" ] || [ "$NUMBER" = "null" ]; then echo "no target number, skip"; exit 0; fi
+          REPO="${{ github.repository }}"
+          MARKER="<!-- curator-triage: review-comment -->"
+          TS=$(date -u +"%Y-%m-%d %H:%M UTC")
+          # Priority: review-comment.md file → else extract Suggested section from report → else skip
+          python3 - <<'PY'
+          import re, pathlib
+          body = ''
+          p = pathlib.Path('review-comment.md')
+          if p.exists():
+            body = p.read_text(encoding='utf-8').strip()
+            # file must be pure comment: drop accidental headers/report tables if LLM mis-wrote
+            body = re.sub(r'^> Auto-generated by.*\n?', '', body, flags=re.M).strip()
+          if not body and pathlib.Path('curator-report.md').exists():
+            src = pathlib.Path('curator-report.md').read_text(encoding='utf-8')
+            m = re.search(r'suggested comment.*?\n(.*)', src, flags=re.I | re.S)
+            if m:
+              tail = m.group(1)
+              # stop at next ## heading
+              tail = re.split(r'\n## ', tail, maxsplit=1)[0]
+              # prefer fenced block or Thanks @ line onwards
+              fm = re.search(r'```\n?(.*?)```', tail, flags=re.S)
+              if (fm):
+                body = fm.group(1).strip()
+              else:
+                tm = re.search(r'(Thanks @.*)', tail, flags=re.S)
+                body = tm.group(1).strip() if tm else tail.strip()
+          # hard cap
+          body = body[:5500].strip()
+          pathlib.Path('/tmp/review-body-raw.md').write_text(body, encoding='utf-8')
+          print(f"review body chars: {len(body)}")
+          PY
+          if [ ! -s /tmp/review-body-raw.md ]; then echo "no review comment to post, skip"; exit 0; fi
+          {
+            echo "$MARKER"
+            echo ""
+            cat /tmp/review-body-raw.md
+            echo ""
+            echo "---"
+            echo "<sub>Posted $TS • Separate review comment (report stays in triage comment above). Maintainer: comment \`/curator\` to re-run.</sub>"
+          } > /tmp/review-body.md
+          EXISTING_ID=$(gh api "repos/$REPO/issues/$NUMBER/comments" --paginate --jq '[.[] | select(.body | contains("<!-- curator-triage: review-comment -->")) | .id] | first // empty' || echo "")
+          if [ -n "$EXISTING_ID" ] && [ "$EXISTING_ID" != "null" ]; then
+            echo "Updating existing review comment $EXISTING_ID"
+            gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING_ID" -F body=@/tmp/review-body.md --jq .id || echo "patch failed"
+          else
+            echo "Creating separate review comment"
+            if [ "${{ github.event_name }}" = "pull_request_target" ] || [ "${{ github.event.issue.pull_request && 'true' || 'false' }}" = "true" ]; then
+              gh pr comment "$NUMBER" --body-file /tmp/review-body.md || echo "pr comment failed"
+            else
+              gh issue comment "$NUMBER" --body-file /tmp/review-body.md || echo "issue comment failed"
+            fi
+          fi
+
+      - name: Append Update note on synchronize (no new comment, no AI)
+        if: ${{ github.event_name == 'pull_request_target' && github.event.action == 'synchronize' && !startsWith(github.head_ref, 'bot/star-history') }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -e
+          NUMBER="${{ github.event.number }}"
+          REPO="${{ github.repository }}"
+          MARKER="<!-- curator-triage: ai-review -->"
+          TS=$(date -u +"%Y-%m-%d %H:%M UTC")
+          SHA="${{ github.event.pull_request.head.sha }}"
+          SHORT=$(echo "$SHA" | cut -c1-7)
+          ACTOR="${{ github.actor }}"
+          EXISTING_ID=$(gh api "repos/$REPO/issues/$NUMBER/comments" --paginate --jq '[.[] | select(.body | contains("<!-- curator-triage: ai-review -->")) | .id] | first // empty' || echo "")
+          if [ -z "$EXISTING_ID" ] || [ "$EXISTING_ID" = "null" ]; then
+            echo "No existing triage comment — creating placeholder (single comment)"
+            {
+              echo "$MARKER"
+              echo ""
+              echo "🤖 Curator triage placeholder for PR #$NUMBER"
+              echo ""
+              echo "**Update $TS ($SHORT):** new commit pushed by @$ACTOR — full review not re-run automatically. Maintainer comment \`/curator\` for full re-review."
+            } > /tmp/triage-body.md
+            gh pr comment "$NUMBER" --body-file /tmp/triage-body.md || echo "pr comment failed"
+            exit 0
+          fi
+          echo "Appending Update to comment $EXISTING_ID (edit in place)"
+          gh api "repos/$REPO/issues/comments/$EXISTING_ID" --jq .body > /tmp/existing-body.md || echo "$MARKER" > /tmp/existing-body.md
+          {
+            cat /tmp/existing-body.md
+            echo ""
+            echo "**Update $TS ($SHORT):** new commit pushed by @$ACTOR — report not re-run automatically. Maintainer comment \`/curator\` for full re-review."
+          } > /tmp/new-body.md
+          # GitHub comment limit 65536 — keep tail if too long
+          SIZE=$(wc -c < /tmp/new-body.md)
+          if [ "$SIZE" -gt 60000 ]; then
+            echo "Body too large ($SIZE), truncating head but keeping marker + tail"
+            head -c 50000 /tmp/new-body.md > /tmp/trunc-body.md
+            echo "" >> /tmp/trunc-body.md
+            echo "...(truncated, see history)..." >> /tmp/trunc-body.md
+            tail -c 9000 /tmp/new-body.md >> /tmp/trunc-body.md
+            mv /tmp/trunc-body.md /tmp/new-body.md
+          fi
+          gh api -X PATCH "repos/$REPO/issues/comments/$EXISTING_ID" -F body=@/tmp/new-body.md --jq .id || echo "patch failed"
 
       - name: Summary
         if: always()

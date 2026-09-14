@@ -1,0 +1,66 @@
+name: Site — Rebuild GitHub Page
+
+# PR 合并到 main 后自动重建 docs/（GitHub Pages 源），外加每天定时兜底。
+# site/build.mjs 从 README.md / README.zh.md 生成 docs/index.html + docs/zh/index.html。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'README.md'
+      - 'README.zh.md'
+      - 'site/build.mjs'
+      - 'assets/star-history/**'
+      - '.github/workflows/site.yml'
+  workflow_run:
+    workflows: ["Star History"]
+    types: [completed]
+  schedule:
+    - cron: '23 3 * * *'  # daily 03:23 UTC — 兜底 star 数/footer 日期漂移
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: site
+  cancel-in-progress: true
+
+jobs:
+  build:
+    # Star chart 推送自带 [skip ci] 会跳过 push 触发，靠 workflow_run 补上；
+    # 本工作流自己的推送也带 [skip ci]，靠它防无限循环。
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout (main)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Rebuild docs site
+        run: |
+          set -e
+          node site/build.mjs
+          echo "--- docs status ---"
+          git status --porcelain -- docs/ | head -n 20
+
+      - name: Commit and push if changed
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/
+          if git diff --cached --quiet; then
+            echo "Site unchanged — nothing to do."
+            exit 0
+          fi
+          git commit -m "chore(site): rebuild GitHub Page [skip ci]"
+          git pull --rebase origin main
+          git push origin HEAD:main
