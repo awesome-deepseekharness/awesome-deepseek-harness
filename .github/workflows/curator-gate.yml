@@ -55,11 +55,11 @@ jobs:
               cat $GITHUB_OUTPUT
               exit 0
             fi
-            PR=$(gh pr list --state open --limit 50 --json number,headRefName,createdAt --jq '[.[] | select(.headRefName | startswith("curator/report-"))] | sort_by(.createdAt) | reverse | .[0].number // empty' || echo "")
+            PR=$(gh pr list -R "${{ github.repository }}" --state open --limit 50 --json number,headRefName,createdAt --jq '[.[] | select(.headRefName | startswith("curator/report-"))] | sort_by(.createdAt) | reverse | .[0].number // empty' || echo "")
             echo "Resolved via workflow_run → pr=$PR"
             echo "pr=$PR" >> $GITHUB_OUTPUT
           else
-            PR=$(gh pr list --state open --limit 50 --json number,headRefName --jq '[.[] | select(.headRefName | startswith("curator/report-"))] | .[0].number // empty' || echo "")
+            PR=$(gh pr list -R "${{ github.repository }}" --state open --limit 50 --json number,headRefName --jq '[.[] | select(.headRefName | startswith("curator/report-"))] | .[0].number // empty' || echo "")
             echo "pr=$PR" >> $GITHUB_OUTPUT
           fi
           cat $GITHUB_OUTPUT
