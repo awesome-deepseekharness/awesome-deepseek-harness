@@ -55,16 +55,17 @@ jobs:
               cat $GITHUB_OUTPUT
               exit 0
             fi
-            PR=$(gh pr list --state open --search "head:curator/report-" --json number --jq 'sort_by(.createdAt) | reverse | .[0].number' || echo "")
+            PR=$(gh pr list --state open --limit 50 --json number,headRefName,createdAt --jq '[.[] | select(.headRefName | startswith("curator/report-"))] | sort_by(.createdAt) | reverse | .[0].number // empty' || echo "")
             echo "Resolved via workflow_run → pr=$PR"
             echo "pr=$PR" >> $GITHUB_OUTPUT
           else
-            PR=$(gh pr list --state open --search "head:curator/report-" --json number --jq '.[0].number' || echo "")
+            PR=$(gh pr list --state open --limit 50 --json number,headRefName --jq '[.[] | select(.headRefName | startswith("curator/report-"))] | .[0].number // empty' || echo "")
             echo "pr=$PR" >> $GITHUB_OUTPUT
           fi
           cat $GITHUB_OUTPUT
 
       - name: Checkout PR head
+        if: steps.resolve.outputs.pr != ''
         uses: actions/checkout@v4
         with:
           # For pull_request_target, checkout the PR head (not base) — trusted GITHUB_TOKEN, safe to fetch head
@@ -72,11 +73,13 @@ jobs:
           ref: refs/pull/${{ steps.resolve.outputs.pr }}/head
 
       - name: Setup Node.js
+        if: steps.resolve.outputs.pr != ''
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
       - name: Install opencode
+        if: steps.resolve.outputs.pr != ''
         run: |
           set -e
           if npm install -g opencode-ai 2>&1 | tail -n 5; then
@@ -90,6 +93,7 @@ jobs:
           ls -lh curator-report.md 2>&1 | head -n 20 || echo "curator-report.md missing — will use deterministic fallback"
 
       - name: Second AI review — independent gate
+        if: steps.resolve.outputs.pr != ''
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           OPENCODE_API_KEY: ${{ secrets.OPENCODE_API_KEY }}

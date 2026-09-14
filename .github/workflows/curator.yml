@@ -75,6 +75,18 @@ jobs:
           echo "--- .curate-prompt preview ---"
           head -n 40 .curate-prompt.md 2>/dev/null || true
 
+      - name: Skip draft PR when nothing actionable
+        run: |
+          IDLE=$(grep -ciE "no actionable findings|health audit only|No PR/Issue|No PR event|No LLM run" curator-report.md 2>/dev/null || true)
+          HASDIFF=$(grep -c '^```diff' curator-report.md 2>/dev/null || true)
+          echo "idle_markers=$IDLE diff_blocks=$HASDIFF"
+          if [ "$HASDIFF" -eq 0 ] && [ "$IDLE" -ge 2 ]; then
+            echo "Nothing actionable — revert report so no draft PR is opened (report stays in run logs)"
+            git checkout -- curator-report.md
+          else
+            echo "Actionable content — draft PR will be opened for gate review"
+          fi
+
       - name: Create PR if report changed
         id: cpr
         continue-on-error: true

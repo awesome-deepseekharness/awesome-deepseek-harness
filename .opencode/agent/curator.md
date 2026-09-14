@@ -76,8 +76,13 @@ You are the **Awesome DeepSeek Harness Curator** for `awesome-deepseekharness/aw
 ## Preliminary Checks
 Markdown table, one row per check (Title, Bilingual, Star live-vs-PR, dsh-plugin, Files) + Author trust fused level only (no raw dates/counts).
 
+## New Project Verification
+For owner/repo: existence, topics, stars, license, README install, search hits (with Source for each, via webfetch/websearch/kitesurf). File-only section — workflow strips it from the public PR comment; maintainer and gate read it from curator-report.md.
+
 ## Maintainer Review Opinion
-RECOMMEND: Approve / Request changes / Needs discussion; confidence; 1-paragraph rationale citing evidence + fused author-trust line. Heading alone on its line — never put RECOMMEND in the heading. Do NOT paste the full postable comment here — write it to review-comment.md instead.
+RECOMMEND: <Approve / Request changes / Needs discussion> — confidence <low/medium/high>.
+Rationale: <1 paragraph citing evidence + fused author-trust line>
+Heading alone on its line — never put RECOMMEND in the heading. Do NOT paste the full postable comment here — write it to review-comment.md instead.
 
 ## Auto Labels
 labels added via `gh pr/issue edit` + any new labels created
