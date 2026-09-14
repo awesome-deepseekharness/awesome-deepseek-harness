@@ -160,7 +160,7 @@ jobs:
           fi
 
           if [ "$DECISION" = "REQUEST_CHANGES" ]; then
-            if grep -q "RECOMMEND: Approve" curator-report.md 2>/dev/null; then
+            if grep -qE "^RECOMMEND: Approve" curator-report.md 2>/dev/null; then
               echo "Fallback: curator says Approve → APPROVE"
               DECISION="APPROVE"
             elif grep -q "no actionable findings" curator-report.md 2>/dev/null || grep -qi "No PR/Issue.*health audit only" curator-report.md 2>/dev/null; then
@@ -176,6 +176,20 @@ jobs:
 
           echo "=== Final DECISION: $DECISION ==="
           echo "$DECISION" > /tmp/decision.txt
+
+          if [ "$DECISION" = "APPROVE" ]; then
+            # Safety (#135 lesson): never auto-merge a report-only PR.
+            # APPROVE→merge only when the diff touches README.md/README.zh.md.
+            CHANGED=$(gh pr view "$PR" --json files --jq '[.files[].path] | join(" ")' 2>/dev/null || echo "")
+            case " $CHANGED " in
+              *" README.md "*|*" README.zh.md "*) echo "Shippable: README changes present ($CHANGED)" ;;
+              *)
+                echo "Report-only PR (files: $CHANGED) — refuse auto-merge, force CLOSE"
+                DECISION="CLOSE"
+                echo "$DECISION" > /tmp/decision.txt
+                ;;
+            esac
+          fi
 
           if [ "$DECISION" = "APPROVE" ]; then
             echo "✅ Second AI approves → auto-merging PR #$PR"
