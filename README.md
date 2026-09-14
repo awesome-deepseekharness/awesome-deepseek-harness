@@ -55,6 +55,7 @@ DeepSeek Harness is DeepSeek AI's open-source agent harness. Its core philosophy
 | [Nagi-ovo/dsh-find-plugins](https://github.com/Nagi-ovo/dsh-find-plugins) | A DSH skill that finds, installs, and verifies GitHub plugins | 78 |
 | [AdamPlatin123/awesome-dsh-plugins](https://github.com/AdamPlatin123/awesome-dsh-plugins) | Radar index repo that auto-scans dsh plugin candidates | 908 |
 | [LaplaceYoung/oh-my-dsh](https://github.com/LaplaceYoung/oh-my-dsh) | 700+ plugins registered only through extension seams — no agent-loop modification | 45 |
+| [vbarter/dsh-plugin-registry](https://dsplugin.app/) | Unofficial community DeepSeek Harness plugin directory / dsh plugin registry — browse & publish with Manifest / `dsh.bundle` checks ([GitHub](https://github.com/vbarter/dsh-plugin-registry)) | 0 |
 
 ### 👁️ Vision
 

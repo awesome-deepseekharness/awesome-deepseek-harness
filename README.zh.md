@@ -55,6 +55,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [Nagi-ovo/dsh-find-plugins](https://github.com/Nagi-ovo/dsh-find-plugins) | 帮 DSH 搜索、安装并验证插件的 Skill | 78 |
 | [AdamPlatin123/awesome-dsh-plugins](https://github.com/AdamPlatin123/awesome-dsh-plugins) | 自动扫描 dsh 插件候选的前部索引仓库(Radar) | 908 |
 | [LaplaceYoung/oh-my-dsh](https://github.com/LaplaceYoung/oh-my-dsh) | 700+ 插件,只通过扩展接缝注册,不改 agent-loop 骨架 | 45 |
+| [vbarter/dsh-plugin-registry](https://dsplugin.app/) | 非官方社区 DeepSeek Harness 插件目录 / dsh 插件注册表 — 浏览与发布，含 Manifest / `dsh.bundle` 校验（[GitHub](https://github.com/vbarter/dsh-plugin-registry)） | 0 |
 
 ### 👁️ 视觉插件
 
