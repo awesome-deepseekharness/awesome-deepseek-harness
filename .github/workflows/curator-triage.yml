@@ -38,6 +38,11 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
+      - name: Checkout (base, repo context for gh CLI)
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
       - name: Enforce submission policy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -283,26 +288,42 @@ jobs:
                 out.append(ln)
               continue
             out.append(ln)
-          # table-row strip pass, scoped to the Preliminary Checks section only
-          final, in_prelim = [], False
-          for ln in out:
-            if ln.startswith('## '):
-              in_prelim = 'preliminary checks' in ln.lower()
-              final.append(ln)
-              continue
-            if in_prelim and ln.strip().startswith('|'):
-              continue
-            final.append(ln)
-          open('/tmp/clean-report.md', 'w', encoding='utf-8').write('\n'.join(final).strip() + '\n')
+          # 3. relocate (model: ...) from the title area to the footer small text;
+          #    drop any <sub> model line here (re-added once in the footer below).
+          # 4. split overlong ## headings (e.g. RECOMMEND crammed into the heading):
+          #    keep a short head, push the rest to the body.
+          body = '\n'.join(out)
+          mm = re.search(r'\(model:\s*[^)]+\)', body)
+          model_txt = mm.group(0) if mm else ''
+          if model_txt:
+            body = body.replace(model_txt, '', 1)
+          body = re.sub(r'^<sub>[^<\n]*model:[^<\n]*</sub>[ \t]*\n?', '', body, flags=re.M | re.I)
+          body = re.sub(r'[ \t]+\n', '\n', body)
+          open('/tmp/model.txt', 'w', encoding='utf-8').write(model_txt)
+          normed = []
+          for ln in body.split('\n'):
+            if ln.startswith('## ') and len(ln) > 100 and ' — ' in ln:
+              head, rest = ln.split(' — ', 1)
+              normed.append(head)
+              normed.append('')
+              normed.append(rest)
+            else:
+              normed.append(ln)
+          open('/tmp/clean-report.md', 'w', encoding='utf-8').write('\n'.join(normed).strip() + '\n')
           PY
           REPORT=$(head -c 6000 /tmp/clean-report.md)
+          MODEL=$(cat /tmp/model.txt 2>/dev/null || echo "")
           {
             echo "$MARKER"
             echo ""
             echo "$REPORT"
             echo ""
             echo "---"
-            echo "<sub>Last full review: $TS via $EVENT • This is the single triage comment — updates edit in place, no new emails. Maintainer: comment \`/curator\` to re-run full review.</sub>"
+            if [ -n "$MODEL" ]; then
+              echo "<sub>Last full review: $TS via $EVENT • $MODEL • This is the single triage comment — updates edit in place, no new emails. Maintainer: comment \`/curator\` to re-run full review.</sub>"
+            else
+              echo "<sub>Last full review: $TS via $EVENT • This is the single triage comment — updates edit in place, no new emails. Maintainer: comment \`/curator\` to re-run full review.</sub>"
+            fi
           } > /tmp/triage-body.md
           EXISTING_ID=$(gh api "repos/$REPO/issues/$NUMBER/comments" --paginate --jq '[.[] | select(.body | contains("<!-- curator-triage: ai-review -->")) | .id] | first // empty' || echo "")
           if [ -n "$EXISTING_ID" ] && [ "$EXISTING_ID" != "null" ]; then

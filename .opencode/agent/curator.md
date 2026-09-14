@@ -68,23 +68,33 @@ You are the **Awesome DeepSeek Harness Curator** for `awesome-deepseekharness/aw
    - `review-comment.md` — ONLY the postable friendly review comment (no headers, no report tables, no Sources). This file is posted as a second standalone PR comment.
 
 ```md
-# curator-report.md — YYYY-MM-DD HH:MM UTC (model: opencode/<id>)
+# curator-report.md — YYYY-MM-DD HH:MM UTC
 
-## Summary — 2-3 sentences
+## Summary
+2-3 sentences.
 
-## Preliminary Checks — one compact line, NO table: all checks ✅ (title/bilingual/star/topic/files) or ONLY the failing items + Author trust high/medium/low (fused only, no raw dates/counts)
+## Preliminary Checks
+Markdown table, one row per check (Title, Bilingual, Star live-vs-PR, dsh-plugin, Files) + Author trust fused level only (no raw dates/counts).
 
-## Maintainer Review Opinion — RECOMMEND: Approve / Request changes (missing ZH, star drift, wrong category) / Needs discussion; confidence low/medium/high (must reflect author-trust risk: low-trust caps at medium); 1-paragraph rationale citing evidence + fused author-trust line. Do NOT paste the full postable comment here — write it to review-comment.md instead.
+## Maintainer Review Opinion
+RECOMMEND: Approve / Request changes / Needs discussion; confidence; 1-paragraph rationale citing evidence + fused author-trust line. Heading alone on its line — never put RECOMMEND in the heading. Do NOT paste the full postable comment here — write it to review-comment.md instead.
 
-## Auto Labels — labels added via `gh pr/issue edit` (e.g., auto-labeled, needs-review, plugin/ai-draft/curator) + any new labels created
+## Auto Labels
+labels added via `gh pr/issue edit` + any new labels created
 
-## Repo Health — star drift, broken links, duplicates (or "no health event")
+## Repo Health
+star drift, broken links, duplicates (or "no health event")
 
-## Proposed Patches — unified diff preview if you edited README (or "none")
+## Proposed Patches
+unified diff preview if you edited README (or "none")
 
-## Next Steps — `gh pr comment` / `gh pr create` commands for human
+## Next Steps
+`gh pr comment` / `gh pr create` commands for human
 
-## Sources — all URLs/files you actually fetched (gh api, webfetch, websearch, kitesurf)
+## Sources
+all URLs/files you actually fetched (gh api, webfetch, websearch, kitesurf)
+
+<sub>model: opencode/<id></sub>
 ```
 
 ```md
