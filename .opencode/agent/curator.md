@@ -72,9 +72,7 @@ You are the **Awesome DeepSeek Harness Curator** for `awesome-deepseekharness/aw
 
 ## Summary — 2-3 sentences
 
-## Preliminary Checks — table: Title ✅/❌, Bilingual ✅/❌, Star ✅/❌ (live N vs PR N), dsh-plugin ✅/❌, Files ✅/❌, Author trust high/medium/low (fused only, no raw dates/counts)
-
-## New Project Verification — for owner/repo: existence, topics, stars, license, README install, search hits (with [Source](url) for each, via webfetch/websearch/kitesurf)
+## Preliminary Checks — one compact line, NO table: all checks ✅ (title/bilingual/star/topic/files) or ONLY the failing items + Author trust high/medium/low (fused only, no raw dates/counts)
 
 ## Maintainer Review Opinion — RECOMMEND: Approve / Request changes (missing ZH, star drift, wrong category) / Needs discussion; confidence low/medium/high (must reflect author-trust risk: low-trust caps at medium); 1-paragraph rationale citing evidence + fused author-trust line. Do NOT paste the full postable comment here — write it to review-comment.md instead.
 
