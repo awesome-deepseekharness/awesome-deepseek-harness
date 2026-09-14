@@ -165,6 +165,7 @@ The hottest category — giving text-only models "eyes."
 | [PerryLink/dsh-wechat](https://github.com/PerryLink/dsh-wechat) | Bridges WeChat private messages to DSH with two-way text, image, file, and media transfer | 0 |
 | [zhengjy01/dsh-qqbot-panel](https://github.com/zhengjy01/dsh-qqbot-panel) | Visual web settings panel for the official @tencent-connect/dsh-qqbot plugin (credentials, access modes/allowlists, workspace picker, scan-to-bind). | 0 |
 | [zhengjy01/dsh-updater](https://github.com/zhengjy01/dsh-updater) | Track DeepSeek Harness's own releases and update in one click: npm dist-tags + GitHub changelog, every change between the running build and the target, risk grading, and an atomic-rename backup with automatic rollback (`dsh plugin --profile web add @zhengjunyao/dsh-updater`) | 0 |
+| [zhengjy01/dsh-restart](https://github.com/zhengjy01/dsh-restart) | One-click restart for DeepSeek Harness: a web restart button plus a `dsh_restart` agent tool hand the relaunch to a detached helper, the page auto-reconnects, and a recovery console shows boot errors when the new host fails (`dsh plugin --profile web add @zhengjunyao/dsh-restart`) | 0 |
 
 ### 📚 Skills
 
