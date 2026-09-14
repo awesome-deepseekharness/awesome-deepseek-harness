@@ -1,0 +1,15 @@
+# Awesome DSH 投稿策略名单（机器人 submission-guard 读取 main 分支版本，fork 改了也没用）。
+#
+# watchlist: 严格名单 —— 名单里的人同时只能有 1 个运行中的 PR，
+#   旧的没处理完之前新开的会被机器人自动关闭。维护者手动重开的不受影响。
+# self_promo: 通用规则 —— 短时间内自荐自己的项目（仓库 owner == 投稿人），
+#   第 1 次友好提示，第 2~warn_until 次加重提醒，第 close_from 次起自动关闭。
+#   举荐别人的优秀项目（owner != 投稿人）不受此规则影响，正常评审。
+
+watchlist:
+  - PerryLink
+
+self_promo:
+  window_days: 14   # 回看窗口（天）
+  warn_until: 3     # 第 1 次提示，第 2~warn_until 次加重提醒
+  close_from: 4     # 第 close_from 次起自动关闭

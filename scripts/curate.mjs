@@ -17,6 +17,7 @@ import { setTimeout as sleep } from 'node:timers/promises';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const REPORT_FILE = path.join(ROOT, 'curator-report.md');
+const REVIEW_FILE = path.join(ROOT, 'review-comment.md');
 const ZEN_MODELS_URL = 'https://opencode.ai/zen/v1/models';
 
 // Keep in sync with public free list — will be traversed latest-first
@@ -103,7 +104,7 @@ async function runPreliminaryChecks(pr, issue) {
   });
   if (pr) {
     out.push(`## Preliminary PR #${pr} checks (deterministic)`);
-    const prInfo = await exec('gh', ['pr', 'view', String(pr), '--json', 'title,body,files,author,additions', '--jq', '.']);
+    const prInfo = await exec('gh', ['pr', 'view', String(pr), '--json', 'title,body,files,author,authorAssociation,additions', '--jq', '.']);
     if (prInfo.code === 0) {
       try {
         const j = JSON.parse(prInfo.out);
@@ -111,6 +112,47 @@ async function runPreliminaryChecks(pr, issue) {
         out.push(`- Title: "${j.title}" ${titleOk ? '✅ matches Add owner/repo to Category' : '❌ should be Add owner/repo to Category'}`);
         const files = (j.files || []).map(f => f.path).join(', ');
         out.push(`- Files: ${files || '(none)'} ${files.includes('README.md') && files.includes('README.zh.md') ? '✅ bilingual' : '❌ missing README.md or README.zh.md'}`);
+        // Author trust signals (internal only — LLM must fuse into RECOMMEND, never paste raw PII)
+        const authorLogin = j.author?.login || '';
+        const assoc = j.authorAssociation || '';
+        if (authorLogin) {
+          out.push(`- Author: @${authorLogin} (assoc: ${assoc || 'unknown'})`);
+          try {
+            const u = await exec('gh', ['api', `users/${authorLogin}`, '--jq', '{login, created_at, public_repos, followers, following, type, site_admin}']);
+            let ageDays = -1, followers = -1, following = -1, pubRepos = -1, createdAt = '', utype = '', isAdmin = false;
+            if (u.code === 0) {
+              try {
+                const uj = JSON.parse(u.out);
+                createdAt = uj.created_at || '';
+                pubRepos = uj.public_repos ?? -1;
+                followers = uj.followers ?? -1;
+                following = uj.following ?? -1;
+                utype = uj.type || '';
+                isAdmin = !!uj.site_admin;
+                if (createdAt) ageDays = Math.floor((Date.now() - new Date(createdAt).getTime()) / 86400000);
+              } catch {}
+            }
+            let recentEvents = -1;
+            try {
+              const ev = await exec('gh', ['api', `users/${authorLogin}/events/public?per_page=30`, '--jq', 'length']);
+              if (ev.code === 0) recentEvents = parseInt(ev.out.trim(), 10);
+            } catch {}
+            let totalPRs = -1;
+            try {
+              const sq = await exec('gh', ['api', `search/issues?q=author:${authorLogin}+type:pr`, '--jq', '.total_count']);
+              if (sq.code === 0) totalPRs = parseInt(sq.out.trim(), 10);
+            } catch {}
+            out.push(`- Author trust signals (internal, do NOT paste raw dates/counts into report or review-comment): account_age_days=${ageDays}, public_repos=${pubRepos}, followers=${followers}, following=${following}, type=${utype}, admin=${isAdmin}, recent_public_events_30=${recentEvents}, total_prs=${totalPRs}`);
+            const isOwner = ['OWNER', 'MEMBER', 'COLLABORATOR'].includes(assoc);
+            const isBot = authorLogin.endsWith('[bot]') || utype === 'Bot';
+            const isNew = ageDays >= 0 && ageDays < 30;
+            const isLowActivity = (followers === 0 && following === 0 && pubRepos <= 1) || recentEvents === 0;
+            if (isOwner || isBot) out.push(`- Trust heuristic: trusted (${isBot ? 'bot' : assoc}) — normal verification depth`);
+            else if (isNew && isLowActivity) out.push(`- Trust heuristic: HIGH-RISK new account + low activity — apply strict verification (install cmd, link liveness, dsh-plugin topic, duplicates, search hits), cap confidence at medium, prefer Needs discussion over Approve`);
+            else if (isNew || isLowActivity) out.push(`- Trust heuristic: MEDIUM-RISK (new or low-activity) — deepen verification, state fused trust level only, keep review comment friendly/neutral`);
+            else out.push(`- Trust heuristic: routine — fuse trust into confidence, no raw dump`);
+          } catch {}
+        }
         // Extract owner/repo from diff via title or body (+ /curator comment link as fallback)
         // Robust owner/repo extraction: prefer https://github.com/owner/repo, fallback to generic but ignore github.com
         let repo = null;
@@ -438,7 +480,7 @@ function buildPrompt({ pr, issue, preChecks }) {
     `Preliminary deterministic checks (already run by scripts/curate.mjs — use as ground truth, then do deeper verification):`,
     preChecks ? preChecks.split('\n').map(l => `> ${l}`).join('\n') : '> (no preliminary checks)',
     ``,
-    `Task: Do a quick health audit (README tables, duplicates, star drift sample), and if GH_PR/GH_ISSUE is set, preprocess that PR/Issue per curator.md. For any new project (owner/repo), autonomously verify with websearch/webfetch/kitesurf browser (chrome-devtools-mcp via wss://kitesurf.cloudflare.app/devtools/browser) — fetch repo page, check README for dsh install, verify dsh-plugin topic via gh api, and search for the project to confirm it's real. Then provide a maintainer review opinion (Approve / Request changes / Needs discussion) with confidence and suggested comment body (friendly, in PR language, ping @hdjekuue if needed). Always overwrite curator-report.md with the required structure including Preliminary Checks and Maintainer Review Opinion.`,
+    `Task: Do a quick health audit (README tables, duplicates, star drift sample), and if GH_PR/GH_ISSUE is set, preprocess that PR/Issue per curator.md. For any new project (owner/repo), autonomously verify with websearch/webfetch/kitesurf browser (chrome-devtools-mcp via wss://kitesurf.cloudflare.app/devtools/browser) — fetch repo page, check README for dsh install, verify dsh-plugin topic via gh api, and search for the project to confirm it's real. Then provide a maintainer review opinion (Approve / Request changes / Needs discussion) with confidence and 1-paragraph rationale in curator-report.md. Write the postable friendly comment (Thanks @author ..., in PR language, ping @hdjekuue only if author is NOT owner) to review-comment.md ONLY — never paste the full Thanks @... comment into curator-report.md. Always overwrite curator-report.md with the required structure including Preliminary Checks and Maintainer Review Opinion (RECOMMEND + rationale, no Suggested comment body), and overwrite review-comment.md with ONLY the postable comment. Author trust signals in preChecks are INTERNAL: never paste raw account dates/counts/bio into either file; fuse into a single 'Author trust: high/medium/low' line plus risk-adjusted scrutiny (low-trust → strict verification, cap confidence at medium, prefer Needs discussion; never accuse spam/poisoning in review-comment.md, keep it friendly/neutral).`,
     ``,
     `Toolbox hints:`,
     `- Prefer gh api for GitHub data, curl + jq for APIs, webfetch first then kitesurf browser for JS-heavy pages, websearch for auto-discovery.`,
@@ -458,8 +500,6 @@ function buildDeterministicReport({ pr, issue }) {
     health = `Found ${lines.length} project rows in README.md. Sample: ${lines.slice(0, 2).map(l => l.slice(0, 80)).join(' | ')}`;
   } catch { health = 'README.md not readable'; }
   return `# Curator Report — ${now.slice(0, 16)} UTC (model: fallback)
-
-> Auto-generated by scripts/curate.mjs deterministic fallback (no LLM). Experimental, needs human review.
 
 ## Summary
 No LLM run (opencode free models unavailable or OPENCODE_API_KEY missing). This is a deterministic health snapshot. Trigger opencode with free-model traversal to get AI triage.
@@ -491,6 +531,10 @@ ${issue ? `- Issue #${issue} detected. Suggest labels: plugin suggestion / fix /
 `;
 }
 
+function buildDeterministicReviewComment({ pr, issue }) {
+  if (!pr) return '';
+  return `Thanks for the contribution to PR #${pr}! 🤖 Curator deterministic fallback — full AI review unavailable, maintainer will follow up. Maintainer: comment \`/curator\` to re-run full review.\n`;
+}
 async function main() {
   console.log(`[curate] Starting at ${new Date().toISOString()}`);
   let pr = process.env.GH_PR || process.env.PR_NUMBER || '';
@@ -548,6 +592,8 @@ async function main() {
   if (!hasOpencode) {
     console.warn('[curate] opencode not found, writing fallback');
     fs.writeFileSync(REPORT_FILE, buildDeterministicReport({ pr, issue }), 'utf8');
+    const rc = buildDeterministicReviewComment({ pr, issue });
+    if (rc) fs.writeFileSync(REVIEW_FILE, rc, 'utf8');
     return;
   }
 
@@ -556,9 +602,15 @@ async function main() {
   } catch (e) {
     console.warn(`[curate] All models failed (${e.message}), fallback`);
     fs.writeFileSync(REPORT_FILE, buildDeterministicReport({ pr, issue }), 'utf8');
+    const rc2 = buildDeterministicReviewComment({ pr, issue });
+    if (rc2 && !fs.existsSync(REVIEW_FILE)) fs.writeFileSync(REVIEW_FILE, rc2, 'utf8');
   }
   const final = fs.readFileSync(REPORT_FILE, 'utf8');
   console.log(`[curate] Done. Preview:\n${final.slice(0, 900)}\n...`);
+  if (fs.existsSync(REVIEW_FILE)) {
+    const rcPrev = fs.readFileSync(REVIEW_FILE, 'utf8');
+    console.log(`[curate] review-comment preview:\n${rcPrev.slice(0, 500)}\n...`);
+  }
 }
 
 main().catch(e => { console.error(e); process.exit(1); });
