@@ -151,6 +151,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [dustinmoon78/dsh-usage-stats](https://github.com/dustinmoon78/dsh-usage-stats) | DSH 用量统计：聚合会话 token 用量（总览/按模型/按天）+ 单价费用估算 + 设置页展示 | 0 |
 | [null5069/dsh-better-stats](https://github.com/null5069/dsh-better-stats) | DSH Web 输入框增强统计条：官方 CNY 计价（峰谷时段、分模型）、实时结算、LLM/工具实时计时、余额直连、预算预警 | 2 |
 | [WinnieJQ/dsh-conversation-cost](https://github.com/WinnieJQ/dsh-conversation-cost) | 会话标题栏的按对话费用徽章：按官方峰谷单价逐步计价，悬停卡片实时显示 ¥/$ 与 token 明细；`dsh plugin --profile web add dsh-conversation-cost` 安装 | 0 |
+| [devacc8/dsh-billing-badge](https://github.com/devacc8/dsh-billing-badge) | 输入框统计行里、原生缓存命中读数之后的计费时段与账户余额：高峰/非高峰圆点与切换倒计时，点击展开面板，按接口返回的货币拆分总额、赠送与充值；`dsh plugin --profile web add dsh-billing-badge` | 0 |
 | [NanmiCoder/dsh-agent-teams](https://github.com/NanmiCoder/dsh-agent-teams) | AgentTeams 多代理协作插件 | 290 |
 | [btspoony/mstar-harness](https://github.com/btspoony/mstar-harness) | Skill 驱动的 Harness/Loop 工程工作流 Agent 插件 | 43 |
 | [weshopai/weshop-dsh-plugin](https://github.com/weshopai/weshop-dsh-plugin) | 原生 WeShop 插件:无限画布 + 无限创意技能 | 6 |
@@ -164,6 +165,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [PerryLink/dsh-ticktick](https://github.com/PerryLink/dsh-ticktick) | TickTick（滴答清单）任务桥：会话页头部任务面板与精选代理工具，走官方 TickTick MCP 端点 | 0 |
 | [PerryLink/dsh-wechat](https://github.com/PerryLink/dsh-wechat) | 将微信私聊消息桥接到 DSH，支持文本、图片、文件与音视频双向传输 | 0 |
 | [zhengjy01/dsh-qqbot-panel](https://github.com/zhengjy01/dsh-qqbot-panel) | 官方 @tencent-connect/dsh-qqbot 插件的可视化 Web 设置面板（凭据、访问模式/白名单、工作区选择、扫码绑定）。 | 0 |
+| [zhengjy01/dsh-updater](https://github.com/zhengjy01/dsh-updater) | 跟踪 DSH 官方版本并一键更新：npm dist-tags + GitHub 更新说明、逐版本更新点与分级风险清单，安装交给分离助手做 rename 原子备份、校验与失败自动回滚（`dsh plugin --profile web add @zhengjunyao/dsh-updater`） | 0 |
 | [zhengjy01/dsh-restart](https://github.com/zhengjy01/dsh-restart) | DeepSeek Harness 一键重启：网页重启按钮与 `dsh_restart` Agent 工具把重启交给独立 helper，页面自动重连，新宿主启动失败时由恢复控制台显示启动错误（`dsh plugin --profile web add @zhengjunyao/dsh-restart`） | 0 |
 
 ### 📚 Skills 与技能包
