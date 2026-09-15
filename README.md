@@ -172,6 +172,7 @@ The hottest category — giving text-only models "eyes."
 | [zhengjy01/dsh-backup-migrator](https://github.com/zhengjy01/dsh-backup-migrator) | Plugin environment backup and migration for DSH: backs up every profile's plugin list, plugin configs and local-source plugin tarballs into a git repo, and restores them on a new machine. | 0 |
 | [zhengjy01/dsh-feishu-mcp](https://github.com/zhengjy01/dsh-feishu-mcp) | Feishu (Lark) OpenAPI MCP connection for DSH: bridges the official @larksuiteoapi/lark-mcp server, exposing IM, Bitable, Docs, Calendar and Drive APIs as mcp__feishu__* tools with OAuth user-token support. | 0 |
 | [zhengjy01/dsh-aliyun-mcp](https://github.com/zhengjy01/dsh-aliyun-mcp) | Alibaba Cloud OpenAPI MCP connection for DSH: static-credential mode through the official OpenAPI MCP proxy, exposing ECS / OSS / DNS / Function Compute APIs as mcp__aliyun__* tools. | 0 |
+| [yeruizhi/dsh-ask-user-timeout](https://github.com/yeruizhi/dsh-ask-user-timeout) | Bounded lifetime for `ask_user_question`: when no browser tab renders the question (tab closed / backgrounded / mux dropped), returns a structured, model-visible `ASK_TIMEOUT` after a configurable deadline (default 10 min) instead of hanging the loop forever; uses the same `deadline()` primitive as the official `timeout-policy` guard (`dsh plugin --profile web add git+https://github.com/yeruizhi/dsh-ask-user-timeout.git`) | 0 |
 
 ### 📚 Skills
 
