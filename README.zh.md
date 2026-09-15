@@ -173,6 +173,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [zhengjy01/dsh-backup-migrator](https://github.com/zhengjy01/dsh-backup-migrator) | 插件环境备份与迁移：把各 profile 的插件清单、插件配置与本地源插件 tgz 打包备份进 git 仓库，换新机器一键还原。 | 0 |
 | [zhengjy01/dsh-feishu-mcp](https://github.com/zhengjy01/dsh-feishu-mcp) | 飞书（Lark）OpenAPI MCP 连接：桥接官方 @larksuiteoapi/lark-mcp，以 mcp__feishu__* 暴露 IM、多维表格、云文档、日历、云盘 API，支持 OAuth 用户令牌。 | 0 |
 | [zhengjy01/dsh-aliyun-mcp](https://github.com/zhengjy01/dsh-aliyun-mcp) | 阿里云 OpenAPI MCP 连接：通过官方 OpenAPI MCP 代理的静态凭据模式，以 mcp__aliyun__* 暴露 ECS / OSS / DNS / 函数计算等 API。 | 0 |
+| [yeruizhi/dsh-ask-user-timeout](https://github.com/yeruizhi/dsh-ask-user-timeout) | 给 `ask_user_question` 加有界等待：无人渲染提问时（页签关闭 / 切后台 / mux 掉线），到可配置超时（默认 10 分钟）后返回结构化、模型可见的 `ASK_TIMEOUT`，循环不再无限“进行中”；复用官方 `timeout-policy` 守卫的 `deadline()` 原语（`dsh plugin --profile web add git+https://github.com/yeruizhi/dsh-ask-user-timeout.git`） | 0 |
 
 ### 📚 Skills 与技能包
 
