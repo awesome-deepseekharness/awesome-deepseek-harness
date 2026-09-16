@@ -174,6 +174,8 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [zhengjy01/dsh-feishu-mcp](https://github.com/zhengjy01/dsh-feishu-mcp) | 飞书（Lark）OpenAPI MCP 连接：桥接官方 @larksuiteoapi/lark-mcp，以 mcp__feishu__* 暴露 IM、多维表格、云文档、日历、云盘 API，支持 OAuth 用户令牌。 | 0 |
 | [zhengjy01/dsh-aliyun-mcp](https://github.com/zhengjy01/dsh-aliyun-mcp) | 阿里云 OpenAPI MCP 连接：通过官方 OpenAPI MCP 代理的静态凭据模式，以 mcp__aliyun__* 暴露 ECS / OSS / DNS / 函数计算等 API。 | 0 |
 
+| [shiyan688/dsh-novel-craft](https://github.com/shiyan688/dsh-novel-craft) | 抽卡式作者品味校准工作台：读结构不同的候选稿时只点 👍/👎，标注被压成可复用的写作规律——只有规律进模型上下文，原文留在单独的证据文件里（安装：`dsh plugin --profile web add dsh-novel-craft`） | 0 |
+
 ### 📚 Skills 与技能包
 
 | 项目 | 说明 | ⭐ |

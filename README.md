@@ -173,6 +173,8 @@ The hottest category — giving text-only models "eyes."
 | [zhengjy01/dsh-feishu-mcp](https://github.com/zhengjy01/dsh-feishu-mcp) | Feishu (Lark) OpenAPI MCP connection for DSH: bridges the official @larksuiteoapi/lark-mcp server, exposing IM, Bitable, Docs, Calendar and Drive APIs as mcp__feishu__* tools with OAuth user-token support. | 0 |
 | [zhengjy01/dsh-aliyun-mcp](https://github.com/zhengjy01/dsh-aliyun-mcp) | Alibaba Cloud OpenAPI MCP connection for DSH: static-credential mode through the official OpenAPI MCP proxy, exposing ECS / OSS / DNS / Function Compute APIs as mcp__aliyun__* tools. | 0 |
 
+| [shiyan688/dsh-novel-craft](https://github.com/shiyan688/dsh-novel-craft) | Gacha-style taste-calibration workbench for fiction writing: mark 👍/👎 while reading structurally different draft variants, and the marks are distilled into reusable writing rules — only the rules ever reach the model's context, raw quotes stay in a separate evidence file (installable via `dsh plugin --profile web add dsh-novel-craft`) | 0 |
+
 ### 📚 Skills
 
 | Project | Description | ⭐ |
