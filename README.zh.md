@@ -173,6 +173,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [zhengjy01/dsh-backup-migrator](https://github.com/zhengjy01/dsh-backup-migrator) | 插件环境备份与迁移：把各 profile 的插件清单、插件配置与本地源插件 tgz 打包备份进 git 仓库，换新机器一键还原。 | 0 |
 | [zhengjy01/dsh-feishu-mcp](https://github.com/zhengjy01/dsh-feishu-mcp) | 飞书（Lark）OpenAPI MCP 连接：桥接官方 @larksuiteoapi/lark-mcp，以 mcp__feishu__* 暴露 IM、多维表格、云文档、日历、云盘 API，支持 OAuth 用户令牌。 | 0 |
 | [zhengjy01/dsh-aliyun-mcp](https://github.com/zhengjy01/dsh-aliyun-mcp) | 阿里云 OpenAPI MCP 连接：通过官方 OpenAPI MCP 代理的静态凭据模式，以 mcp__aliyun__* 暴露 ECS / OSS / DNS / 函数计算等 API。 | 0 |
+| [zhengjy01/dsh-wechat-clawbot](https://github.com/zhengjy01/dsh-wechat-clawbot) | 微信 ClawBot 桥接：扫码登录悬浮球把消息桥接到 agent 会话，复用 context_token 支持窗口外主动推送（lubaiUwU/DSH-WeChatClawBot 的维护分支；`dsh plugin --profile web add dsh-wechat-clawbot`）。 | 0 |
 
 ### 📚 Skills 与技能包
 
