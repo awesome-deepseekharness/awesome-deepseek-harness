@@ -172,6 +172,7 @@ The hottest category — giving text-only models "eyes."
 | [zhengjy01/dsh-backup-migrator](https://github.com/zhengjy01/dsh-backup-migrator) | Plugin environment backup and migration for DSH: backs up every profile's plugin list, plugin configs and local-source plugin tarballs into a git repo, and restores them on a new machine. | 0 |
 | [zhengjy01/dsh-feishu-mcp](https://github.com/zhengjy01/dsh-feishu-mcp) | Feishu (Lark) OpenAPI MCP connection for DSH: bridges the official @larksuiteoapi/lark-mcp server, exposing IM, Bitable, Docs, Calendar and Drive APIs as mcp__feishu__* tools with OAuth user-token support. | 0 |
 | [zhengjy01/dsh-aliyun-mcp](https://github.com/zhengjy01/dsh-aliyun-mcp) | Alibaba Cloud OpenAPI MCP connection for DSH: static-credential mode through the official OpenAPI MCP proxy, exposing ECS / OSS / DNS / Function Compute APIs as mcp__aliyun__* tools. | 0 |
+| [weibaohui/dsh-process](https://github.com/weibaohui/dsh-process) | Process management: brings ntd-style processes (multi-stage, multi-step agent workflow templates) into the dsh web UI — browse, edit, validate, import/export and AI-generate processes; the built-in library is read-only while the personal library is writable with live file sync, and agents read the library through process_* tools and advance work stage by stage. Installable via `dsh plugin add @weibaohui/dsh-process` | 1 |
 
 ### 📚 Skills
 
