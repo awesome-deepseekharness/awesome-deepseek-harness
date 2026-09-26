@@ -172,6 +172,7 @@ The hottest category — giving text-only models "eyes."
 | [zhengjy01/dsh-backup-migrator](https://github.com/zhengjy01/dsh-backup-migrator) | Plugin environment backup and migration for DSH: backs up every profile's plugin list, plugin configs and local-source plugin tarballs into a git repo, and restores them on a new machine. | 0 |
 | [zhengjy01/dsh-feishu-mcp](https://github.com/zhengjy01/dsh-feishu-mcp) | Feishu (Lark) OpenAPI MCP connection for DSH: bridges the official @larksuiteoapi/lark-mcp server, exposing IM, Bitable, Docs, Calendar and Drive APIs as mcp__feishu__* tools with OAuth user-token support. | 0 |
 | [zhengjy01/dsh-aliyun-mcp](https://github.com/zhengjy01/dsh-aliyun-mcp) | Alibaba Cloud OpenAPI MCP connection for DSH: static-credential mode through the official OpenAPI MCP proxy, exposing ECS / OSS / DNS / Function Compute APIs as mcp__aliyun__* tools. | 0 |
+| [0xRabit/dsh-crypto-portfolio](https://github.com/0xRabit/dsh-crypto-portfolio) | Self-hosted crypto portfolio dashboard for DSH — BTC, EVM (73 chains), Solana, Dogecoin, Cardano, Hyperliquid, five exchanges and tokenised equities in one view, with a shareable PNG card, a tunable asset-health report, per-source connection tests and zero-dependency trend charts (`dsh plugin --profile web add dsh-crypto-portfolio`) | 2 |
 
 ### 📚 Skills
 
