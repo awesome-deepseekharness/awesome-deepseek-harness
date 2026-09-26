@@ -192,6 +192,7 @@ The hottest category — giving text-only models "eyes."
 | [Mikuzjc/dsh-office-for-mso](https://github.com/Mikuzjc/dsh-office-for-mso) | DSH <-> Microsoft Office bridge skill: control open Word/Excel/PowerPoint via Office add-in (33 actions, AI-orchestrated) | 2 |
 | [suyukun/dsh-tech-selection](https://github.com/suyukun/dsh-tech-selection) | Model-agnostic technology-selection research protocol for any AI agent (DSH/Claude/Cursor/Codex): T1-T6 source tiers, quality gates, quantified trade-offs, traceable verdicts | 0 |
 | [morluto/rea](https://github.com/morluto/rea) | Reverse engineer anything with agents, from app behavior down to native binaries | 404 |
+| [weibaohui/skills-management](https://github.com/weibaohui/skills-management) | Skill marketplace and manager: manage skills from all local coding agents (10+ executors, incl. Claude Code and Codex) in one page and import them into the DSH skill library; built-in market of 6600+ skills, per-skill token-overhead stats, and model visibility control. Installable via `dsh plugin add @weibaohui/skills-management` | 14 |
 
 ### 🚀 Apps & Runtimes Built on DSH
 

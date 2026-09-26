@@ -193,6 +193,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [Mikuzjc/dsh-office-for-mso](https://github.com/Mikuzjc/dsh-office-for-mso) | DSH ↔ Microsoft Office 桥接技能：操控已打开的 Word/Excel/PowerPoint（33 动作、AI 编排、Office 插件） | 2 |
 | [suyukun/dsh-tech-selection](https://github.com/suyukun/dsh-tech-selection) | 面向任意 AI Agent 的技术选型研究协议（DSH/Claude/Cursor/Codex 通用）：T1-T6 信源分级、质量门禁、量化权衡、可追溯结论 | 0 |
 | [morluto/rea](https://github.com/morluto/rea) | 用 agent 逆向任何东西:从应用行为到原生二进制 | 404 |
+| [weibaohui/skills-management](https://github.com/weibaohui/skills-management) | 技能市场：一个页面管理本机所有 coding agent 的技能，一键收编进 DSH 用户库；内置 6600+ 技能市场，支持注入开销（≈token）统计与模型可见性治理。`dsh plugin add @weibaohui/skills-management` 即装 | 14 |
 
 ### 🚀 集成 DSH 的应用与运行时
 
