@@ -110,6 +110,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [zizaiwo/dsh_plugins](https://github.com/zizaiwo/dsh_plugins) | dsh 侧边栏会话分类插件：零配置接管官方工作区浏览器，按自定义分类文件夹管理会话（拖拽归类/分类内建会话/每工作区独立） | 0 |
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | 输入框上方的快捷指令胶囊栏：按分类存常用 prompt，橙色高亮占位符，两栏管理，分类记忆按会话独立持久化 | 1 |
 | [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | 侧边栏工作区每日按最近活动排序一次，当天顺序稳定 | 2 |
+| [weibaohui/dsh-matrix](https://github.com/weibaohui/dsh-matrix) | 黑客帝国数字雨：对话窗口铺上经典的绿色字符雨背景——雨柱倾泻而下、白炽雨头绿身拖尾，agent 正在生成的 token 原文实时掺进雨里；透明度/速度/密度/字号/配色全部可调，雨势跟随 agent 活跃度起伏。`dsh plugin add @weibaohui/dsh-matrix` 即装 | 0 |
 
 ### 🖥️ TUI 与桌面端
 
