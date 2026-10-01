@@ -1,0 +1,17 @@
+{
+  "name": "awesome-deepseek-harness-site",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "GitHub Pages site for awesome-deepseek-harness. Astro builds README.md / README.zh.md into docs/.",
+  "scripts": {
+    "dev": "astro dev --root site",
+    "build": "astro build --root site",
+    "preview": "astro preview --root site",
+    "check": "astro check --root site"
+  },
+  "dependencies": {
+    "astro": "^7.3.5",
+    "@astrojs/sitemap": "^3.7.0"
+  }
+}
