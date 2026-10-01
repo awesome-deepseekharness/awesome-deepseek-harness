@@ -24,7 +24,7 @@ const nameLines = (g: { id: string; title: string; zhTitle: string }) => {
   return [full.slice(0, Math.ceil(full.length / 2)), full.slice(Math.ceil(full.length / 2))];
 };
 
-const routes = BUS.map(([a, b]) => ({ ...route(a, b), a, b }));
+const routes = BUS.map((leg) => ({ ...route(leg), id: `${leg.from}-${leg.to}` }));
 const pads = groups.flatMap((g) => padArray(g.id, g.count).map((p) => ({ ...p, id: g.id })));
 ---
 
@@ -42,7 +42,7 @@ const pads = groups.flatMap((g) => padArray(g.id, g.count).map((p) => ({ ...p, i
     <g>
       {
         routes.map((r) => (
-          <g class="bus-leg">
+          <g class="bus-leg" data-leg={r.id}>
             <path class="bus-line" d={r.d}></path>
             {r.vias.map(([x, y]) => (
               <circle class="via" cx={x} cy={y} r="3.1"></circle>
@@ -96,7 +96,7 @@ const pads = groups.flatMap((g) => padArray(g.id, g.count).map((p) => ({ ...p, i
         </g>
       ))
     }
-    <text class="dieid" x="18" y={DIE_H - 6}>{t.dieId} · {groups.length} BLK · {groups.reduce((a, g) => a + g.count, 0)} PAD</text>
+    <text class="dieid" x="34" y={DIE_H - 9}>{t.dieId} · {groups.length} BLK · {groups.reduce((a, g) => a + g.count, 0)} PAD</text>
   </svg>
 
   <div class="legend">

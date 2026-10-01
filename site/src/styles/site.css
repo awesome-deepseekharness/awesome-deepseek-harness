@@ -12,11 +12,15 @@
   --cb-deep: #3a65c2;
   --cb-bright: #6b86ff;
   --cb-tint: #e8eeff;
+  /* Filled surfaces carry white text, so they are deepened until they pass AA:
+     white on #4d6bfe is 4.3:1, white on #3a65c2 is 5.4:1. */
+  --cb-fill: #3a65c2;
+  --cb-fill-hi: #26409c;
   --substrate: #ffffff;
-  --trunk: #4d6bfe;
+  --trunk: #2f4fd0;
   --trunk-ink: #ffffff;
-  --trunk-line: rgba(255, 255, 255, .34);
-  --trunk-dim: rgba(255, 255, 255, .74);
+  --trunk-line: rgba(255, 255, 255, .4);
+  --trunk-dim: rgba(255, 255, 255, .88);
   --ink: #12161f;
   --ink-2: rgba(18, 22, 31, .7);
   --ink-3: rgba(18, 22, 31, .54);
@@ -45,6 +49,8 @@
     --cb-deep: #a8c4ff;
     --cb-bright: #8fb2ff;
     --cb-tint: #16233f;
+    --cb-fill: #2f4fd0;
+    --cb-fill-hi: #3a65c2;
     --substrate: #0a0d14;
     --trunk: #16233f;
     --trunk-line: rgba(168, 196, 255, .3);
@@ -83,7 +89,7 @@ body {
 }
 
 /* ── Browser surfaces ──────────────────────────────────────────────────── */
-::selection { background: var(--cb); color: #fff; }
+::selection { background: var(--cb-fill); color: #fff; }
 *::-webkit-scrollbar { width: 11px; height: 11px; }
 *::-webkit-scrollbar-track { background: transparent; }
 *::-webkit-scrollbar-thumb { background: var(--rule); border: 3px solid var(--substrate); border-radius: 99px; }
@@ -103,7 +109,7 @@ img, svg { display: block; }
 
 .skip {
   position: fixed; left: 12px; top: -60px; z-index: 200;
-  background: var(--cb); color: #fff; padding: 10px 18px;
+  background: var(--cb-fill); color: #fff; padding: 10px 18px;
   border-radius: 0 0 var(--r-sm) var(--r-sm); font-size: 13px; font-weight: 500;
   text-decoration: none; transition: top .16s var(--ease);
 }
@@ -188,13 +194,13 @@ img, svg { display: block; }
   transition: background-color .16s var(--ease), border-color .16s var(--ease);
 }
 .node > b {
-  font: 500 10.5px/1.7 var(--mono); letter-spacing: .06em;
-  color: rgba(255, 255, 255, .62);
+  font: 500 11.5px/1.7 var(--mono); letter-spacing: .06em;
+  color: rgba(255, 255, 255, .82);
 }
 .node > i { font-style: normal; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .node > em {
-  font: 400 10.5px/1.7 var(--mono); font-style: normal;
-  color: rgba(255, 255, 255, .58); font-variant-numeric: tabular-nums;
+  font: 400 12px/1.7 var(--mono); font-style: normal;
+  color: rgba(255, 255, 255, .8); font-variant-numeric: tabular-nums;
 }
 .node:hover { color: #fff; }
 .node[aria-pressed='true'] { color: #fff; transform: translateX(5px); }
@@ -204,7 +210,7 @@ img, svg { display: block; }
 .bus-reset {
   align-self: flex-start; margin: 10px 0 0 -21px;
   background: none; border: 1px solid var(--trunk-line); border-radius: 99px;
-  padding: 4px 12px; font: 400 11px/1.4 var(--sans); color: var(--trunk-dim);
+  padding: 5px 13px; font: 400 12px/1.4 var(--sans); color: var(--trunk-dim);
   cursor: pointer; transition: background-color .16s var(--ease), color .16s var(--ease);
 }
 .bus-reset:hover { background: rgba(255, 255, 255, .14); color: #fff; }
@@ -219,7 +225,7 @@ img, svg { display: block; }
 .trunk-star {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
   height: 38px; padding: 0 18px; border-radius: 99px;
-  background: #fff; color: var(--cb-deep); text-decoration: none;
+  background: #fff; color: var(--cb-fill); text-decoration: none;
   font-size: 13px; font-weight: 600; border: 1px solid #fff;
   transition: transform .16s var(--ease), box-shadow .16s var(--ease);
 }
@@ -259,8 +265,8 @@ img, svg { display: block; }
 }
 .btn svg { width: 15px; height: 15px; }
 .btn:hover { background: var(--wash); border-color: var(--cb); color: var(--cb-deep); text-decoration: none; }
-.btn-f { background: var(--cb); border-color: var(--cb); color: #fff; font-weight: 600; }
-.btn-f:hover { background: var(--cb-deep); border-color: var(--cb-deep); color: #fff; transform: translateY(-1px); }
+.btn-f { background: var(--cb-fill); border-color: var(--cb-fill); color: #fff; font-weight: 600; }
+.btn-f:hover { background: var(--cb-fill-hi); border-color: var(--cb-fill-hi); color: #fff; transform: translateY(-1px); }
 
 /* The 100-pad map: the repository's own star readout, one pad per star goal. */
 .padmap { margin-top: 30px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
@@ -278,7 +284,7 @@ img, svg { display: block; }
 .die-head { display: flex; align-items: baseline; gap: 14px; margin-bottom: 14px; }
 .die-head h2 { font-size: 15px; font-weight: 600; letter-spacing: -.01em; }
 .die-head .id {
-  font: 400 10.5px/1 var(--mono); letter-spacing: .1em; color: var(--ink-3);
+  font: 400 12px/1 var(--mono); letter-spacing: .1em; color: var(--ink-3);
   margin-left: auto; text-transform: uppercase;
 }
 
@@ -302,20 +308,20 @@ img, svg { display: block; }
 .die .blk .did { font: 500 12px var(--mono); fill: var(--cb-deep); letter-spacing: .08em; }
 .die .blk .bname { font: 500 11.5px var(--sans); fill: var(--ink-2); }
 .die .blk .bcount {
-  font: 400 10px var(--mono); fill: var(--ink-3);
+  font: 400 11px var(--mono); fill: var(--ink-3);
   font-variant-numeric: tabular-nums;
 }
 .die .blk:hover .face, .die .blk:focus-visible .face { fill: var(--wash-2); stroke-opacity: .7; }
 .die .blk:focus-visible { outline: none; }
 .die .blk:focus-visible .face { stroke: var(--cb); stroke-opacity: 1; stroke-width: 2; }
-.die .blk.on .face { fill: var(--cb); stroke: var(--cb); stroke-opacity: 1; }
+.die .blk.on .face { fill: var(--cb-fill); stroke: var(--cb-fill); stroke-opacity: 1; }
 .die .blk.on .pad { fill: #fff; fill-opacity: .92; }
 .die .blk.on .did, .die .blk.on .bname, .die .blk.on .bcount { fill: #fff; }
 
 .die .ko { fill: none; stroke: var(--ink-3); stroke-dasharray: 5 4; stroke-width: 1; }
-.die .kot { font: 500 10px var(--mono); fill: var(--ink-3); letter-spacing: .14em; text-transform: uppercase; }
-.die .kos { font: 400 10.5px var(--mono); fill: var(--ink-3); }
-.die .dieid { font: 400 9.5px var(--mono); fill: var(--ink-3); letter-spacing: .08em; }
+.die .kot { font: 500 12px var(--mono); fill: var(--ink-3); letter-spacing: .14em; text-transform: uppercase; }
+.die .kos { font: 400 12px var(--mono); fill: var(--ink-3); }
+.die .dieid { font: 400 12px var(--mono); fill: var(--ink-3); letter-spacing: .08em; }
 
 .legend {
   margin-top: 16px; display: flex; flex-wrap: wrap; gap: 10px 26px;
@@ -337,9 +343,9 @@ img, svg { display: block; }
   border-bottom: 1px solid var(--ink);
 }
 .bhead h2 { font-size: 1.06rem; font-weight: 600; letter-spacing: -.018em; }
-.bhead .did { font: 500 11px var(--mono); color: var(--cb-deep); letter-spacing: .08em; }
+.bhead .did { font: 500 11.5px var(--mono); color: var(--cb-deep); letter-spacing: .08em; }
 .bhead .n {
-  font: 400 11px var(--mono); color: var(--ink-3);
+  font: 400 12px var(--mono); color: var(--ink-3);
   font-variant-numeric: tabular-nums; white-space: nowrap;
 }
 .bhead .n b { font-weight: 500; color: var(--ink-2); }
@@ -354,7 +360,7 @@ img, svg { display: block; }
 }
 .pad-link:hover { background: var(--wash); text-decoration: none; }
 .pad-link .pd {
-  font: 500 10.5px/1.6 var(--mono); color: var(--ink-3);
+  font: 500 11px/1.6 var(--mono); color: var(--ink-3);
   letter-spacing: .05em; font-variant-numeric: tabular-nums;
   transition: color .14s var(--ease);
 }
@@ -369,12 +375,11 @@ img, svg { display: block; }
   padding: 1px 5px; border-radius: 3px; color: var(--ink-2);
 }
 .pad-stars {
-  font: 400 11px/1.6 var(--mono); color: var(--ink-3);
+  font: 400 12px/1.6 var(--mono); color: var(--ink-3);
   font-variant-numeric: tabular-nums; white-space: nowrap;
   display: inline-flex; align-items: center; gap: 5px;
 }
 .pad-stars svg { width: 11px; height: 11px; color: var(--cb); }
-@media (prefers-color-scheme: dark) { .pad-stars svg { color: var(--cb); } }
 
 .pad.hide { display: none; }
 .block.hide { display: none; }
@@ -403,7 +408,7 @@ img, svg { display: block; }
 .spec table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 .spec th {
   text-align: left; padding: 10px 16px; background: var(--wash);
-  font: 500 10.5px var(--mono); letter-spacing: .12em; color: var(--cb-deep);
+  font: 500 12px var(--mono); letter-spacing: .12em; color: var(--cb-deep);
   text-transform: uppercase; border-bottom: 1px solid var(--rule);
 }
 .spec td { padding: 12px 16px; border-top: 1px solid var(--rule-2); line-height: 1.6; color: var(--ink-2); vertical-align: top; }
