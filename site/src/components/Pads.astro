@@ -1,0 +1,59 @@
+---
+import IconStar from './IconStar.astro';
+import { T } from '../lib/i18n.mjs';
+
+interface Item {
+  name: string; zhName: string; desc: string; zhDesc: string; url: string; stars: number | null;
+}
+interface Group {
+  id: string; title: string; zhTitle: string; count: number; items: Item[];
+}
+
+const { lang, groups } = Astro.props as { lang: 'en' | 'zh'; groups: Group[] };
+const t = T[lang];
+const en = lang === 'en';
+const titleOf = (g: Group) => (en ? g.title : g.zhTitle);
+const fmt = (n: number) => n.toLocaleString('en-US');
+---
+
+<div class="blocks" id="blocks">
+  {
+    groups.map((g) => (
+      <section class="block" id={`blk-${g.id}`} data-block={g.id}>
+        <div class="bhead">
+          <span class="did">{g.id}</span>
+          <h2>{titleOf(g)}</h2>
+          <span class="n"><b>{g.count}</b> {t.pads}</span>
+        </div>
+        <ul class="padlist">
+          {g.items.map((it, i) => {
+            const name = en ? it.name : it.zhName;
+            const desc = en ? it.desc : it.zhDesc;
+            const hay = `${name} ${desc}`.toLowerCase().replace(/<[^>]+>/g, ' ');
+            return (
+              <li class="pad" data-hay={hay}>
+                <a class="pad-link" href={it.url} target="_blank" rel="noopener">
+                  <span class="pd">{`${g.id}.${String(i + 1).padStart(2, '0')}`}</span>
+                  <span>
+                    <span class="pad-name">{name}</span>
+                    <span class="pad-desc" set:html={desc.replace(/`([^`]+)`/g, '<code>$1</code>')} />
+                  </span>
+                  {it.stars !== null ? (
+                    <span class="pad-stars"><IconStar />{fmt(it.stars)}</span>
+                  ) : (
+                    <span />
+                  )}
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </section>
+    ))
+  }
+</div>
+
+<p class="empty" id="empty" hidden>
+  <b>{t.emptyText}</b>
+  <span>{t.emptyHint}</span>
+</p>

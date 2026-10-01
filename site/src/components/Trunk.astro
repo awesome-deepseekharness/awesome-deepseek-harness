@@ -1,0 +1,64 @@
+---
+import IconSearch from './IconSearch.astro';
+import IconClose from './IconClose.astro';
+import IconStar from './IconStar.astro';
+import IconGlobe from './IconGlobe.astro';
+import { T } from '../lib/i18n.mjs';
+import { REPO, REPO_STARS, STAR_GOAL } from '../lib/catalog.mjs';
+
+interface Props {
+  lang: 'en' | 'zh';
+  groups: { id: string; title: string; zhTitle: string; count: number }[];
+  total: number;
+}
+
+const { lang, groups, total } = Astro.props;
+const t = T[lang];
+const en = lang === 'en';
+const toGoal = Math.max(STAR_GOAL - REPO_STARS, 0);
+---
+
+<aside class="trunk">
+  <a class="silk" href={lang === 'en' ? '/awesome-deepseek-harness/' : '/awesome-deepseek-harness/zh/'}>
+    <b>Awesome<br /><i>DeepSeek</i><br />Harness</b>
+    <span>{t.tagline}</span>
+  </a>
+
+  <div class="probe">
+    <IconSearch />
+    <label class="u-sr" for="probe">{t.probeLabel}</label>
+    <input id="probe" type="search" placeholder={t.probePlaceholder.replace('{total}', String(total))} autocomplete="off" spellcheck="false" />
+    <button class="probe-clear" id="probeClear" type="button" aria-label={en ? 'Clear the probe' : '清空检索'} hidden>
+      <IconClose />
+    </button>
+  </div>
+
+  <nav class="bus" id="bus" aria-label={en ? 'Functional blocks' : '功能块'}>
+    {
+      groups.map((g) => (
+        <button class="node" type="button" data-id={g.id} data-block={g.id} aria-pressed="false">
+          <b>{g.id}</b>
+          <i>{lang === 'en' ? g.title : g.zhTitle}</i>
+          <em>{g.count}</em>
+        </button>
+      ))
+    }
+  </nav>
+
+  <button class="bus-reset" id="busReset" type="button" hidden>{t.allBlocks}</button>
+
+  <div class="trunk-foot">
+    <a class="trunk-star" href={REPO} target="_blank" rel="noopener">
+      <IconStar />{t.starBtn}
+    </a>
+    <nav class="trunk-links" aria-label={en ? 'Sections' : '页面导航'}>
+      <a href="#die">{en ? 'Floorplan' : '晶圆图'}</a>
+      <a href="#what">{t.whatTitle}</a>
+      <a href="#community">{t.communityTitle}</a>
+      <a href={REPO} target="_blank" rel="noopener">GitHub</a>
+    </nav>
+    <a class="trunk-lang" href={t.otherHref} lang={t.otherLang} hreflang={t.otherLang}>
+      <IconGlobe />{t.otherLabel}
+    </a>
+  </div>
+</aside>

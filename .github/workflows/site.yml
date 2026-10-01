@@ -1,7 +1,8 @@
 name: Site — Rebuild GitHub Page
 
 # PR 合并到 main 后自动重建 docs/（GitHub Pages 源），外加每天定时兜底。
-# site/build.mjs 从 README.md / README.zh.md 生成 docs/index.html + docs/zh/index.html。
+# npm run build = astro build --root site && node site/scripts/publish.mjs
+# 从 README.md / README.zh.md 生成 docs/index.html + docs/zh/index.html。
 
 on:
   push:
@@ -9,7 +10,10 @@ on:
     paths:
       - 'README.md'
       - 'README.zh.md'
-      - 'site/build.mjs'
+      - 'site/**'
+      - 'astro.config.mjs'
+      - 'package.json'
+      - 'package-lock.json'
       - 'assets/star-history/**'
       - '.github/workflows/site.yml'
   workflow_run:
@@ -43,11 +47,16 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
+          cache-dependency-path: package-lock.json
 
-      - name: Rebuild docs site
+      - name: Install dependencies
+        run: npm ci
+
+- name: Rebuild docs site
         run: |
           set -e
-          node site/build.mjs
+          npm run build
           echo "--- docs status ---"
           git status --porcelain -- docs/ | head -n 20
 
@@ -73,7 +82,7 @@ jobs:
             git rebase --abort || true
             git fetch origin main
             git reset --hard FETCH_HEAD
-            node site/build.mjs
+            npm run build
             git add docs/
             if git diff --cached --quiet; then
               echo "Site already current on main — nothing to push."

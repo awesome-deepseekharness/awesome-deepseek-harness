@@ -6,7 +6,7 @@
   "description": "GitHub Pages site for awesome-deepseek-harness. Astro builds README.md / README.zh.md into docs/.",
   "scripts": {
     "dev": "astro dev --root site",
-    "build": "astro build --root site",
+    "build": "astro build --root site && node site/scripts/publish.mjs",
     "preview": "astro preview --root site",
     "check": "astro check --root site"
   },

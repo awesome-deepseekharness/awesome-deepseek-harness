@@ -1,4 +1,4 @@
-import { readFileSync, statSync } from 'node:fs';
+import { readFileSync, statSync, existsSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
 import path from 'node:path';
 
@@ -7,7 +7,29 @@ import path from 'node:path';
  * under a `##` / `###` heading becomes one pad in the catalog.
  */
 
-const ROOT = path.resolve(import.meta.dirname, '../..');
+/**
+ * Astro bundles this module, so its own `import.meta.dirname` points into
+ * site/dist during prerendering. The repo root is found by walking up from the
+ * build's working directory until both READMEs and the Astro config are there.
+ */
+function findRoot() {
+  let dir = process.cwd();
+  for (let i = 0; i < 8; i++) {
+    if (
+      existsSync(path.join(dir, 'README.md')) &&
+      existsSync(path.join(dir, 'README.zh.md')) &&
+      existsSync(path.join(dir, 'astro.config.mjs'))
+    ) {
+      return dir;
+    }
+    const up = path.dirname(dir);
+    if (up === dir) break;
+    dir = up;
+  }
+  throw new Error(`could not locate the repo root from ${process.cwd()}`);
+}
+
+const ROOT = findRoot();
 
 /**
  * Designators are stable across languages: they are locators, not labels, so a
@@ -122,6 +144,10 @@ export function lastCommitDate(rel) {
   }
   return new Date().toISOString().slice(0, 10);
 }
+
+export const SITE = 'https://awesome-deepseekharness.github.io/awesome-deepseek-harness';
+/** Absolute URL for a site-relative path, independent of Astro.site. */
+export const abs = (p) => new URL(p, `${SITE}/`).href;
 
 export const REPO = 'https://github.com/awesome-deepseekharness/awesome-deepseek-harness';
 export const OFFICIAL = 'https://github.com/deepseek-ai/deepseek-harness';

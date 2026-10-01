@@ -1,0 +1,108 @@
+---
+import { LAYOUT, BUS, KEEP_OUT, FIDUCIALS, DIE_W, DIE_H, route, padArray } from '../lib/die.mjs';
+import { T } from '../lib/i18n.mjs';
+
+interface Props {
+  lang: 'en' | 'zh';
+  groups: { id: string; title: string; zhTitle: string; count: number }[];
+}
+
+const { lang, groups } = Astro.props;
+const t = T[lang];
+const en = lang === 'en';
+const titleOf = (g: { title: string; zhTitle: string }) => (lang === 'en' ? g.title : g.zhTitle);
+
+// A label has to fit inside its block, so long headings are wrapped to two
+// lines rather than clipped: the drawing must stay readable without the list.
+const nameLines = (g: { id: string; title: string; zhTitle: string }) => {
+  const full = titleOf(g);
+  const max = g.id === 'TLS' || g.id === 'UI' || g.id === 'LRN' ? 26 : 22;
+  if (full.length <= max) return [full];
+  // Split on a comma or ampersand boundary when there is one, else hard-wrap.
+  const cut = full.search(/,| & |、|与/);
+  if (cut > 4) return [full.slice(0, cut).trim(), full.slice(cut).replace(/^[,&、与]\s*/, '')];
+  return [full.slice(0, Math.ceil(full.length / 2)), full.slice(Math.ceil(full.length / 2))];
+};
+
+const routes = BUS.map(([a, b]) => ({ ...route(a, b), a, b }));
+const pads = groups.flatMap((g) => padArray(g.id, g.count).map((p) => ({ ...p, id: g.id })));
+---
+
+<div class="die-frame">
+  <svg class="die" viewBox={`0 0 ${DIE_W} ${DIE_H}`} role="img" aria-label={t.dieLabel}>
+    <defs>
+      <pattern id="pitch" width="26" height="26" patternUnits="userSpaceOnUse">
+        <circle cx="13" cy="13" r="1.4" class="pth"></circle>
+      </pattern>
+    </defs>
+
+    <rect width={DIE_W} height={DIE_H} fill="url(#pitch)"></rect>
+
+    {/* the chapter bus, and a via at every bend */}
+    <g>
+      {
+        routes.map((r) => (
+          <g class="bus-leg">
+            <path class="bus-line" d={r.d}></path>
+            {r.vias.map(([x, y]) => (
+              <circle class="via" cx={x} cy={y} r="3.1"></circle>
+            ))}
+          </g>
+        ))
+      }
+    </g>
+
+    {/* functional blocks */}
+    {
+      groups.map((g) => {
+        const b = LAYOUT[g.id];
+        const lines = nameLines(g);
+        return (
+          <g class="blk" data-id={g.id} tabindex="0" role="button" aria-label={`${g.id} · ${titleOf(g)}`}>
+            <rect class="face" x={b.x} y={b.y} width={b.w} height={b.h} rx="10"></rect>
+            <text class="did" x={b.x + 13} y={b.y + 21}>{g.id}</text>
+            <text class="bcount" x={b.x + b.w - 13} y={b.y + 21} text-anchor="end">{g.count}</text>
+            {lines.map((ln, i) => (
+              <text class="bname" x={b.x + 13} y={b.y + 42 + i * 15}>
+                {ln}
+              </text>
+            ))}
+          </g>
+        );
+      })
+    }
+
+    {/* 137 bond pads — one per catalogued project, never rounded */}
+    <g>
+      {pads.map((p) => (
+        <rect class="pad" data-block={p.id} x={p.x} y={p.y} width={p.w} height={p.h} rx="1"></rect>
+      ))}
+    </g>
+
+    {/* charged emptiness: real, labelled, deliberate */}
+    <g>
+      <rect class="ko" x={KEEP_OUT.x} y={KEEP_OUT.y} width={KEEP_OUT.w} height={KEEP_OUT.h} rx="10"></rect>
+      <text class="kot" x={KEEP_OUT.x + 16} y={KEEP_OUT.y + 24}>MA · {en ? 'keep-out' : '禁布区'}</text>
+      <text class="kos" x={KEEP_OUT.x + 16} y={KEEP_OUT.y + 45}>{en ? 'no pads here on purpose.' : '这里刻意不放焊盘。'}</text>
+      <text class="kos" x={KEEP_OUT.x + 16} y={KEEP_OUT.y + 62}>{en ? 'The list is incomplete; the space says so.' : '这个列表还没填满，空着就是在说这件事。'}</text>
+    </g>
+
+    {/* fiducials and die identity make this a drawing of a part, not a chart */}
+    {
+      FIDUCIALS.map(([x, y, sx, sy]) => (
+        <g class="fiducial">
+          <line x1={x} y1={y} x2={x + 13 * sx} y2={y}></line>
+          <line x1={x} y1={y} x2={x} y2={y + 13 * sy}></line>
+        </g>
+      ))
+    }
+    <text class="dieid" x="18" y={DIE_H - 6}>{t.dieId} · {groups.length} BLK · {groups.reduce((a, g) => a + g.count, 0)} PAD</text>
+  </svg>
+
+  <div class="legend">
+    <div><i class="k k-pad"></i>{t.legendPad}</div>
+    <div><i class="k k-block"></i>{t.legendBlock}</div>
+    <div><i class="k k-bus"></i>{t.legendTrace}</div>
+    <div><i class="k k-ko"></i>{t.legendKeepOut}</div>
+  </div>
+</div>

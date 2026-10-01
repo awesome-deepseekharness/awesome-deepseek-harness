@@ -1,0 +1,273 @@
+---
+import Trunk from './Trunk.astro';
+import Die from './Die.astro';
+import Pads from './Pads.astro';
+import IconStar from './IconStar.astro';
+import Base from '../layouts/Base.astro';
+import { T, MODES } from '../lib/i18n.mjs';
+import { loadCatalog, abs, REPO, OFFICIAL, TRACKER, REPO_STARS, STAR_GOAL } from '../lib/catalog.mjs';
+
+const { lang } = Astro.props as { lang: 'en' | 'zh' };
+const t = T[lang];
+const en = lang === 'en';
+const cat = loadCatalog();
+
+const canonical = en ? '/' : '/zh/';
+const toGoal = Math.max(STAR_GOAL - REPO_STARS, 0);
+const lede = t.lede.replace('{total}', String(cat.total)).replace('{blocks}', String(cat.blocks));
+const updated = en ? cat.updated : cat.updatedZh;
+
+const jsonLd = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Awesome DeepSeek Harness',
+    alternateName: 'Awesome dsh',
+    url: abs(canonical),
+    description: t.desc,
+    inLanguage: [t.htmlLang, en ? 'zh' : 'en'],
+    publisher: {
+      '@type': 'Organization',
+      name: 'awesome-deepseekharness',
+      url: 'https://github.com/awesome-deepseekharness',
+    },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: en ? 'DeepSeek Harness Plugins' : 'DeepSeek Harness 插件',
+    numberOfItems: cat.total,
+    itemListElement: cat.groups
+      .flatMap((g) => g.items)
+      .map((it, i) => ({ '@type': 'ListItem', position: i + 1, name: it.name, url: it.url })),
+  },
+];
+
+const pads = Array.from({ length: STAR_GOAL }, (_, i) => i < REPO_STARS);
+const links = [
+  ['Discord', 'https://discord.gg/Ycq5dCaS4'],
+  [en ? 'Discussions' : '讨论区', 'https://github.com/deepseek-ai/deepseek-harness/discussions'],
+  ['dsh-plugin', 'https://github.com/topics/dsh-plugin'],
+  [
+    'X',
+    `https://twitter.com/intent/tweet?text=${encodeURIComponent(en ? 'Awesome DeepSeek Harness — Everything is a Plugin' : 'Awesome DeepSeek Harness — 万物皆可插件')}&url=${encodeURIComponent(REPO)}&hashtags=dsh,deepseek`,
+  ],
+  [
+    'Reddit',
+    `https://www.reddit.com/submit?url=${encodeURIComponent(REPO)}&title=${encodeURIComponent('Awesome DeepSeek Harness')}`,
+  ],
+  ['GitHub', REPO],
+];
+---
+
+<Base lang={lang} title={t.title} desc={t.desc} keywords={t.keywords} canonical={canonical}>
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} slot="head" />
+
+  <div class="die-page">
+    <Trunk lang={lang} groups={cat.groups} total={cat.total} />
+
+    <main class="substrate">
+      <section class="tb">
+        <h1>Awesome DeepSeek Harness</h1>
+        <p class="tagline">{t.tagline}</p>
+        <p class="lede">{lede}</p>
+        <p class="meta">{t.milestone} · {updated}</p>
+
+        <div class="acts">
+          <a class="btn btn-f" href={REPO} target="_blank" rel="noopener"><IconStar />{t.starBtn}</a>
+          <a class="btn" href={OFFICIAL} target="_blank" rel="noopener">{t.officialBtn}</a>
+          <a class="btn" href={TRACKER} target="_blank" rel="noopener">{t.trackerBtn}</a>
+        </div>
+
+        <div class="padmap">
+          <div class="grid" role="img" aria-label={`${REPO_STARS} ${t.repoStars} · ${STAR_GOAL - REPO_STARS} ${en ? 'to go' : 'to go'}`}>
+            {pads.map((on) => <i class={on ? 'on' : ''}></i>)}
+          </div>
+          <p class="read">
+            <b>{REPO_STARS}</b> / {STAR_GOAL} {t.repoStars} · {toGoal} {en ? 'to go' : '还差'}
+          </p>
+        </div>
+      </section>
+
+      <section class="die-head" id="die">
+        <h2>{en ? 'Functional floorplan' : '功能块晶圆图'}</h2>
+        <span class="id">{cat.blocks} BLK · {cat.total} PAD</span>
+      </section>
+      <Die lang={lang} groups={cat.groups} />
+
+      <Pads lang={lang} groups={cat.groups} />
+
+      <section class="plate" id="what">
+        <div class="plate-grid">
+          <div>
+            <h2>{t.whatTitle}</h2>
+            <p>{t.whatBody}</p>
+            <p class="ko-note"><b>{t.noticeLead}.</b> {t.notice}</p>
+          </div>
+          <div class="spec">
+            <table>
+              <thead>
+                <tr><th>{t.modeCol}</th><th>{t.modeDescCol}</th></tr>
+              </thead>
+              <tbody>
+                {MODES[lang].map(([m, d]) => (
+                  <tr><td>{m}</td><td set:html={d} /></tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="plate" id="community">
+        <div class="plate-grid">
+          <div>
+            <h2>{t.communityTitle}</h2>
+            <p>{t.communityBody}</p>
+            <div class="acts">
+              <a class="btn btn-f" href={REPO} target="_blank" rel="noopener"><IconStar />{t.starListBtn}</a>
+              <a class="btn" href={`${REPO}/blob/main/CONTRIBUTING.md`} target="_blank" rel="noopener">{t.contributingBtn}</a>
+            </div>
+          </div>
+          <div>
+            <p>{t.submitLede} <code>dsh-plugin</code> {t.submitTopic} <a href={`${REPO}/blob/main/CONTRIBUTING.md`}>{t.submitCta}</a>.</p>
+            <div class="pill-row">
+              {links.map(([label, href]) => (
+                <a class="pill" href={href} target="_blank" rel="noopener">{label}</a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <footer class="foot">
+        <span class="fmono">{t.footerNote.replace('{date}', updated)}</span>
+        <p>
+          <a href={REPO} target="_blank" rel="noopener">github.com/awesome-deepseekharness/awesome-deepseek-harness</a>
+          {' · '}{t.license}
+          {' · '}
+          <a href={t.otherHref} lang={t.otherLang} hreflang={t.otherLang}>{t.otherLabel}</a>
+        </p>
+      </footer>
+    </main>
+  </div>
+</Base>
+
+<script>
+  type Row = HTMLLIElement;
+
+  const probe = document.getElementById('probe') as HTMLInputElement | null;
+  const clearBtn = document.getElementById('probeClear');
+  const bus = document.getElementById('bus');
+  const resetBtn = document.getElementById('busReset');
+  const empty = document.getElementById('empty');
+  const pads = Array.from(document.querySelectorAll<Row>('.pad'));
+  const blocks = Array.from(document.querySelectorAll<HTMLElement>('.block'));
+  const nodes = Array.from(document.querySelectorAll<HTMLButtonElement>('.node'));
+  const blks = Array.from(document.querySelectorAll<SVGGElement>('.blk .face'));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let active = '';
+
+  function light(id: string) {
+    const idx = nodes.findIndex((n) => n.dataset.id === id);
+    bus?.style.setProperty('--lit', idx < 0 ? '0' : String(((idx + 1) / nodes.length) * 100));
+  }
+
+  function paint(fresh: Row[]) {
+    for (const r of fresh.slice(0, 18)) {
+      if (reduce) continue;
+      r.classList.remove('develop');
+      void r.offsetWidth;
+      r.style.animationDelay = `${Math.min(fresh.indexOf(r), 18) * 12}ms`;
+      r.classList.add('develop');
+    }
+  }
+
+  function apply() {
+    const term = (probe?.value || '').trim().toLowerCase();
+    const fresh: Row[] = [];
+    let shown = 0;
+
+    for (const row of pads) {
+      const inBlock = !active || row.closest('.block')?.dataset.block === active;
+      const hit = !term || (row.dataset.hay || '').includes(term);
+      const ok = inBlock && hit;
+      row.hidden = !ok;
+      if (ok) {
+        shown++;
+        fresh.push(row);
+      }
+    }
+
+    for (const b of blocks) {
+      const n = b.querySelectorAll('.pad:not([hidden])').length;
+      b.hidden = n === 0;
+      const head = b.querySelector('.bhead');
+      if (head) {
+        const label = head.querySelector('.n');
+        if (label) label.innerHTML = `<b>${n}</b> / ${b.querySelectorAll('.pad').length}`;
+      }
+    }
+
+    for (const f of blks) {
+      const id = f.parentElement?.dataset.id || '';
+      const on = active === id;
+      f.parentElement?.classList.toggle('on', on);
+    }
+    for (const n of nodes) n.setAttribute('aria-pressed', n.dataset.id === active ? 'true' : 'false');
+
+    if (clearBtn) clearBtn.hidden = term === '';
+    if (resetBtn) resetBtn.hidden = !active && term === '';
+    if (empty) empty.hidden = shown > 0;
+
+    const counter = document.querySelector('.padmap .read');
+    if (counter && counter instanceof HTMLElement) {
+      counter.dataset.shown = String(shown);
+      const total = pads.length;
+      counter.setHTML?.('');
+      const first = counter.firstElementChild as HTMLElement | null;
+      if (first) first.textContent = `${shown} / ${total}`;
+    }
+
+    paint(fresh);
+  }
+
+  function setBlock(id: string) {
+    active = active === id ? '' : id;
+    light(active);
+    apply();
+  }
+
+  nodes.forEach((n) => n.addEventListener('click', () => setBlock(n.dataset.id || '')));
+  document.querySelectorAll<SVGGElement>('.blk').forEach((g) =>
+    g.addEventListener('click', () => setBlock(g.dataset.id || ''))
+  );
+  resetBtn?.addEventListener('click', () => {
+    active = '';
+    if (probe) probe.value = '';
+    light('');
+    apply();
+    probe?.focus();
+  });
+  probe?.addEventListener('input', apply);
+  clearBtn?.addEventListener('click', () => {
+    if (!probe) return;
+    probe.value = '';
+    apply();
+    probe.focus();
+  });
+  document.addEventListener('keydown', (e) => {
+    const typing = document.activeElement === probe;
+    if (e.key === '/' && !typing) {
+      e.preventDefault();
+      probe?.focus();
+    }
+    if (e.key === 'Escape' && typing && probe?.value) {
+      probe.value = '';
+      apply();
+    }
+  });
+
+  apply();
+</script>
