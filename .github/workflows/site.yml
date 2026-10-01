@@ -53,7 +53,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-- name: Rebuild docs site
+      - name: Rebuild docs site
         run: |
           set -e
           npm run build
