@@ -8,7 +8,7 @@ import path from 'node:path';
  */
 
 /**
- * Astro bundles this module, so its own `import.meta.dirname` points into
+ * Astro bundles this module, so its own import.meta.dirname points into
  * site/dist during prerendering. The repo root is found by walking up from the
  * build's working directory until both READMEs and the Astro config are there.
  */
@@ -18,7 +18,7 @@ function findRoot() {
     if (
       existsSync(path.join(dir, 'README.md')) &&
       existsSync(path.join(dir, 'README.zh.md')) &&
-      existsSync(path.join(dir, 'astro.config.mjs'))
+      existsSync(path.join(dir, 'package.json'))
     ) {
       return dir;
     }

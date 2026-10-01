@@ -1,12 +1,12 @@
 import { defineConfig } from 'astro/config';
 
 /**
- * The site lives in `site/` so the repo root stays readable; the rendered
- * output is published by site/scripts/publish.mjs into `docs/`, which is what
- * GitHub Pages serves from main.
+ * Astro 7 dropped `--root`/`--config` from the CLI, so this file has to live
+ * next to `src/` or it is never read — and an unread config silently means no
+ * `base`, which means every asset URL is emitted root-absolute and 404s under
+ * GitHub Pages. npm scripts pass `--root site`.
  */
 export default defineConfig({
-  root: './site',
   outDir: './dist',
   trailingSlash: 'always',
   site: 'https://awesome-deepseekharness.github.io/awesome-deepseek-harness',
