@@ -129,8 +129,10 @@ img, svg { display: block; }
   background: var(--trunk); color: var(--trunk-ink);
   padding: 26px 22px 20px;
   display: flex; flex-direction: column; gap: 20px;
-  overflow: hidden;
+  overflow-y: auto;
 }
+
+.trunk > * { flex-shrink: 0; }
 
 .silk { display: block; color: var(--trunk-ink); text-decoration: none; }
 .silk b {
@@ -167,7 +169,7 @@ img, svg { display: block; }
 .probe-clear:hover { background: rgba(255, 255, 255, .16); color: #fff; }
 .probe-clear svg { position: static; width: 12px; height: 12px; }
 
-.bus { position: relative; flex: 1; min-height: 0; padding-left: 21px; display: flex; flex-direction: column; }
+.bus { position: relative; flex: 1 0 auto; padding-left: 21px; display: flex; flex-direction: column; }
 .bus::before {
   content: ''; position: absolute; left: 5px; top: 9px; bottom: 9px;
   width: 2px; background: var(--trunk-line);
@@ -208,7 +210,7 @@ img, svg { display: block; }
 .node[aria-pressed='true'] > b { color: #fff; }
 
 .bus-reset {
-  align-self: flex-start; margin: 10px 0 0 -21px;
+  align-self: flex-start; margin: 0;
   background: none; border: 1px solid var(--trunk-line); border-radius: 99px;
   padding: 5px 13px; font: 400 12px/1.4 var(--sans); color: var(--trunk-dim);
   cursor: pointer; transition: background-color .16s var(--ease), color .16s var(--ease);
@@ -258,15 +260,28 @@ img, svg { display: block; }
 .acts { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  height: 40px; padding: 0 20px; border-radius: 99px;
+  min-height: 40px; padding: 10px 20px; border-radius: 99px;
   border: 1px solid var(--rule); background: transparent; color: var(--ink);
-  font: 500 13.5px/1 var(--sans); text-decoration: none; cursor: pointer;
+  font: 500 13.5px/1.5 var(--sans); text-align: center; text-decoration: none; cursor: pointer;
   transition: background-color .16s var(--ease), border-color .16s var(--ease), color .16s var(--ease), transform .16s var(--ease);
 }
 .btn svg { width: 15px; height: 15px; }
 .btn:hover { background: var(--wash); border-color: var(--cb); color: var(--cb-deep); text-decoration: none; }
 .btn-f { background: var(--cb-fill); border-color: var(--cb-fill); color: #fff; font-weight: 600; }
 .btn-f:hover { background: var(--cb-fill-hi); border-color: var(--cb-fill-hi); color: #fff; transform: translateY(-1px); }
+
+.star-callout {
+  margin-top: 26px; padding: 22px; display: flex; flex-wrap: wrap;
+  align-items: center; gap: 16px 24px;
+  border: 1px solid var(--cb); border-radius: var(--r-md); background: var(--wash);
+}
+.star-callout > div { flex: 1 1 260px; min-width: 0; }
+.star-callout strong { font-size: 20px; line-height: 1.4; }
+.star-callout p { margin-top: 6px; font-size: 14px; color: var(--ink-2); }
+.star-callout small { flex-basis: 100%; color: var(--ink-2); font-size: 12px; }
+.star-cta { background: #ffdb70; border-color: #b78316; color: #28200c; font-weight: 700; min-height: 48px; }
+.star-cta:hover { background: #ffe69a; border-color: #90630b; color: #28200c; transform: translateY(-2px); }
+.star-cta svg { flex-shrink: 0; }
 
 /* The 100-pad map: the repository's own star readout, one pad per star goal. */
 .padmap { margin-top: 30px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
@@ -454,7 +469,7 @@ img, svg { display: block; }
   .die-page { grid-template-columns: 1fr; }
   .trunk { position: static; height: auto; gap: 16px; padding: 20px var(--pad-x) 22px; }
   .bus {
-    flex-direction: row; overflow-x: auto; gap: 4px 16px;
+    flex: none; flex-direction: row; overflow-x: auto; gap: 4px 16px;
     padding: 4px 0 8px; padding-left: 0; scrollbar-width: none;
   }
   .bus::-webkit-scrollbar { display: none; }

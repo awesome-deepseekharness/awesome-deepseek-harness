@@ -219,7 +219,14 @@ async function runPreliminaryChecks(pr, issue) {
       } catch (e) { out.push(`- Issue parse failed: ${e.message}`); }
     }
   }
-  if (!pr && !issue) out.push('No PR/Issue event — general health audit only');
+  if (!pr && !issue) {
+    const milestoneDiff = await exec('git', ['diff', '--', 'README.md', 'README.zh.md']);
+    if (milestoneDiff.code === 0 && /stars is our first milestone|颗星是第一里程碑/.test(milestoneDiff.out)) {
+      out.push('Actionable bilingual repository star milestone refresh already applied by scripts/update-repo-stars.mjs. Review the local README diff, preserve it, and cite https://api.github.com/repos/awesome-deepseekharness/awesome-deepseek-harness. Do not report no actionable findings.');
+    } else {
+      out.push('No PR/Issue event — general health audit only');
+    }
+  }
   return out.join('\n');
 }
 

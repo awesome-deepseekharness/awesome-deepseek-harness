@@ -3,8 +3,8 @@ import IconSearch from './IconSearch.astro';
 import IconClose from './IconClose.astro';
 import IconStar from './IconStar.astro';
 import IconGlobe from './IconGlobe.astro';
-import { T } from '../lib/i18n.mjs';
-import { REPO, REPO_STARS, STAR_GOAL } from '../lib/catalog.mjs';
+import { T, sitePath } from '../lib/i18n.mjs';
+import { REPO } from '../lib/catalog.mjs';
 
 interface Props {
   lang: 'en' | 'zh';
@@ -15,11 +15,10 @@ interface Props {
 const { lang, groups, total } = Astro.props;
 const t = T[lang];
 const en = lang === 'en';
-const toGoal = Math.max(STAR_GOAL - REPO_STARS, 0);
 ---
 
 <aside class="trunk">
-  <a class="silk" href={lang === 'en' ? '/awesome-deepseek-harness/' : '/awesome-deepseek-harness/zh/'}>
+  <a class="silk" href={sitePath(en ? '/' : '/zh/')}>
     <b>Awesome<br /><i>DeepSeek</i><br />Harness</b>
     <span>{t.tagline}</span>
   </a>
@@ -57,7 +56,7 @@ const toGoal = Math.max(STAR_GOAL - REPO_STARS, 0);
       <a href="#community">{t.communityTitle}</a>
       <a href={REPO} target="_blank" rel="noopener">GitHub</a>
     </nav>
-    <a class="trunk-lang" href={t.otherHref} lang={t.otherLang} hreflang={t.otherLang}>
+    <a class="trunk-lang" href={sitePath(t.otherHref)} lang={t.otherLang} hreflang={t.otherLang}>
       <IconGlobe />{t.otherLabel}
     </a>
   </div>

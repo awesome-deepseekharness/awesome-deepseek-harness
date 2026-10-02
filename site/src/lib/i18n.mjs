@@ -96,6 +96,10 @@ const ZH = {
   footerNote: '星标数截止 {date}。本页由 Astro 从 README.zh.md 生成。',
 };
 
+export function sitePath(route = '/') {
+  return `${import.meta.env.BASE_URL.replace(/\/$/, '')}/${route.replace(/^\//, '')}`;
+}
+
 export const T = { en: EN, zh: ZH };
 
 export const MODES = {

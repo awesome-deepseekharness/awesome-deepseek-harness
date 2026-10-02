@@ -147,10 +147,12 @@ export function lastCommitDate(rel) {
 
 export const SITE = 'https://awesome-deepseekharness.github.io/awesome-deepseek-harness';
 /** Absolute URL for a site-relative path, independent of Astro.site. */
-export const abs = (p) => new URL(p, `${SITE}/`).href;
+export const abs = (p) => new URL(p.replace(/^\//, ''), `${SITE}/`).href;
 
 export const REPO = 'https://github.com/awesome-deepseekharness/awesome-deepseek-harness';
 export const OFFICIAL = 'https://github.com/deepseek-ai/deepseek-harness';
 export const TRACKER = 'https://github.com/awesome-deepseekharness/deepseek-official-tracker';
-export const REPO_STARS = 17;
-export const STAR_GOAL = 100;
+const milestone = readFileSync(path.join(ROOT, 'README.md'), 'utf8').match(/\*\*(\d+) → (\d+) stars is our first milestone/);
+if (!milestone) throw new Error('README star milestone is missing');
+export const REPO_STARS = Number(milestone[1]);
+export const STAR_GOAL = Number(milestone[2]);

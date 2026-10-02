@@ -4,7 +4,7 @@ import Die from './Die.astro';
 import Pads from './Pads.astro';
 import IconStar from './IconStar.astro';
 import Base from '../layouts/Base.astro';
-import { T, MODES } from '../lib/i18n.mjs';
+import { T, MODES, sitePath } from '../lib/i18n.mjs';
 import { loadCatalog, abs, REPO, OFFICIAL, TRACKER, REPO_STARS, STAR_GOAL } from '../lib/catalog.mjs';
 
 const { lang } = Astro.props as { lang: 'en' | 'zh' };
@@ -73,18 +73,26 @@ const links = [
         <p class="lede">{lede}</p>
         <p class="meta">{t.milestone} · {updated}</p>
 
+        <div class="star-callout">
+          <div>
+            <strong>{en ? 'Your next useful plugin is worth saving.' : '先收藏，下次少找一次。'}</strong>
+            <p>{en ? 'Keep this toolkit within reach. Your Star also supports the people curating it.' : '把这份工具箱留在 GitHub 收藏里。你的一颗 Star，也是持续整理的动力。'}</p>
+          </div>
+          <a class="btn star-cta" href={REPO} target="_blank" rel="noopener"><IconStar />{en ? 'Star & save on GitHub' : '去 GitHub 点 Star 收藏'}</a>
+          <small>{en ? 'Open the repository, then click Star in the top-right corner.' : '打开仓库后，点击右上角 Star 即可收藏。'}</small>
+        </div>
+
         <div class="acts">
-          <a class="btn btn-f" href={REPO} target="_blank" rel="noopener"><IconStar />{t.starBtn}</a>
           <a class="btn" href={OFFICIAL} target="_blank" rel="noopener">{t.officialBtn}</a>
           <a class="btn" href={TRACKER} target="_blank" rel="noopener">{t.trackerBtn}</a>
         </div>
 
         <div class="padmap">
-          <div class="grid" role="img" aria-label={`${REPO_STARS} ${t.repoStars} · ${STAR_GOAL - REPO_STARS} ${en ? 'to go' : 'to go'}`}>
+          <div class="grid" role="img" aria-label={`${REPO_STARS} ${t.repoStars} · ${en ? `${toGoal} to go` : `还差 ${toGoal}`}`}>
             {pads.map((on) => <i class={on ? 'on' : ''}></i>)}
           </div>
           <p class="read">
-            <b>{REPO_STARS}</b> / {STAR_GOAL} {t.repoStars} · {toGoal} {en ? 'to go' : '还差'}
+            <b>{REPO_STARS}</b> / {STAR_GOAL} {t.repoStars} · {en ? `${toGoal} to go` : `还差 ${toGoal}`}
           </p>
         </div>
       </section>
@@ -146,7 +154,7 @@ const links = [
           <a href={REPO} target="_blank" rel="noopener">github.com/awesome-deepseekharness/awesome-deepseek-harness</a>
           {' · '}{t.license}
           {' · '}
-          <a href={t.otherHref} lang={t.otherLang} hreflang={t.otherLang}>{t.otherLabel}</a>
+          <a href={sitePath(t.otherHref)} lang={t.otherLang} hreflang={t.otherLang}>{t.otherLabel}</a>
         </p>
       </footer>
     </main>
@@ -171,7 +179,7 @@ const links = [
 
   function light(id: string) {
     const idx = nodes.findIndex((n) => n.dataset.id === id);
-    bus?.style.setProperty('--lit', idx < 0 ? '0' : String(((idx + 1) / nodes.length) * 100));
+    bus?.style.setProperty('--lit', idx < 0 ? '0' : String((idx + 1) / nodes.length));
   }
 
   function paint(fresh: Row[]) {
@@ -220,15 +228,6 @@ const links = [
     if (clearBtn) clearBtn.hidden = term === '';
     if (resetBtn) resetBtn.hidden = !active && term === '';
     if (empty) empty.hidden = shown > 0;
-
-    const counter = document.querySelector('.padmap .read');
-    if (counter && counter instanceof HTMLElement) {
-      counter.dataset.shown = String(shown);
-      const total = pads.length;
-      counter.setHTML?.('');
-      const first = counter.firstElementChild as HTMLElement | null;
-      if (first) first.textContent = `${shown} / ${total}`;
-    }
 
     paint(fresh);
   }
