@@ -8,7 +8,10 @@
     "dev": "astro dev --root site",
     "build": "astro build --root site && node site/scripts/publish.mjs",
     "preview": "astro preview --root site",
-    "check": "astro check --root site"
+    "check": "astro check --root site",
+    "models:list": "node scripts/opencode-auto.mjs --list",
+    "models:check": "node scripts/opencode-auto.mjs --probe",
+    "test:models": "node --test scripts/opencode-free.test.mjs"
   },
   "dependencies": {
     "astro": "^7.3.5",

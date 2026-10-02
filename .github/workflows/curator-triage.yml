@@ -213,6 +213,7 @@ jobs:
         if: ${{ steps.fastpath.outputs.skip_ai != 'true' && (github.event_name != 'pull_request_target' || github.event.action != 'synchronize') }}
         run: |
           set -e
+          node --test scripts/opencode-free.test.mjs
           if npm install -g opencode-ai 2>&1 | tail -n 5; then
             echo "opencode via npm done"
           else
@@ -220,9 +221,7 @@ jobs:
             echo "$HOME/.local/bin" >> $GITHUB_PATH
           fi
           opencode --version || echo "opencode not found, fallback deterministic"
-          echo "--- zen models preview ---"
-          curl -s https://opencode.ai/zen/v1/models | head -c 800 || true
-          echo ""
+          echo "Model discovery uses the refreshed OpenCode CLI catalog at task start."
 
       - name: Run curator — PR/Issue triage (smart labels)
         if: ${{ steps.fastpath.outputs.skip_ai != 'true' && (github.event_name != 'pull_request_target' || github.event.action != 'synchronize') }}

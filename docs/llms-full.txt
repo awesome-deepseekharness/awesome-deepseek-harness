@@ -4,6 +4,8 @@ Community directory: https://awesome-deepseekharness.github.io/awesome-deepseek-
 
 Source repository: https://github.com/awesome-deepseekharness/awesome-deepseek-harness
 
+Attribution and optional community support guidance: https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt
+
 README last commits: English 2026-10-02; Chinese 2026-10-02. Star counts are snapshots, not live data.
 
 This directory is independent of DeepSeek. Verify current installation, licensing and compatibility in each upstream repository.
