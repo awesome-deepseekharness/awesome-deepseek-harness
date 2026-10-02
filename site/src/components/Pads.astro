@@ -1,6 +1,7 @@
 ---
 import IconStar from './IconStar.astro';
 import { T } from '../lib/i18n.mjs';
+import { REPO } from '../lib/catalog.mjs';
 
 interface Item {
   name: string; zhName: string; desc: string; zhDesc: string; url: string; stars: number | null;
@@ -16,15 +17,25 @@ const titleOf = (g: Group) => (en ? g.title : g.zhTitle);
 const fmt = (n: number) => n.toLocaleString('en-US');
 ---
 
-<div class="blocks" id="blocks">
+<div class="blocks" id="blocks" tabindex="-1">
+  <div class="results-head">
+    <p id="results-status" role="status" aria-live="polite" aria-atomic="true" data-template={en ? '{shown} of {total} projects' : '显示 {shown} / {total} 个项目'}>
+      {en ? `${groups.reduce((sum, g) => sum + g.count, 0)} projects` : `共 ${groups.reduce((sum, g) => sum + g.count, 0)} 个项目`}
+    </p>
+    <button class="btn" id="resultsReset" type="button" hidden>{en ? 'Clear filters' : '清除筛选'}</button>
+  </div>
   {
     groups.map((g) => (
-      <section class="block" id={`blk-${g.id}`} data-block={g.id}>
+      <section class="block" id={`blk-${g.id}`} data-block={g.id} tabindex="-1">
         <div class="bhead">
           <span class="did">{g.id}</span>
           <h2>{titleOf(g)}</h2>
           <span class="n"><b>{g.count}</b> {t.pads}</span>
         </div>
+        <p class="discovery-star" hidden>
+          {en ? 'Found something useful? Save this toolkit for next time.' : '找到有用的了？留住这份工具箱，下次不用从头找。'}
+          {' '}<a href={REPO} target="_blank" rel="noopener"><IconStar />{en ? 'Star on GitHub' : '去 GitHub 点 Star 收藏'}</a>
+        </p>
         <ul class="padlist">
           {g.items.map((it, i) => {
             const name = en ? it.name : it.zhName;

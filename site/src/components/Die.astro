@@ -29,7 +29,7 @@ const pads = groups.flatMap((g) => padArray(g.id, g.count).map((p) => ({ ...p, i
 ---
 
 <div class="die-frame">
-  <svg class="die" viewBox={`0 0 ${DIE_W} ${DIE_H}`} role="img" aria-label={t.dieLabel}>
+  <svg class="die" viewBox={`0 0 ${DIE_W} ${DIE_H}`} role="group" aria-label={t.dieLabel}>
     <defs>
       <pattern id="pitch" width="26" height="26" patternUnits="userSpaceOnUse">
         <circle cx="13" cy="13" r="1.4" class="pth"></circle>
@@ -58,7 +58,7 @@ const pads = groups.flatMap((g) => padArray(g.id, g.count).map((p) => ({ ...p, i
         const b = LAYOUT[g.id];
         const lines = nameLines(g);
         return (
-          <g class="blk" data-id={g.id} tabindex="0" role="button" aria-label={`${g.id} · ${titleOf(g)}`}>
+          <g class="blk" data-id={g.id} tabindex="0" role="button" aria-pressed="false" aria-controls={`blk-${g.id}`} aria-label={`${g.id} · ${titleOf(g)}`}>
             <rect class="face" x={b.x} y={b.y} width={b.w} height={b.h} rx="10"></rect>
             <text class="did" x={b.x + 13} y={b.y + 21}>{g.id}</text>
             <text class="bcount" x={b.x + b.w - 13} y={b.y + 21} text-anchor="end">{g.count}</text>

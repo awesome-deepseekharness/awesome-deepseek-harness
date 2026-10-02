@@ -176,8 +176,9 @@ img, svg { display: block; }
 }
 .bus::after {
   content: ''; position: absolute; left: 5px; top: 9px;
-  width: 2px; height: calc((100% - 18px) * var(--lit, 0));
-  background: #fff; transition: height .4s var(--ease);
+  width: 2px; height: calc(100% - 18px);
+  transform: scaleY(var(--lit, 0)); transform-origin: top;
+  background: #fff; transition: transform .4s var(--ease);
 }
 
 .node {
@@ -257,6 +258,17 @@ img, svg { display: block; }
 .tb .lede { margin-top: 18px; max-width: 66ch; font-size: 16px; line-height: 1.75; color: var(--ink-2); }
 .tb .meta { margin-top: 12px; font-size: 13px; color: var(--ink-3); }
 
+.start { margin-top: 26px; padding-block: 20px; border-block: 1px solid var(--rule); }
+.start h2 { font-size: 22px; line-height: 1.4; letter-spacing: -.02em; }
+.start > p { margin-top: 6px; max-width: 66ch; color: var(--ink-2); }
+.start-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin-top: 16px; }
+.start-actions .btn { border-color: var(--cb); color: var(--cb-deep); min-height: 44px; }
+.start-all { display: inline-flex; align-items: center; min-height: 44px; padding-inline: 8px; font-size: 14px; }
+.start-help { margin-top: 12px; font-size: 14px; color: var(--ink-2); }
+.start-help summary { width: fit-content; padding-block: 8px; cursor: pointer; color: var(--cb-deep); }
+.start-help p { max-width: 66ch; margin-block: 6px 10px; }
+.start-help a { display: inline-block; padding-block: 6px; }
+
 .acts { margin-top: 26px; display: flex; flex-wrap: wrap; gap: 10px; }
 .btn {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
@@ -315,6 +327,7 @@ img, svg { display: block; }
 .die .fiducial { stroke: var(--ink-3); stroke-width: 1.2; fill: none; }
 
 .die .blk { cursor: pointer; }
+.die .pad { pointer-events: none; }
 .die .blk .face {
   fill: var(--wash); stroke: var(--cb); stroke-opacity: .38; stroke-width: 1.4;
   transition: fill .18s var(--ease), stroke-opacity .18s var(--ease);
@@ -352,6 +365,12 @@ img, svg { display: block; }
 
 /* ── Blocks and pads ───────────────────────────────────────────────────── */
 .blocks { margin-top: clamp(40px, 5vw, 66px); }
+.results-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 20px; }
+.results-head p { color: var(--ink-2); font-size: 14px; }
+.results-head .btn { min-height: 44px; }
+.discovery-star { padding-block: 12px; font-size: 14px; color: var(--ink-2); border-bottom: 1px solid var(--rule-2); }
+.discovery-star a { display: inline-flex; align-items: center; gap: 6px; padding-block: 6px; font-weight: 600; }
+.discovery-star svg { width: 14px; height: 14px; flex-shrink: 0; }
 .bhead {
   display: grid; grid-template-columns: 62px minmax(0, 1fr) auto;
   gap: 16px; align-items: baseline; padding-bottom: 10px;
@@ -451,6 +470,10 @@ img, svg { display: block; }
 .foot .fmono { font: 400 11.5px/1.6 var(--mono); }
 .foot p { margin-top: 8px; font-size: 12.5px; }
 .foot a { color: var(--ink-2); }
+.faq details { border-bottom: 1px solid var(--rule); padding-block: 14px; }
+.faq details:first-of-type { margin-top: 16px; }
+.faq summary { cursor: pointer; font-size: 16px; font-weight: 500; padding-block: 6px; }
+.faq p { margin-top: 8px; margin-bottom: 8px; }
 
 /* ── The one authored moment: results develop, they do not blink ───────── */
 @keyframes develop {
@@ -484,7 +507,7 @@ img, svg { display: block; }
 }
 
 @media (max-width: 560px) {
-  .pad-link, .bhead { grid-template-columns: 1fr; gap: 4px; }
+  .pad-link, .bhead { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .bhead .did { order: 2; }
   .bhead .n { order: 3; }
   .pad-stars { order: 3; }

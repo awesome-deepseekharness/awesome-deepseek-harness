@@ -8,6 +8,8 @@ A curated collection of the best plugins, tools, skills, and resources built for
 
 English | [中文](README.zh.md)
 
+[Browse the searchable plugin directory](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/) · [中文网站](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/zh/)
+
 [Official Repo](https://github.com/deepseek-ai/deepseek-harness) · [Official Site](https://deepseek.com/harness) · [Discord](https://discord.gg/Ycq5dCaS4) · [Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions) · [dsh-plugin Topic](https://github.com/topics/dsh-plugin) · [Official Tracker](https://github.com/awesome-deepseekharness/deepseek-official-tracker)
 
 </div>
@@ -21,13 +23,15 @@ English | [中文](README.zh.md)
 </p>
 
 > ⭐ **Found this list useful? Star it — it takes 2 seconds, and it happens to be the #1 way to help others discover dsh plugins.**
-> Your ⭐ is not just a bookmark — it boosts visibility for every plugin author on this list (GitHub ranks starred lists higher) and notifies you when we add 2–3 new plugins each week. Currently **18 → 100 stars is our first milestone (82 to go)** — early stargazers shape what gets curated next. Be one of the first 100.
+> Save the list now so your next useful plugin is easier to find. Your ⭐ also supports the community maintaining this directory. Currently **18 → 100 stars is our first milestone (82 to go)**. To receive repository updates, choose your notification preferences in GitHub’s Watch menu.
 >
-> **Share & spread:** if you built or love a plugin here, one share = 10× discoverability. [Share on X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20Everything%20is%20a%20Plugin%20%E2%9A%A1%20Curated%20dsh%20plugins%2C%20tools%20%26%20skills%20for%20%40deepseek_ai%20harness&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek,opensource) · [Share on Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20curated%20plugins%20%26%20skills) · [Discuss on Discord](https://discord.gg/Ycq5dCaS4) · [Copy link](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
+> **Share & spread:** if you built or love a plugin here, share its original repository so others can explore it. [Share on X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20Everything%20is%20a%20Plugin%20%E2%9A%A1%20Curated%20dsh%20plugins%2C%20tools%20%26%20skills%20for%20%40deepseek_ai%20harness&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek,opensource) · [Share on Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20curated%20plugins%20%26%20skills) · [Discuss on Discord](https://discord.gg/Ycq5dCaS4) · [Copy link](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
 >
-> *Tip: READMEs with a clear demo tend to get more attention. Adding `dsh-plugin` helps with discovery, and starring the list keeps you in the loop for new additions.*
+> *Tip: READMEs with a clear demo tend to get more attention. Adding `dsh-plugin` helps with discovery, and starring the list makes it easier to find again.*
 
 ## What is dsh?
+
+This is an independent, community-maintained directory, not an official DeepSeek product. Start with the [searchable directory](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/): choose a category, compare project descriptions, and open the original repository for installation and compatibility details. For structured access, see [catalog.json](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/catalog.json) and [llms.txt](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt).
 
 DeepSeek Harness is DeepSeek AI's open-source agent harness. Its core philosophy is **everything is a plugin**: the model adapter, tool registry, session log, permission model, and even the agent loop itself are replaceable plugins — "no privileged core to patch." The runtime is built on [Cordis](https://github.com/cordiverse/cordis) (a meta-framework of spatiotemporal composability).
 

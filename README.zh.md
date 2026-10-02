@@ -8,6 +8,8 @@
 
 [English](README.md) | 中文
 
+[浏览可搜索的插件目录](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/zh/) · [English site](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/)
+
 [官方仓库](https://github.com/deepseek-ai/deepseek-harness) · [官方网站](https://deepseek.com/harness) · [Discord](https://discord.gg/Ycq5dCaS4) · [官方讨论区](https://github.com/deepseek-ai/deepseek-harness/discussions) · [dsh-plugin 话题](https://github.com/topics/dsh-plugin) · [官方动态跟踪](https://github.com/awesome-deepseekharness/deepseek-official-tracker)
 
 </div>
@@ -21,13 +23,15 @@
 </p>
 
 > ⭐ **这个列表帮你省了 1 小时找插件？点个 Star 吧 — 2 秒钟，却是对所有插件作者最大的支持。**
-> 你的 ⭐ 不只是收藏：它会让 GitHub 更优先推荐本列表，从而让这里的每一个插件被更多 1000+ dsh 开发者看到；同时你会自动收到每周 2–3 个新插件的更新提醒。目前 **18 → 100 颗星是第一里程碑（还差 82）**，早期 Star 的用户将决定后续收录方向。成为前 100 个 Star 吧 — 你的名字会出现在 Star 历史里。
+> 先收藏，下次少找一次。你的 ⭐ 也是社区持续整理这份目录的动力。目前 **18 → 100 颗星是第一里程碑（还差 82）**。想接收仓库动态，请在 GitHub 的 Watch 菜单中选择通知类型。
 >
-> **顺手分享，功德 +10×：** 你做/喜欢的插件在列表里？一次分享 = 10 倍曝光。[一键分享到 X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%20%E2%9A%A1%20%E7%B2%BE%E9%80%89%20dsh%20%E6%8F%92%E4%BB%B6%E3%80%81%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E8%83%BD&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek) · [分享到 Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%E7%B2%BE%E9%80%89) · [去 Discord 讨论](https://discord.gg/Ycq5dCaS4) · [复制链接](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
+> **把好项目分享出去：** 你做/喜欢的插件在列表里？分享原始仓库，让更多人有机会发现它。[一键分享到 X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%20%E2%9A%A1%20%E7%B2%BE%E9%80%89%20dsh%20%E6%8F%92%E4%BB%B6%E3%80%81%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E8%83%BD&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek) · [分享到 Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%E7%B2%BE%E9%80%89) · [去 Discord 讨论](https://discord.gg/Ycq5dCaS4) · [复制链接](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
 >
-> *小提示：配上动图/演示的 README 往往更容易被关注。给仓库打上 `dsh-plugin` 便于被发现，Star 本列表也能及时收到新插件提醒。*
+> *小提示：配上动图/演示的 README 往往更容易被关注。给仓库打上 `dsh-plugin` 便于被发现，Star 本列表也方便下次找到它。*
 
 ## 什么是 dsh?
+
+这是独立的社区维护目录，不是 DeepSeek 官方产品。可以从[可搜索的目录网站](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/zh/)开始：选择分类、对比项目说明，再打开原始仓库查看安装方法与兼容性要求。结构化内容可通过 [catalog.json](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/catalog.json) 和 [llms.txt](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt) 获取。
 
 DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是 **everything is a plugin(万物皆可插件)**:模型适配器、工具注册表、会话日志、权限模型,甚至 agent loop 本身都是可替换的插件,「没有需要打补丁的特权核心」。运行时基于 [Cordis](https://github.com/cordiverse/cordis)(时空可组合性元框架)构建。
 

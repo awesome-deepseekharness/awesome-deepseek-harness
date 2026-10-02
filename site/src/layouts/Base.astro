@@ -1,6 +1,6 @@
 ---
 import '../styles/site.css';
-import { T } from '../lib/i18n.mjs';
+import { T, sitePath } from '../lib/i18n.mjs';
 import { abs } from '../lib/catalog.mjs';
 
 interface Props {
@@ -15,7 +15,6 @@ const { lang, title, desc, keywords, canonical } = Astro.props;
 const t = T[lang];
 const en = lang === 'en';
 const canonicalUrl = abs(canonical);
-const otherUrl = abs(t.otherHref);
 const favicon =
   "data:image/svg+xml," +
   encodeURIComponent(
@@ -33,7 +32,7 @@ const favicon =
     <meta name="description" content={desc} />
     <meta name="keywords" content={keywords} />
     <meta name="author" content="awesome-deepseekharness" />
-    <meta name="robots" content="index, follow" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
     <meta name="theme-color" content="#4d6bfe" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#0a0d14" media="(prefers-color-scheme: dark)" />
     <link rel="canonical" href={canonicalUrl} />
@@ -41,6 +40,8 @@ const favicon =
     <link rel="alternate" hreflang="zh" href={abs('/zh/')} />
     <link rel="alternate" hreflang="x-default" href={abs('/')} />
     <link rel="icon" href={favicon} />
+    <link rel="alternate" type="text/plain" title="AI reading guide" href={sitePath('/llms.txt')} />
+    <link rel="alternate" type="application/json" title="Bilingual project catalog" href={sitePath('/catalog.json')} />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content="Awesome DeepSeek Harness" />
     <meta property="og:title" content={title} />
@@ -48,7 +49,13 @@ const favicon =
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:locale" content={t.ogLocale} />
     <meta property="og:locale:alternate" content={en ? 'zh_CN' : 'en_US'} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={abs('/social-card.png')} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Awesome DeepSeek Harness — community-curated plugins, tools and skills" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={abs('/social-card.png')} />
+    <meta name="twitter:image:alt" content="Awesome DeepSeek Harness — community-curated plugins, tools and skills" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={desc} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -60,7 +67,7 @@ const favicon =
     <slot name="head" />
   </head>
   <body>
-    <a class="skip" href="#die">{en ? 'Skip to the catalog' : '跳到插件列表'}</a>
+    <a class="skip" href="#blocks">{en ? 'Skip to the catalog' : '跳到插件列表'}</a>
     <slot />
   </body>
 </html>
