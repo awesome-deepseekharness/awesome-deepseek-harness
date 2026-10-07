@@ -184,6 +184,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [0xRabit/dsh-crypto-portfolio](https://github.com/0xRabit/dsh-crypto-portfolio) | 自托管加密资产仪表盘：BTC、EVM（73 条链）、Solana、狗狗币、艾达币、Hyperliquid、五家交易所与代币化股票统一视图，含可分享 PNG 卡片、可调阈值的资产健康度报告、逐数据源连通性测试与零依赖趋势图（`dsh plugin --profile web add dsh-crypto-portfolio` 安装） | 2 |
 | [shiyan688/dsh-novel-craft](https://github.com/shiyan688/dsh-novel-craft) | 小说创作工作台：读候选稿点 👍/👎，标注被压成可复用的写作规律，只有规律进写稿上下文（`dsh plugin --profile web add dsh-novel-craft` 安装） | 5 |
 | [IORT-DOIT/dsh-meeting-room](https://github.com/IORT-DOIT/dsh-meeting-room) | DSH 会议室：多个会话（AI 或人）加入同一房间、围着「会议目标」讨论，内置记录员读完整记录起草《会议结果》供你审核发布，与会者写的文件自动收进房间「附件/」，工具授权可在会议室面板里直接批（13 个 `room_*` 工具、8 个配置键；安装：`git clone` 后 `install_bundle link:<路径>`） | 1 |
+| [ff66ccff/dsh-ATN](https://github.com/ff66ccff/dsh-ATN) | 面向 DeepSeek Harness 的自适应拓扑多智能体预设，提供点对点通信、共享白板、任务交接和实时网络可视化。 Install: `dsh plugin --profile web add dsh-atn@0.4.1`. | 0 |
 
 ### 📚 Skills 与技能包
 
