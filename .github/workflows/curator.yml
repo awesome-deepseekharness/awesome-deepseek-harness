@@ -8,6 +8,8 @@ on:
     branches: [main]
     paths:
       - 'scripts/curate.mjs'
+      - 'scripts/opencode-*.mjs'
+      - 'scripts/update-repo-stars.mjs'
       - '.opencode/agent/curator.md'
       - '.github/workflows/curator.yml'
 
@@ -46,6 +48,7 @@ jobs:
       - name: Install opencode
         run: |
           set -e
+          node --test scripts/opencode-free.test.mjs
           if npm install -g opencode-ai 2>&1 | tail -n 5; then
             echo "opencode via npm done"
           else
@@ -53,9 +56,12 @@ jobs:
             echo "$HOME/.local/bin" >> $GITHUB_PATH
           fi
           opencode --version || echo "opencode not found, fallback deterministic"
-          echo "--- zen models preview ---"
-          curl -s https://opencode.ai/zen/v1/models | head -c 800 || true
-          echo ""
+          echo "Model discovery uses the refreshed OpenCode CLI catalog at task start."
+
+      - name: Refresh bilingual repository star milestone
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/update-repo-stars.mjs
 
       - name: Run curator — health audit (free-model traversal)
         env:
@@ -80,7 +86,7 @@ jobs:
           IDLE=$(grep -ciE "no actionable findings|health audit only|No PR/Issue|No PR event|No LLM run" curator-report.md 2>/dev/null || true)
           HASDIFF=$(grep -c '^```diff' curator-report.md 2>/dev/null || true)
           echo "idle_markers=$IDLE diff_blocks=$HASDIFF"
-          if [ "$HASDIFF" -eq 0 ] && [ "$IDLE" -ge 2 ]; then
+          if git diff --quiet -- README.md README.zh.md && [ "$HASDIFF" -eq 0 ] && [ "$IDLE" -ge 2 ]; then
             echo "Nothing actionable — drop report so no draft PR is opened (report stays in run logs)"
             rm -f curator-report.md
           else
@@ -109,6 +115,8 @@ jobs:
             <!-- curator-health: gate will handle merge/close -->
           add-paths: |
             curator-report.md
+            README.md
+            README.zh.md
           labels: |
             ai-draft
             needs-review

@@ -8,6 +8,8 @@
 
 [English](README.md) | 中文
 
+[浏览可搜索的插件目录](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/zh/) · [English site](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/)
+
 [官方仓库](https://github.com/deepseek-ai/deepseek-harness) · [官方网站](https://deepseek.com/harness) · [Discord](https://discord.gg/Ycq5dCaS4) · [官方讨论区](https://github.com/deepseek-ai/deepseek-harness/discussions) · [dsh-plugin 话题](https://github.com/topics/dsh-plugin) · [官方动态跟踪](https://github.com/awesome-deepseekharness/deepseek-official-tracker)
 
 </div>
@@ -21,13 +23,15 @@
 </p>
 
 > ⭐ **这个列表帮你省了 1 小时找插件？点个 Star 吧 — 2 秒钟，却是对所有插件作者最大的支持。**
-> 你的 ⭐ 不只是收藏：它会让 GitHub 更优先推荐本列表，从而让这里的每一个插件被更多 1000+ dsh 开发者看到；同时你会自动收到每周 2–3 个新插件的更新提醒。目前 **3 → 100 颗星是第一里程碑（还差 97）**，早期 Star 的用户将决定后续收录方向。成为前 100 个 Star 吧 — 你的名字会出现在 Star 历史里。
+> 先收藏，下次少找一次。你的 ⭐ 也是社区持续整理这份目录的动力。目前 **20 → 100 颗星是第一里程碑（还差 80）**。想接收仓库动态，请在 GitHub 的 Watch 菜单中选择通知类型。
 >
-> **顺手分享，功德 +10×：** 你做/喜欢的插件在列表里？一次分享 = 10 倍曝光。[一键分享到 X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%20%E2%9A%A1%20%E7%B2%BE%E9%80%89%20dsh%20%E6%8F%92%E4%BB%B6%E3%80%81%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E8%83%BD&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek) · [分享到 Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%E7%B2%BE%E9%80%89) · [去 Discord 讨论](https://discord.gg/Ycq5dCaS4) · [复制链接](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
+> **把好项目分享出去：** 你做/喜欢的插件在列表里？分享原始仓库，让更多人有机会发现它。[一键分享到 X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%20%E2%9A%A1%20%E7%B2%BE%E9%80%89%20dsh%20%E6%8F%92%E4%BB%B6%E3%80%81%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E8%83%BD&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek) · [分享到 Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%E7%B2%BE%E9%80%89) · [去 Discord 讨论](https://discord.gg/Ycq5dCaS4) · [复制链接](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
 >
-> *小提示：配上动图/演示的 README 往往更容易被关注。给仓库打上 `dsh-plugin` 便于被发现，Star 本列表也能及时收到新插件提醒。*
+> *小提示：配上动图/演示的 README 往往更容易被关注。给仓库打上 `dsh-plugin` 便于被发现，Star 本列表也方便下次找到它。*
 
 ## 什么是 dsh?
+
+这是独立的社区维护目录，不是 DeepSeek 官方产品。可以从[可搜索的目录网站](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/zh/)开始：选择分类、对比项目说明，再打开原始仓库查看安装方法与兼容性要求。结构化内容可通过 [catalog.json](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/catalog.json) 和 [llms.txt](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt) 获取。
 
 DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是 **everything is a plugin(万物皆可插件)**:模型适配器、工具注册表、会话日志、权限模型,甚至 agent loop 本身都是可替换的插件,「没有需要打补丁的特权核心」。运行时基于 [Cordis](https://github.com/cordiverse/cordis)(时空可组合性元框架)构建。
 
@@ -110,6 +114,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [zizaiwo/dsh_plugins](https://github.com/zizaiwo/dsh_plugins) | dsh 侧边栏会话分类插件：零配置接管官方工作区浏览器，按自定义分类文件夹管理会话（拖拽归类/分类内建会话/每工作区独立） | 0 |
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | 输入框上方的快捷指令胶囊栏：按分类存常用 prompt，橙色高亮占位符，两栏管理，分类记忆按会话独立持久化 | 1 |
 | [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | 侧边栏工作区每日按最近活动排序一次，当天顺序稳定 | 2 |
+| [weibaohui/dsh-fireworks](https://github.com/weibaohui/dsh-fireworks) | 烟花庆祝引擎：agent 编程时在对话窗口上空放烟花（开场/回合/工具/里程碑/收工/失败各成卡组），token 用量决定大小与绚烂程度；`dsh plugin add @weibaohui/dsh-fireworks` 即装 | 0 |
 
 ### 🖥️ TUI 与桌面端
 
@@ -157,6 +162,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [weshopai/weshop-dsh-plugin](https://github.com/weshopai/weshop-dsh-plugin) | 原生 WeShop 插件:无限画布 + 无限创意技能 | 12 |
 | [morluto/jacobian](https://github.com/morluto/jacobian) | 纯数学工具:搜索例子与反例、精确计算、独立验证 | 192 |
 | [thedeveloper256/dsh-model-router](https://github.com/thedeveloper256/dsh-model-router) | 基于角色的模型路由:规划者(根 agent)跑 deepseek-v4-pro,委派执行子 agent 跑 deepseek-v4-flash;附带 prompt 段与 `pro-flash-routing` 技能 | 2 |
+| [nautahakk/jev-codex-router](https://github.com/nautahakk/jev-codex-router) | 在 DSH 中通过 Jev 自动选择 Codex 模型和推理强度，支持模型上限与高强度审批阈值 | 0 |
 | [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | 滴答清单每日任务分发器：定时拉取今日到期任务、变更感知 flomo+macOS 通知、可选无头会话自动执行、工作区选择、Web 任务看板 | 1 |
 | [zhengjy01/dsh-vercel-mcp](https://github.com/zhengjy01/dsh-vercel-mcp) | Vercel MCP 连接：官方 OAuth 2.0 流程对接 mcp.vercel.com，暴露 Vercel 平台工具 mcp__vercel__* | 0 |
 | [PerryLink/dsh-auto-review](https://github.com/PerryLink/dsh-auto-review) | dsh 第二模型审批：只读评审子代理在动作执行前返回带理由的结构化 allow/deny 裁决，默认故障关闭（`dsh plugin --profile web add dsh-auto-review` 安装） | 169 |
@@ -174,6 +180,11 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [zhengjy01/dsh-feishu-mcp](https://github.com/zhengjy01/dsh-feishu-mcp) | 飞书（Lark）OpenAPI MCP 连接：桥接官方 @larksuiteoapi/lark-mcp，以 mcp__feishu__* 暴露 IM、多维表格、云文档、日历、云盘 API，支持 OAuth 用户令牌。 | 0 |
 | [zhengjy01/dsh-aliyun-mcp](https://github.com/zhengjy01/dsh-aliyun-mcp) | 阿里云 OpenAPI MCP 连接：通过官方 OpenAPI MCP 代理的静态凭据模式，以 mcp__aliyun__* 暴露 ECS / OSS / DNS / 函数计算等 API。 | 0 |
 | [weibaohui/dsh-flow](https://github.com/weibaohui/dsh-flow) | 执行流程图：把会话执行过程画成纵向节点流（回合/用户/助手/工具/审批/重试/压缩），SSE 实时追加、自动跟随滚动；`dsh plugin add @weibaohui/dsh-flow` 即装 | 0 |
+| [yeruizhi/dsh-ask-user-timeout](https://github.com/yeruizhi/dsh-ask-user-timeout) | 给 `ask_user_question` 加有界等待：无人渲染提问时（页签关闭 / 切后台 / mux 掉线），到可配置超时（默认 10 分钟）后返回结构化、模型可见的 `ASK_TIMEOUT`，循环不再无限“进行中”；复用官方 `timeout-policy` 守卫的 `deadline()` 原语（`dsh plugin --profile web add git+https://github.com/yeruizhi/dsh-ask-user-timeout.git`） | 0 |
+| [zhengjy01/dsh-wechat-clawbot](https://github.com/zhengjy01/dsh-wechat-clawbot) | 微信 ClawBot 桥接：扫码登录悬浮球把消息桥接到 agent 会话，复用 context_token 支持窗口外主动推送（lubaiUwU/DSH-WeChatClawBot 的维护分支；`dsh plugin --profile web add dsh-wechat-clawbot`）。 | 0 |
+| [0xRabit/dsh-crypto-portfolio](https://github.com/0xRabit/dsh-crypto-portfolio) | 自托管加密资产仪表盘：BTC、EVM（73 条链）、Solana、狗狗币、艾达币、Hyperliquid、五家交易所与代币化股票统一视图，含可分享 PNG 卡片、可调阈值的资产健康度报告、逐数据源连通性测试与零依赖趋势图（`dsh plugin --profile web add dsh-crypto-portfolio` 安装） | 2 |
+| [shiyan688/dsh-novel-craft](https://github.com/shiyan688/dsh-novel-craft) | 小说创作工作台：读候选稿点 👍/👎，标注被压成可复用的写作规律，只有规律进写稿上下文（`dsh plugin --profile web add dsh-novel-craft` 安装） | 5 |
+| [IORT-DOIT/dsh-meeting-room](https://github.com/IORT-DOIT/dsh-meeting-room) | DSH 会议室：多个会话（AI 或人）加入同一房间、围着「会议目标」讨论，内置记录员读完整记录起草《会议结果》供你审核发布，与会者写的文件自动收进房间「附件/」，工具授权可在会议室面板里直接批（13 个 `room_*` 工具、8 个配置键；安装：`git clone` 后 `install_bundle link:<路径>`） | 1 |
 
 ### 📚 Skills 与技能包
 

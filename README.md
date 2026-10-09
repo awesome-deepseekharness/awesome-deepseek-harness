@@ -8,6 +8,8 @@ A curated collection of the best plugins, tools, skills, and resources built for
 
 English | [中文](README.zh.md)
 
+[Browse the searchable plugin directory](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/) · [中文网站](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/zh/)
+
 [Official Repo](https://github.com/deepseek-ai/deepseek-harness) · [Official Site](https://deepseek.com/harness) · [Discord](https://discord.gg/Ycq5dCaS4) · [Discussions](https://github.com/deepseek-ai/deepseek-harness/discussions) · [dsh-plugin Topic](https://github.com/topics/dsh-plugin) · [Official Tracker](https://github.com/awesome-deepseekharness/deepseek-official-tracker)
 
 </div>
@@ -21,13 +23,15 @@ English | [中文](README.zh.md)
 </p>
 
 > ⭐ **Found this list useful? Star it — it takes 2 seconds, and it happens to be the #1 way to help others discover dsh plugins.**
-> Your ⭐ is not just a bookmark — it boosts visibility for every plugin author on this list (GitHub ranks starred lists higher) and notifies you when we add 2–3 new plugins each week. Currently **3 → 100 stars is our first milestone (97 to go)** — early stargazers shape what gets curated next. Be one of the first 100.
+> Save the list now so your next useful plugin is easier to find. Your ⭐ also supports the community maintaining this directory. Currently **20 → 100 stars is our first milestone (80 to go)**. To receive repository updates, choose your notification preferences in GitHub’s Watch menu.
 >
-> **Share & spread:** if you built or love a plugin here, one share = 10× discoverability. [Share on X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20Everything%20is%20a%20Plugin%20%E2%9A%A1%20Curated%20dsh%20plugins%2C%20tools%20%26%20skills%20for%20%40deepseek_ai%20harness&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek,opensource) · [Share on Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20curated%20plugins%20%26%20skills) · [Discuss on Discord](https://discord.gg/Ycq5dCaS4) · [Copy link](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
+> **Share & spread:** if you built or love a plugin here, share its original repository so others can explore it. [Share on X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20Everything%20is%20a%20Plugin%20%E2%9A%A1%20Curated%20dsh%20plugins%2C%20tools%20%26%20skills%20for%20%40deepseek_ai%20harness&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek,opensource) · [Share on Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20curated%20plugins%20%26%20skills) · [Discuss on Discord](https://discord.gg/Ycq5dCaS4) · [Copy link](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
 >
-> *Tip: READMEs with a clear demo tend to get more attention. Adding `dsh-plugin` helps with discovery, and starring the list keeps you in the loop for new additions.*
+> *Tip: READMEs with a clear demo tend to get more attention. Adding `dsh-plugin` helps with discovery, and starring the list makes it easier to find again.*
 
 ## What is dsh?
+
+This is an independent, community-maintained directory, not an official DeepSeek product. Start with the [searchable directory](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/): choose a category, compare project descriptions, and open the original repository for installation and compatibility details. For structured access, see [catalog.json](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/catalog.json) and [llms.txt](https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt).
 
 DeepSeek Harness is DeepSeek AI's open-source agent harness. Its core philosophy is **everything is a plugin**: the model adapter, tool registry, session log, permission model, and even the agent loop itself are replaceable plugins — "no privileged core to patch." The runtime is built on [Cordis](https://github.com/cordiverse/cordis) (a meta-framework of spatiotemporal composability).
 
@@ -109,6 +113,7 @@ The hottest category — giving text-only models "eyes."
 | [ZSeven-W/dsh-openpencil](https://github.com/ZSeven-W/dsh-openpencil) | OpenPencil design preview & editing plugin for DSH | 169 |
 | [zizaiwo/dsh_plugins](https://github.com/zizaiwo/dsh_plugins) | Sidebar session categories for dsh Web UI: zero-config takeover of official workspace browser, organize sessions by custom folders (drag & drop, in-category creation, per-workspace isolation) | 0 |
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | Quick-prompts bar above composer: per-category snippet chips, orange {{placeholder}} highlighting, two-column management, per-session category memory | 1 |
+| [weibaohui/dsh-fireworks](https://github.com/weibaohui/dsh-fireworks) | Fireworks celebration engine: event-driven shows above the chat window while the agent codes (welcome / per-turn / tool sparks / milestone / finale / failure dud), token usage decides size & splendour; installable via `dsh plugin add @weibaohui/dsh-fireworks` | 0 |
 | [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | Re-sorts sidebar workspaces by last activity once per day; stable order within the day | 2 |
 ### 🖥️ TUI & Desktop
 
@@ -156,6 +161,7 @@ The hottest category — giving text-only models "eyes."
 | [weshopai/weshop-dsh-plugin](https://github.com/weshopai/weshop-dsh-plugin) | Native WeShop plugin: infinite canvas with infinite creative skills | 12 |
 | [morluto/jacobian](https://github.com/morluto/jacobian) | Pure mathematics for agents: search examples/counterexamples, compute exactly, verify | 192 |
 | [thedeveloper256/dsh-model-router](https://github.com/thedeveloper256/dsh-model-router) | Role-based model routing: planner (root agent) on deepseek-v4-pro, delegated executor subagents on deepseek-v4-flash; ships a prompt section + `pro-flash-routing` skill | 2 |
+| [nautahakk/jev-codex-router](https://github.com/nautahakk/jev-codex-router) | Routes DSH prompts to Codex models and reasoning efforts via Jev, with configurable model caps and approval thresholds | 0 |
 | [zhengjy01/dsh-task-dispatcher](https://github.com/zhengjy01/dsh-task-dispatcher) | TickTick daily task dispatcher: interval pulls of todays due tasks, change-aware flomo+macOS notifications, optional auto-execute in headless sessions, worker workspace selection, web task board | 1 |
 | [zhengjy01/dsh-vercel-mcp](https://github.com/zhengjy01/dsh-vercel-mcp) | Vercel MCP connection for DSH: official OAuth 2.0 client flow against mcp.vercel.com; Vercel platform tools under mcp__vercel__* | 0 |
 | [PerryLink/dsh-auto-review](https://github.com/PerryLink/dsh-auto-review) | Second-model approval for dsh: a read-only reviewer subagent returns structured allow/deny verdicts with reasons before actions run, fail-closed (`dsh plugin --profile web add dsh-auto-review`) | 169 |
@@ -173,6 +179,11 @@ The hottest category — giving text-only models "eyes."
 | [zhengjy01/dsh-feishu-mcp](https://github.com/zhengjy01/dsh-feishu-mcp) | Feishu (Lark) OpenAPI MCP connection for DSH: bridges the official @larksuiteoapi/lark-mcp server, exposing IM, Bitable, Docs, Calendar and Drive APIs as mcp__feishu__* tools with OAuth user-token support. | 0 |
 | [zhengjy01/dsh-aliyun-mcp](https://github.com/zhengjy01/dsh-aliyun-mcp) | Alibaba Cloud OpenAPI MCP connection for DSH: static-credential mode through the official OpenAPI MCP proxy, exposing ECS / OSS / DNS / Function Compute APIs as mcp__aliyun__* tools. | 0 |
 | [weibaohui/dsh-flow](https://github.com/weibaohui/dsh-flow) | Execution flow chart: renders the session execution as a vertical node flow (turns / user / assistant / tools / approvals / retries / compaction), appended in real time over SSE with auto-follow scrolling; installable via `dsh plugin add @weibaohui/dsh-flow` | 0 |
+| [yeruizhi/dsh-ask-user-timeout](https://github.com/yeruizhi/dsh-ask-user-timeout) | Bounded lifetime for `ask_user_question`: when no browser tab renders the question (tab closed / backgrounded / mux dropped), returns a structured, model-visible `ASK_TIMEOUT` after a configurable deadline (default 10 min) instead of hanging the loop forever; uses the same `deadline()` primitive as the official `timeout-policy` guard (`dsh plugin --profile web add git+https://github.com/yeruizhi/dsh-ask-user-timeout.git`) | 0 |
+| [zhengjy01/dsh-wechat-clawbot](https://github.com/zhengjy01/dsh-wechat-clawbot) | WeChat ClawBot bridge for DSH: a QR-login floating ball relays messages to agent sessions, with reusable context tokens for out-of-window proactive push (maintained fork of lubaiUwU/DSH-WeChatClawBot; `dsh plugin --profile web add dsh-wechat-clawbot`). | 0 |
+| [0xRabit/dsh-crypto-portfolio](https://github.com/0xRabit/dsh-crypto-portfolio) | Self-hosted crypto portfolio dashboard for DSH — BTC, EVM (73 chains), Solana, Dogecoin, Cardano, Hyperliquid, five exchanges and tokenised equities in one view, with a shareable PNG card, a tunable asset-health report, per-source connection tests and zero-dependency trend charts (`dsh plugin --profile web add dsh-crypto-portfolio`) | 2 |
+| [shiyan688/dsh-novel-craft](https://github.com/shiyan688/dsh-novel-craft) | Novel-writing workbench that learns your taste: 👍/👎 marks on draft variants distill into reusable writing rules, and only the rules enter the writing context (`dsh plugin --profile web add dsh-novel-craft`) | 5 |
+| [IORT-DOIT/dsh-meeting-room](https://github.com/IORT-DOIT/dsh-meeting-room) | Meeting room for DSH: several sessions (AI or human) join one room around a meeting goal, a built-in recorder drafts the meeting minutes for your review, member files are auto-archived into the room, and members' tool approvals can be answered right in the room panel (13 `room_*` tools, 8 config keys; install: `git clone` then `install_bundle link:<path>`) | 1 |
 
 ### 📚 Skills
 

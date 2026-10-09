@@ -82,6 +82,7 @@ jobs:
         if: steps.resolve.outputs.pr != ''
         run: |
           set -e
+          node --test scripts/opencode-free.test.mjs
           if npm install -g opencode-ai 2>&1 | tail -n 5; then
             echo "opencode via npm done"
           else
@@ -130,48 +131,19 @@ jobs:
           PROMPT_EOF
           cat /tmp/reviewer-prompt.md
 
-          REVIEW_MODEL="qwen3-coder-free"
+          REVIEW_MODEL="unavailable"
           SECOND_LOG="/tmp/second-ai.log"
+          SECOND_RESULT="/tmp/second-ai.json"
           DECISION="REQUEST_CHANGES"
+          rm -f "$SECOND_RESULT"
 
-          if command -v opencode >/dev/null 2>&1; then
-            echo "Running second AI: opencode/$REVIEW_MODEL with --agent reviewer ..."
-            if [ -f .opencode/agent/reviewer.md ]; then
-              AGENT="reviewer"
-            else
-              AGENT="curator"
-            fi
-            set +e
-            timeout 170 opencode run --model "opencode/$REVIEW_MODEL" --agent "$AGENT" "$(cat /tmp/reviewer-prompt.md)" 2>&1 | tee "$SECOND_LOG"
-            OC_EXIT=${PIPESTATUS[0]}
-            set -e
-            echo "opencode exit: $OC_EXIT"
-            if [ -f "$SECOND_LOG" ] && grep -q "DECISION: APPROVE" "$SECOND_LOG"; then
-              DECISION="APPROVE"
-            elif grep -q "DECISION: CLOSE" "$SECOND_LOG"; then
-              DECISION="CLOSE"
-            elif grep -q "DECISION: REQUEST_CHANGES" "$SECOND_LOG"; then
-              DECISION="REQUEST_CHANGES"
-            else
-              echo "Second AI did not emit clear DECISION, falling back to deterministic parse"
-            fi
+          if node scripts/opencode-auto.mjs --agent reviewer --prompt-file /tmp/reviewer-prompt.md --output "$SECOND_RESULT"; then
+            REVIEW_MODEL=$(node -e 'process.stdout.write(require(process.argv[1]).model)' "$SECOND_RESULT")
+            DECISION=$(node -e 'process.stdout.write(require(process.argv[1]).decision)' "$SECOND_RESULT")
+            node -e 'process.stdout.write(require(process.argv[1]).text)' "$SECOND_RESULT" > "$SECOND_LOG"
+            cat "$SECOND_LOG"
           else
-            echo "opencode not found — deterministic fallback"
-          fi
-
-          if [ "$DECISION" = "REQUEST_CHANGES" ]; then
-            if grep -qE "^RECOMMEND: Approve" curator-report.md 2>/dev/null; then
-              echo "Fallback: curator says Approve → APPROVE"
-              DECISION="APPROVE"
-            elif grep -q "no actionable findings" curator-report.md 2>/dev/null || grep -qi "No PR/Issue.*health audit only" curator-report.md 2>/dev/null; then
-              if grep -q "STALE\|drift.*>20%\|\+.*% 🔴" curator-report.md 2>/dev/null; then
-                echo "Fallback: health audit has actionable drift → REQUEST_CHANGES"
-                DECISION="REQUEST_CHANGES"
-              else
-                echo "Fallback: no actionable findings → CLOSE"
-                DECISION="CLOSE"
-              fi
-            fi
+            echo "No free reviewer completed an independent review; keeping REQUEST_CHANGES" | tee "$SECOND_LOG"
           fi
 
           echo "=== Final DECISION: $DECISION ==="
@@ -193,7 +165,7 @@ jobs:
 
           if [ "$DECISION" = "APPROVE" ]; then
             echo "✅ Second AI approves → auto-merging PR #$PR"
-            gh pr review "$PR" --approve --body "✅ **Second AI reviewer** (\`opencode/$REVIEW_MODEL\` via \`reviewer\`) independently approves.
+            gh pr review "$PR" --approve --body "✅ **Second AI reviewer** (\`$REVIEW_MODEL\` via \`reviewer\`) independently approves.
 
           - Verified \`curator-report.md\` has Sources + bilingual ✅ + no duplicates
           - Star drift is documented, low-risk
@@ -210,7 +182,7 @@ jobs:
             fi
           elif [ "$DECISION" = "CLOSE" ]; then
             echo "❌ Second AI says CLOSE → closing PR #$PR"
-            gh pr comment "$PR" --body "❌ **Second AI reviewer** (\`opencode/$REVIEW_MODEL\`) decision: **CLOSE**
+            gh pr comment "$PR" --body "❌ **Second AI reviewer** (\`$REVIEW_MODEL\`) decision: **CLOSE**
 
           - Reason: \`curator-report.md\` shows no actionable findings / health audit only, or duplicate/invalid.
           - Reviewer log preview:
@@ -221,7 +193,7 @@ jobs:
             gh pr close "$PR" --delete-branch || gh pr close "$PR" || echo "close failed"
           else
             echo "⚠️ Second AI: REQUEST_CHANGES → commenting, not merging/closing"
-            gh pr comment "$PR" --body "⚠️ **Second AI reviewer** (\`opencode/$REVIEW_MODEL\`) decision: **REQUEST_CHANGES**
+            gh pr comment "$PR" --body "⚠️ **Second AI reviewer** (\`$REVIEW_MODEL\`) decision: **REQUEST_CHANGES**
 
           - Not auto-merged. Please address \`curator-report.md\` notes (bilingual, star refresh, or minor fix).
           - Log preview:

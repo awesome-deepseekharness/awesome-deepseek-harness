@@ -4,3 +4,7 @@
 !.opencode/agent/
 !.opencode/agent/**
 .DS_Store
+.impeccable/
+node_modules/
+site/dist/
+site/.astro/

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * curate.mjs — experimental headless curator for Awesome DSH
- * - Fetches live free models from https://opencode.ai/zen/v1/models (public, no key)
- * - Traverses free models: latest first, fallback to static list if endpoint fails
+ * - Discovers zero-cost tool-capable models from the current OpenCode CLI
+ * - Sorts by release metadata, probes availability, and retries within a time budget
  * - Runs `opencode run --model opencode/<id> --agent curator` with auto fallback
  * - Always succeeds: if opencode unavailable or all models fail, writes deterministic template to curator-report.md
  * - Intended for GitHub Action (schedule / issue / PR) and local `node scripts/curate.mjs`
@@ -12,84 +12,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
-import { setTimeout as sleep } from 'node:timers/promises';
+import { runCli, runModel, withFreeModel } from './opencode-free.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const REPORT_FILE = path.join(ROOT, 'curator-report.md');
 const REVIEW_FILE = path.join(ROOT, 'review-comment.md');
-const ZEN_MODELS_URL = 'https://opencode.ai/zen/v1/models';
-
-// Keep in sync with public free list — will be traversed latest-first
-const STATIC_FREE_FALLBACK = [
-  'muse-spark-1.2-contributor-free',
-  'mimo-v2.5-free',
-  'hy3-free',
-  'deepseek-v4-flash-free',
-  'nemotron-3-ultra-free',
-  'nemotron-3.5-lightning-free',
-  'laguna-s-2.1-free',
-  'big-pickle',
-  'north-mini-code-free',
-  'qwen3-coder-free',
-  'ministral-3-14b-free',
-  'grok-build-0.1',
-];
-
-async function fetchText(url, opts = {}) {
-  const headers = { 'User-Agent': 'awesome-dsh-curator/1.0', ...(opts.headers || {}) };
-  const ctrl = new AbortController();
-  const t = setTimeout(() => ctrl.abort(), opts.timeoutMs || 10000);
-  try {
-    const res = await fetch(url, { headers, signal: ctrl.signal });
-    if (!res.ok) throw new Error(`GET ${url} -> ${res.status}`);
-    return await res.text();
-  } finally { clearTimeout(t); }
-}
-
-function randHex(bytes = 12) {
-  const chars = '0123456789abcdef';
-  let s = '';
-  for (let i = 0; i < bytes * 2; i++) s += chars[Math.floor(Math.random() * 16)];
-  return s;
-}
-
-async function fetchLiveFreeModels() {
-  try {
-    const headers = {
-      'x-opencode-client': 'cli',
-      'x-opencode-session': `ses_${randHex(12)}`,
-      'x-opencode-project': 'global',
-      'x-opencode-request': `msg_${randHex(12)}`,
-      'User-Agent': 'opencode/1.18.18/cli',
-    };
-    const raw = await fetchText(ZEN_MODELS_URL, { timeoutMs: 8000, headers });
-    const data = JSON.parse(raw);
-    const list = Array.isArray(data?.data) ? data.data : Array.isArray(data) ? data : [];
-    const free = list
-      .filter(m => {
-        const id = (m.id || '').toLowerCase();
-        const rawId = (m.id || '').toLowerCase();
-        // Zen returns ids like deepseek-v4-flash-free (without opencode/ prefix) or with
-        if (rawId.includes('-free') || (m.name || '').toLowerCase().includes(' free')) return true;
-        if (m.pricing && m.pricing.input === 0 && m.pricing.output === 0) return true;
-        return false;
-      })
-      .map(m => (m.id || '').replace(/^opencode\//, '').replace(/^oc\//, '').trim())
-      .filter(Boolean);
-    if (free.length) {
-      const uniq = [...new Set(free)];
-      // Keep API order (approx latest-first), no extra sort — ensures newest free first as requested
-      console.log(`Live free models from Zen (${uniq.length}): ${uniq.slice(0, 12).join(', ')}`);
-      return uniq;
-    }
-  } catch (e) {
-    console.warn(`Zen fetch failed: ${e.message}`);
-  }
-  console.log(`Using static fallback: ${STATIC_FREE_FALLBACK.slice(0, 8).join(', ')}`);
-  return STATIC_FREE_FALLBACK;
-}
-
 async function runPreliminaryChecks(pr, issue) {
   const out = [];
   const exec = (cmd, args) => new Promise(res => {
@@ -219,7 +147,14 @@ async function runPreliminaryChecks(pr, issue) {
       } catch (e) { out.push(`- Issue parse failed: ${e.message}`); }
     }
   }
-  if (!pr && !issue) out.push('No PR/Issue event — general health audit only');
+  if (!pr && !issue) {
+    const milestoneDiff = await exec('git', ['diff', '--', 'README.md', 'README.zh.md']);
+    if (milestoneDiff.code === 0 && /stars is our first milestone|颗星是第一里程碑/.test(milestoneDiff.out)) {
+      out.push('Actionable bilingual repository star milestone refresh already applied by scripts/update-repo-stars.mjs. Review the local README diff, preserve it, and cite https://api.github.com/repos/awesome-deepseekharness/awesome-deepseek-harness. Do not report no actionable findings.');
+    } else {
+      out.push('No PR/Issue event — general health audit only');
+    }
+  }
   return out.join('\n');
 }
 
@@ -315,23 +250,15 @@ async function runAutoLabel(pr, issue, preChecks) {
     try {
       const isAmbiguous = !isPluginAdd && !hasWorkflow && !prefix;
       if (isAmbiguous) {
-        const hasOpencode = await new Promise(res => {
-          const c = spawn('opencode', ['--version'], { stdio: 'ignore', shell: process.platform === 'win32' });
-          c.on('close', code => res(code === 0)); c.on('error', () => res(false));
-        });
+        const hasOpencode = await runCli(['--version']).then(() => true, () => false);
         if (hasOpencode) {
           const prompt = `Classify this PR title/files into one label: plugin, enhancement, bug, documentation, question. Title: "${title}" Files: ${files.join(', ')}. Reply only with the label.`;
-          const tmpPrompt = prompt.slice(0, 400);
-          // Fire-and-forget suggestion with 25s timeout; fallback deterministic if fails
-          const llm = await new Promise(res => {
-            const isWin = process.platform === 'win32';
-            const child = spawn('opencode', ['run', '--model', 'opencode/qwen3-coder-free', '--agent', 'curator', tmpPrompt], { stdio: ['pipe','pipe','pipe'], shell: isWin, cwd: ROOT });
-            let out = '';
-            const t = setTimeout(() => { child.kill('SIGTERM'); res(''); }, 25000);
-            child.stdout.on('data', d => out += d.toString());
-            child.on('close', () => { clearTimeout(t); res(out); });
-            child.on('error', () => { clearTimeout(t); res(''); });
-          });
+          const { result: llm } = await withFreeModel(async (model, timeoutMs) => {
+            const answer = await runModel(model, prompt.slice(0, 400), { agent: 'classifier', cwd: ROOT, timeoutMs,
+              config: { agent: { classifier: { mode: 'primary', permission: { '*': 'deny' } } } } });
+            if (!/^(plugin|enhancement|bug|documentation|question)$/i.test(answer.trim())) throw new Error('Invalid label');
+            return answer;
+          }, { totalMs: 60000, attemptMs: 25000 });
           const suggested = (llm.match(/\b(plugin|enhancement|bug|documentation|question)\b/i) || [])[1];
           if (suggested) {
             const s = suggested.toLowerCase();
@@ -401,68 +328,20 @@ async function runAutoLabel(pr, issue, preChecks) {
   }
 }
 
-function runOpencode(modelId, prompt) {
-  return new Promise((resolve, reject) => {
-    const model = `opencode/${modelId}`;
-    const args = ['run', '--model', model, '--agent', 'curator', prompt];
-    console.log(`\n[curate] Trying model: ${model} ...`);
-    const isWin = process.platform === 'win32';
-    const child = spawn('opencode', args, {
-      cwd: ROOT,
-      env: { ...process.env, OPENCODE_API_KEY: process.env.OPENCODE_API_KEY || 'public' },
-      stdio: ['ignore', 'pipe', 'pipe'],
-      shell: isWin,
-    });
-    let out = '', err = '';
-    const timeout = setTimeout(() => {
-      child.kill('SIGTERM');
-      reject(new Error(`opencode timeout for ${model}`));
-    }, 180000);
-    child.stdout.on('data', d => { out += d.toString(); process.stdout.write(d); });
-    child.stderr.on('data', d => { err += d.toString(); process.stderr.write(d); });
-    child.on('error', e => { clearTimeout(timeout); reject(e); });
-    child.on('close', code => {
-      clearTimeout(timeout);
-      if (code === 0) resolve({ code, out, err });
-      else reject(new Error(`opencode ${model} exit ${code}: ${err.slice(0, 800)}`));
-    });
-  });
-}
-
 async function generateWithTraversal(prompt) {
-  const live = await fetchLiveFreeModels();
-  const combined = [...new Set([...live, ...STATIC_FREE_FALLBACK])];
-  console.log(`[curate] Traversal order (${combined.length}): ${combined.slice(0, 12).join(', ')}${combined.length > 12 ? ' ...' : ''}`);
-  let lastErr = null;
-  for (const modelId of combined) {
-    try {
-      const hasOpencode = await new Promise(res => {
-        const isWin = process.platform === 'win32';
-        const c = spawn('opencode', ['--version'], { stdio: 'ignore', shell: isWin });
-        c.on('error', () => res(false));
-        c.on('close', code => res(code === 0));
-      });
-      if (!hasOpencode) throw new Error('opencode binary not found');
-      await runOpencode(modelId, prompt);
-      if (fs.existsSync(REPORT_FILE)) {
-        const content = fs.readFileSync(REPORT_FILE, 'utf8');
-        if (content.includes('# Curator Report') || content.includes('## Summary')) {
-          console.log(`[curate] Success with ${modelId}`);
-          return { modelId, success: true };
-        }
-        console.warn(`[curate] ${modelId} produced report without expected header, trying next`);
-        lastErr = new Error('invalid report');
-        continue;
-      }
-      console.warn(`[curate] ${modelId} did not create curator-report.md`);
-      lastErr = new Error('no report');
-    } catch (e) {
-      console.warn(`[curate] ${modelId} failed: ${e.message}`);
-      lastErr = e;
-      await sleep(1500);
+  return withFreeModel(async (model, timeoutMs) => {
+    // A previous attempt's report must never count as this model's success.
+    for (const file of [REPORT_FILE, REVIEW_FILE]) fs.rmSync(file, { force: true });
+    await runModel(model, prompt, { agent: 'curator', cwd: ROOT, timeoutMs });
+    if (!fs.existsSync(REPORT_FILE)) throw new Error('No fresh curator-report.md');
+    const content = fs.readFileSync(REPORT_FILE, 'utf8');
+    if (!/^# (?:curator-report\.md|Curator Report)/im.test(content) || !/^## Sources/im.test(content)) {
+      throw new Error('Report is missing its title or Sources');
     }
-  }
-  throw lastErr || new Error('all free models failed');
+    fs.writeFileSync(REPORT_FILE, content.replace(/^<sub>.*model:.*<\/sub>\s*$/gmi, '').trimEnd()
+      + '\n\n<sub>model: ' + model + '</sub>\n');
+    return model;
+  });
 }
 
 function buildPrompt({ pr, issue, preChecks }) {
@@ -484,7 +363,7 @@ function buildPrompt({ pr, issue, preChecks }) {
     ``,
     `Toolbox hints:`,
     `- Prefer gh api for GitHub data, curl + jq for APIs, webfetch first then kitesurf browser for JS-heavy pages, websearch for auto-discovery.`,
-    `- Use opencode public provider (https://opencode.ai/zen/v1, apiKey public) — you are already on a free model via traversal.`,
+    `- Use the selected OpenCode model — its zero-cost metadata and response were checked before this task.`,
     `- kitesurf MCP is available as local MCP "kitesurf" (command: npx chrome-devtools-mcp --wsEndpoint=wss://kitesurf.cloudflare.app/devtools/browser) — use it to open https://github.com/owner/repo or demo URLs when webfetch returns shell.`,
     ``,
     `Proceed autonomously. After writing curator-report.md, echo DONE and list Sources.`,
@@ -502,7 +381,7 @@ function buildDeterministicReport({ pr, issue }) {
   return `# Curator Report — ${now.slice(0, 16)} UTC (model: fallback)
 
 ## Summary
-No LLM run (opencode free models unavailable or OPENCODE_API_KEY missing). This is a deterministic health snapshot. Trigger opencode with free-model traversal to get AI triage.
+No LLM run (no current free CLI model completed the task). This is a deterministic health snapshot. Trigger opencode with free-model traversal to get AI triage.
 
 ## Repo Health
 - ${health}
@@ -519,12 +398,12 @@ ${issue ? `- Issue #${issue} detected. Suggest labels: plugin suggestion / fix /
 - None (fallback).
 
 ## Next Steps
-- To enable AI: ensure opencode installed and run \`node scripts/curate.mjs\` (or wait for scheduled Action). Free models are public via https://opencode.ai/zen/v1.
+- To enable AI: ensure opencode installed and run \`node scripts/curate.mjs\` (or wait for scheduled Action). Free candidates come from the current OpenCode CLI model metadata.
 - Reviewer: verify any AI suggestion before merging.
 
 ## Sources
 - Local: README.md, README.zh.md, CONTRIBUTING.md
-- Live free models: ${ZEN_MODELS_URL}
+- Live free models: \`opencode models opencode --refresh --verbose\`
 
 ---
 *Generated at ${now} UTC. Set OPENCODE_API_KEY or just use public provider to enable AI.*
@@ -583,12 +462,8 @@ async function main() {
   console.log(`[curate] Prompt written to .curate-prompt.md`);
 
   // Detect opencode binary
-  const hasOpencode = await new Promise(res => {
-    const isWin = process.platform === 'win32';
-    const c = spawn('opencode', ['--version'], { stdio: 'ignore', shell: isWin });
-    c.on('error', () => res(false));
-    c.on('close', code => res(code === 0));
-  });
+  fs.rmSync(REVIEW_FILE, { force: true });
+  const hasOpencode = await runCli(['--version']).then(() => true, () => false);
   if (!hasOpencode) {
     console.warn('[curate] opencode not found, writing fallback');
     fs.writeFileSync(REPORT_FILE, buildDeterministicReport({ pr, issue }), 'utf8');
@@ -603,7 +478,7 @@ async function main() {
     console.warn(`[curate] All models failed (${e.message}), fallback`);
     fs.writeFileSync(REPORT_FILE, buildDeterministicReport({ pr, issue }), 'utf8');
     const rc2 = buildDeterministicReviewComment({ pr, issue });
-    if (rc2 && !fs.existsSync(REVIEW_FILE)) fs.writeFileSync(REVIEW_FILE, rc2, 'utf8');
+    if (rc2) fs.writeFileSync(REVIEW_FILE, rc2, 'utf8');
   }
   const final = fs.readFileSync(REPORT_FILE, 'utf8');
   console.log(`[curate] Done. Preview:\n${final.slice(0, 900)}\n...`);
