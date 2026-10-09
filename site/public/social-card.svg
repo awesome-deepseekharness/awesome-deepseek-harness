@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#ffffff"/>
+  <rect width="28" height="630" fill="#2f4fd0"/>
+  <g font-family="Arial, sans-serif" fill="#12161f">
+    <text x="76" y="155" font-size="68" font-weight="700">AWESOME</text>
+    <text x="76" y="234" font-size="68" font-weight="700">DEEPSEEK</text>
+    <text x="76" y="313" font-size="68" font-weight="700">HARNESS</text>
+    <text x="78" y="391" font-size="30" fill="#3a65c2">Everything is a Plugin.</text>
+    <text x="78" y="503" font-size="25">Community-curated plugins, tools &amp; skills</text>
+    <text x="78" y="551" font-size="20" fill="#505660">Search. Explore. Build with dsh.</text>
+  </g>
+  <g stroke="#4d6bfe" stroke-width="2" fill="#e8eeff">
+    <rect x="750" y="110" width="170" height="150" rx="10"/>
+    <rect x="940" y="110" width="170" height="150" rx="10"/>
+    <rect x="750" y="280" width="170" height="210" rx="10"/>
+    <rect x="940" y="280" width="170" height="210" rx="10" fill="#2f4fd0"/>
+  </g>
+  <g font-family="Arial, sans-serif" font-size="23" fill="#2f4fd0">
+    <text x="774" y="154">MEMORY</text><text x="964" y="154">TOOLS</text>
+    <text x="774" y="324">SKILLS</text><text x="964" y="324" fill="#ffffff">dsh</text>
+  </g>
+  <path d="M 730 185 L 710 185 L 710 530 L 1025 530 L 1025 510" stroke="#4d6bfe" stroke-width="3" fill="none"/>
+</svg>

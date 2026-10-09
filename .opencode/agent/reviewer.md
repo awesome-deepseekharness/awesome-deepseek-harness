@@ -1,7 +1,6 @@
 ---
 description: Second AI reviewer — independent gate for curator PRs, decides APPROVE/CLOSE
 mode: primary
-model: opencode/qwen3-coder-free
 temperature: 0.2
 permissions:
   read: allow

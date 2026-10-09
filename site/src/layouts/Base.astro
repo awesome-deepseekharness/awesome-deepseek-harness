@@ -1,0 +1,73 @@
+---
+import '../styles/site.css';
+import { T, sitePath } from '../lib/i18n.mjs';
+import { abs } from '../lib/catalog.mjs';
+
+interface Props {
+  lang: 'en' | 'zh';
+  title: string;
+  desc: string;
+  keywords: string;
+  canonical: string;
+}
+
+const { lang, title, desc, keywords, canonical } = Astro.props;
+const t = T[lang];
+const en = lang === 'en';
+const canonicalUrl = abs(canonical);
+const favicon =
+  "data:image/svg+xml," +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32"><rect width="32" height="32" rx="7" fill="#4d6bfe"/><g fill="#fff"><rect x="7" y="8" width="8" height="5" rx="1"/><rect x="18" y="8" width="7" height="5" rx="1"/><rect x="7" y="16" width="6" height="5" rx="1"/><rect x="16" y="16" width="9" height="5" rx="1"/><rect x="7" y="24" width="13" height="4" rx="1"/></g></svg>'
+  );
+---
+
+<!DOCTYPE html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <title>{title}</title>
+    <meta name="description" content={desc} />
+    <meta name="keywords" content={keywords} />
+    <meta name="author" content="awesome-deepseekharness" />
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="theme-color" content="#4d6bfe" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0a0d14" media="(prefers-color-scheme: dark)" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="en" href={abs('/')} />
+    <link rel="alternate" hreflang="zh" href={abs('/zh/')} />
+    <link rel="alternate" hreflang="x-default" href={abs('/')} />
+    <link rel="icon" href={favicon} />
+    <link rel="alternate" type="text/plain" title="AI reading guide" href={sitePath('/llms.txt')} />
+    <link rel="alternate" type="application/json" title="Bilingual project catalog" href={sitePath('/catalog.json')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Awesome DeepSeek Harness" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={t.ogLocale} />
+    <meta property="og:locale:alternate" content={en ? 'zh_CN' : 'en_US'} />
+    <meta property="og:image" content={abs('/social-card.png')} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Awesome DeepSeek Harness — community-curated plugins, tools and skills" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={abs('/social-card.png')} />
+    <meta name="twitter:image:alt" content="Awesome DeepSeek Harness — community-curated plugins, tools and skills" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={desc} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Azeret+Mono:wght@400;500&family=Noto+Sans+SC:wght@400;500;700&display=swap"
+    />
+    <slot name="head" />
+  </head>
+  <body>
+    <a class="skip" href="#blocks">{en ? 'Skip to the catalog' : '跳到插件列表'}</a>
+    <slot />
+  </body>
+</html>
