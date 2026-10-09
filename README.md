@@ -115,6 +115,7 @@ The hottest category — giving text-only models "eyes."
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | Quick-prompts bar above composer: per-category snippet chips, orange {{placeholder}} highlighting, two-column management, per-session category memory | 1 |
 | [weibaohui/dsh-fireworks](https://github.com/weibaohui/dsh-fireworks) | Fireworks celebration engine: event-driven shows above the chat window while the agent codes (welcome / per-turn / tool sparks / milestone / finale / failure dud), token usage decides size & splendour; installable via `dsh plugin add @weibaohui/dsh-fireworks` | 0 |
 | [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | Re-sorts sidebar workspaces by last activity once per day; stable order within the day | 2 |
+| [12we21/cute-fat-fish-pet](https://github.com/12we21/cute-fat-fish-pet) | A chibi blue-haired maid desktop pet for the DSH Web UI with 106 hand-drawn transparent animations, desktop wandering, chat through local Ollama or the DSH online models, and optional screen watching (installable via `dsh plugin add github:12we21/cute-fat-fish-pet#path:/src`) | 1 |
 ### 🖥️ TUI & Desktop
 
 | Project | Description | ⭐ |
