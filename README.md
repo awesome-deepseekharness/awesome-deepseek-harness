@@ -190,6 +190,7 @@ The hottest category — giving text-only models "eyes."
 | [ff66ccff/dsh-ATN](https://github.com/ff66ccff/dsh-ATN) | Adaptive topology multi-agent preset for DeepSeek Harness with peer messaging, a shared board, task handoff and live network visualization. Install: `dsh plugin --profile web add dsh-atn@0.4.1`. | 2 |
 | [lcestou/dsh-oh-my-claude](https://github.com/lcestou/dsh-oh-my-claude) | Claude Code CLI as a native dsh provider: the logged-in `claude` binary does the work on its own subscription, no API key. Live model list, per-session resume, approval relay, images, a memory/rewind/changes panel, workspaces on remote SSH boxes. `dsh plugin --profile web add dsh-oh-my-claude` | 10 |
 | [luobosibing2/dsh-jev-plugin](https://github.com/luobosibing2/dsh-jev-plugin) | Native DSH plugin with a TypeSafe Jev decision layer for skill/file selection, task supervision, tool-output filtering and approval assistance — 12 independently configurable features, all disabled by default (install via the DSH Web plugin manager from the GitHub URL) | 203 |
+| [klarkxy/dsh-plugins#dsh-dev-index](https://github.com/klarkxy/dsh-plugins/tree/main/plugins/dsh-dev-index) | Read official DSH docs in the Plugins page; Creator mode searches docs and checks plugin npm metadata. Install: `dsh plugin --profile web add @klarkxy/dsh-dev-index`. | 7 |
 
 ### 📚 Skills
 
