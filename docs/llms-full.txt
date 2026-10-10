@@ -477,6 +477,17 @@ Re-sorts sidebar workspaces by last activity once per day; stable order within t
 Stars (README snapshot): 2
 
 
+### 12we21/cute-fat-fish-pet
+
+Repository: https://github.com/12we21/cute-fat-fish-pet
+
+A chibi blue-haired maid desktop pet for the DSH Web UI with 106 hand-drawn transparent animations, desktop wandering, chat through local Ollama or the DSH online models, and optional screen watching (installable via `dsh plugin add github:12we21/cute-fat-fish-pet#path:/src`)
+
+DSH Web UI 的 Q 版蓝发小女仆桌宠：106 个手绘透明动画、桌面漫步、本地 Ollama 或 DSH 在线模型陪聊，可选看屏幕吐槽（`dsh plugin add github:12we21/cute-fat-fish-pet#path:/src` 即装）
+
+Stars (README snapshot): 1
+
+
 ## TUI & Desktop / TUI 与桌面端
 
 
@@ -1331,6 +1342,17 @@ Reverse engineer anything with agents, from app behavior down to native binaries
 用 agent 逆向任何东西:从应用行为到原生二进制
 
 Stars (README snapshot): 404
+
+
+### reliable-ly0411/babeldoc-pdf-translate
+
+Repository: https://github.com/reliable-ly0411/babeldoc-pdf-translate
+
+BabelDOC PDF translation skill for DSH, also packaged as a Codex plugin: bilingual output, custom glossaries and local typesetting; install under `.dsh/skills/babeldoc-pdf-translate`
+
+面向 DSH 的 BabelDOC PDF 翻译技能，同时提供 Codex 插件封装：双语输出、自定义术语及本地排版；安装到 `.dsh/skills/babeldoc-pdf-translate`
+
+Stars (README snapshot): 0
 
 
 ## Apps & Runtimes Built on DSH / 集成 DSH 的应用与运行时
