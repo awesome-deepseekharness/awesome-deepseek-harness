@@ -1176,6 +1176,17 @@ Claude Code CLI as a native dsh provider: the logged-in `claude` binary does the
 Stars (README snapshot): 10
 
 
+### luobosibing2/dsh-jev-plugin
+
+Repository: https://github.com/luobosibing2/dsh-jev-plugin
+
+Native DSH plugin with a TypeSafe Jev decision layer for skill/file selection, task supervision, tool-output filtering and approval assistance — 12 independently configurable features, all disabled by default (install via the DSH Web plugin manager from the GitHub URL)
+
+原生 DSH 插件：TypeSafe Jev 决策层负责技能/文件筛选、任务监督、工具输出过滤与审批辅助——12 项功能独立配置、默认全部关闭（经 DSH Web 插件管理器用 GitHub 地址安装）
+
+Stars (README snapshot): 203
+
+
 ## Skills / Skills 与技能包
 
 

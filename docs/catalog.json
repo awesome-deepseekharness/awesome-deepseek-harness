@@ -19,7 +19,7 @@
   "starCountNote": "Project star counts are README snapshots, not live counts. Verify installation and compatibility in the linked upstream repository.",
   "repositoryStars": 21,
   "firstStarGoal": 100,
-  "total": 145,
+  "total": 146,
   "groups": [
     {
       "id": "MKT",
@@ -911,9 +911,17 @@
           "stars": 10,
           "zhName": "lcestou/dsh-oh-my-claude",
           "zhDesc": "把已登录的 Claude Code CLI 作为 dsh 原生模型提供方，用订阅额度干活、无需 API key：实时模型列表、按会话恢复、审批中转、图片、记忆/回退/变更面板，以及远程 SSH 主机上的工作区。`dsh plugin --profile web add dsh-oh-my-claude`"
+        },
+        {
+          "name": "luobosibing2/dsh-jev-plugin",
+          "url": "https://github.com/luobosibing2/dsh-jev-plugin",
+          "desc": "Native DSH plugin with a TypeSafe Jev decision layer for skill/file selection, task supervision, tool-output filtering and approval assistance — 12 independently configurable features, all disabled by default (install via the DSH Web plugin manager from the GitHub URL)",
+          "stars": 203,
+          "zhName": "luobosibing2/dsh-jev-plugin",
+          "zhDesc": "原生 DSH 插件：TypeSafe Jev 决策层负责技能/文件筛选、任务监督、工具输出过滤与审批辅助——12 项功能独立配置、默认全部关闭（经 DSH Web 插件管理器用 GitHub 地址安装）"
         }
       ],
-      "count": 53,
+      "count": 54,
       "prefix": "U7"
     },
     {
