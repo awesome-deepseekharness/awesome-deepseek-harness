@@ -298,6 +298,17 @@ dsh 有界分层、审批门控、可审计的跨会话记忆，支持冻结快�
 Stars (README snapshot): 90
 
 
+### Sev7eEn7/sieve
+
+Repository: https://github.com/Sev7eEn7/sieve
+
+Filters tool outputs, prunes stale context and discloses skills on demand for DSH 0.2.1-alpha.1. Install: `dsh plugin --profile headless add dsh-sieve@0.1.0`.
+
+为 DSH 0.2.1-alpha.1 过滤工具输出、裁剪陈旧上下文并按需披露技能。 安装：`dsh plugin --profile headless add dsh-sieve@0.1.0`。
+
+Stars (README snapshot): 3
+
+
 ## Web UI, Skins & Desktop Pets / Web UI、皮肤与桌面宠物
 
 
@@ -1066,6 +1077,17 @@ Alibaba Cloud OpenAPI MCP connection for DSH: static-credential mode through the
 Stars (README snapshot): 0
 
 
+### weibaohui/dsh-flow
+
+Repository: https://github.com/weibaohui/dsh-flow
+
+Execution flow chart: renders the session execution as a vertical node flow (turns / user / assistant / tools / approvals / retries / compaction), appended in real time over SSE with auto-follow scrolling; installable via `dsh plugin add @weibaohui/dsh-flow`
+
+执行流程图：把会话执行过程画成纵向节点流（回合/用户/助手/工具/审批/重试/压缩），SSE 实时追加、自动跟随滚动；`dsh plugin add @weibaohui/dsh-flow` 即装
+
+Stars (README snapshot): 0
+
+
 ### yeruizhi/dsh-ask-user-timeout
 
 Repository: https://github.com/yeruizhi/dsh-ask-user-timeout
@@ -1119,6 +1141,17 @@ Meeting room for DSH: several sessions (AI or human) join one room around a meet
 DSH 会议室：多个会话（AI 或人）加入同一房间、围着「会议目标」讨论，内置记录员读完整记录起草《会议结果》供你审核发布，与会者写的文件自动收进房间「附件/」，工具授权可在会议室面板里直接批（13 个 `room_*` 工具、8 个配置键；安装：`git clone` 后 `install_bundle link:`）
 
 Stars (README snapshot): 1
+
+
+### ff66ccff/dsh-ATN
+
+Repository: https://github.com/ff66ccff/dsh-ATN
+
+Adaptive topology multi-agent preset for DeepSeek Harness with peer messaging, a shared board, task handoff and live network visualization. Install: `dsh plugin --profile web add dsh-atn@0.4.1`.
+
+面向 DeepSeek Harness 的自适应拓扑多智能体预设，提供点对点通信、共享白板、任务交接和实时网络可视化。 Install: `dsh plugin --profile web add dsh-atn@0.4.1`.
+
+Stars (README snapshot): 0
 
 
 ## Skills / Skills 与技能包
@@ -1560,6 +1593,17 @@ Production DSH on VPS: systemd, dsh-proxy plugin, Basic Auth, Pangolin tunnel, 2
 VPS 生产部署:systemd、dsh-proxy 插件、Basic Auth、Pangolin 隧道、23 插件栈
 
 Stars (README snapshot): 1
+
+
+### dseek.app dsh CLI guide
+
+Repository: https://dseek.app/cli
+
+Unofficial dsh cheat sheet: `npx @deepseek-ai/dsh web`, Node.js requirement, headless profile and plugin commands, sourced from the official repo and npm page (community)
+
+非官方 dsh 速查：`npx @deepseek-ai/dsh web`、Node.js 版本要求、headless profile 与插件命令，来源为官方仓库与 npm 页面(社区)
+
+Stars (README snapshot): unknown
 
 
 ## Common questions
