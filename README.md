@@ -96,7 +96,7 @@ The hottest category — giving text-only models "eyes."
 | [Ariestar/sivtr](https://github.com/Ariestar/sivtr) | A unified agent memory workspace for human and agent | 269 |
 | [hardes11/dsh-squeeze-command](https://github.com/hardes11/dsh-squeeze-command) | Manual budget-targeted context compression: the conversation model picks the ranges to summarize and a cheap flash-tier route writes the checkpoint summaries; `dsh plugin add dsh-squeeze-command` | 1 |
 | [PerryLink/dsh-memento](https://github.com/PerryLink/dsh-memento) | Bounded, layered, approval-gated cross-session memory for dsh with frozen snapshot injection (`dsh plugin --profile web add dsh-memento`) | 90 |
-| [Sev7eEn7/sieve](https://github.com/Sev7eEn7/sieve) | Filters tool outputs, prunes stale context and discloses skills on demand for DSH 0.2.1-alpha.1. Install: `dsh plugin --profile headless add dsh-sieve@0.1.0`. | 3 |
+| [Sev7eEn7/dsh-sieve](https://github.com/Sev7eEn7/dsh-sieve) | Filters tool outputs, prunes stale context and discloses skills on demand for DSH 0.2.1-alpha.1. Install: `dsh plugin --profile headless add dsh-sieve@0.1.0`. | 64 |
 
 ### 🎨 Web UI, Skins & Desktop Pets
 
@@ -114,7 +114,7 @@ The hottest category — giving text-only models "eyes."
 | [ZSeven-W/dsh-openpencil](https://github.com/ZSeven-W/dsh-openpencil) | OpenPencil design preview & editing plugin for DSH | 169 |
 | [zizaiwo/dsh_plugins](https://github.com/zizaiwo/dsh_plugins) | Sidebar session categories for dsh Web UI: zero-config takeover of official workspace browser, organize sessions by custom folders (drag & drop, in-category creation, per-workspace isolation) | 0 |
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | Quick-prompts bar above composer: per-category snippet chips, orange {{placeholder}} highlighting, two-column management, per-session category memory | 1 |
-| [weibaohui/dsh-gaokao](https://github.com/weibaohui/dsh-gaokao) | Gaokao countdown blackboard: desktop widget counting down days (double-click to collapse into a slim bar) plus random knowledge-card quizzes while the agent works; installable via `dsh plugin add @weibaohui/dsh-gaokao` | 0 |
+| [weibaohui/dsh-gaokao](https://github.com/weibaohui/dsh-gaokao) | Gaokao countdown blackboard: desktop widget counting down days (double-click to collapse into a slim bar) plus random knowledge-card quizzes while the agent works; installable via `dsh plugin add @weibaohui/dsh-gaokao` | 2 |
 | [weibaohui/dsh-fireworks](https://github.com/weibaohui/dsh-fireworks) | Fireworks celebration engine: event-driven shows above the chat window while the agent codes (welcome / per-turn / tool sparks / milestone / finale / failure dud), token usage decides size & splendour; installable via `dsh plugin add @weibaohui/dsh-fireworks` | 0 |
 | [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | Re-sorts sidebar workspaces by last activity once per day; stable order within the day | 2 |
 ### 🖥️ TUI & Desktop
@@ -186,7 +186,8 @@ The hottest category — giving text-only models "eyes."
 | [0xRabit/dsh-crypto-portfolio](https://github.com/0xRabit/dsh-crypto-portfolio) | Self-hosted crypto portfolio dashboard for DSH — BTC, EVM (73 chains), Solana, Dogecoin, Cardano, Hyperliquid, five exchanges and tokenised equities in one view, with a shareable PNG card, a tunable asset-health report, per-source connection tests and zero-dependency trend charts (`dsh plugin --profile web add dsh-crypto-portfolio`) | 2 |
 | [shiyan688/dsh-novel-craft](https://github.com/shiyan688/dsh-novel-craft) | Novel-writing workbench that learns your taste: 👍/👎 marks on draft variants distill into reusable writing rules, and only the rules enter the writing context (`dsh plugin --profile web add dsh-novel-craft`) | 5 |
 | [IORT-DOIT/dsh-meeting-room](https://github.com/IORT-DOIT/dsh-meeting-room) | Meeting room for DSH: several sessions (AI or human) join one room around a meeting goal, a built-in recorder drafts the meeting minutes for your review, member files are auto-archived into the room, and members' tool approvals can be answered right in the room panel (13 `room_*` tools, 8 config keys; install: `git clone` then `install_bundle link:<path>`) | 1 |
-| [ff66ccff/dsh-ATN](https://github.com/ff66ccff/dsh-ATN) | Adaptive topology multi-agent preset for DeepSeek Harness with peer messaging, a shared board, task handoff and live network visualization. Install: `dsh plugin --profile web add dsh-atn@0.4.1`. | 0 |
+| [ff66ccff/dsh-ATN](https://github.com/ff66ccff/dsh-ATN) | Adaptive topology multi-agent preset for DeepSeek Harness with peer messaging, a shared board, task handoff and live network visualization. Install: `dsh plugin --profile web add dsh-atn@0.4.1`. | 2 |
+| [lcestou/dsh-oh-my-claude](https://github.com/lcestou/dsh-oh-my-claude) | Claude Code CLI as a native dsh provider: the logged-in `claude` binary does the work on its own subscription, no API key. Live model list, per-session resume, approval relay, images, a memory/rewind/changes panel, workspaces on remote SSH boxes. `dsh plugin --profile web add dsh-oh-my-claude` | 10 |
 
 ### 📚 Skills
 
