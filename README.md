@@ -186,6 +186,7 @@ The hottest category — giving text-only models "eyes."
 | [0xRabit/dsh-crypto-portfolio](https://github.com/0xRabit/dsh-crypto-portfolio) | Self-hosted crypto portfolio dashboard for DSH — BTC, EVM (73 chains), Solana, Dogecoin, Cardano, Hyperliquid, five exchanges and tokenised equities in one view, with a shareable PNG card, a tunable asset-health report, per-source connection tests and zero-dependency trend charts (`dsh plugin --profile web add dsh-crypto-portfolio`) | 2 |
 | [shiyan688/dsh-novel-craft](https://github.com/shiyan688/dsh-novel-craft) | Novel-writing workbench that learns your taste: 👍/👎 marks on draft variants distill into reusable writing rules, and only the rules enter the writing context (`dsh plugin --profile web add dsh-novel-craft`) | 5 |
 | [IORT-DOIT/dsh-meeting-room](https://github.com/IORT-DOIT/dsh-meeting-room) | Meeting room for DSH: several sessions (AI or human) join one room around a meeting goal, a built-in recorder drafts the meeting minutes for your review, member files are auto-archived into the room, and members' tool approvals can be answered right in the room panel (13 `room_*` tools, 8 config keys; install: `git clone` then `install_bundle link:<path>`) | 1 |
+| [ff66ccff/dsh-ATN](https://github.com/ff66ccff/dsh-ATN) | Adaptive topology multi-agent preset for DeepSeek Harness with peer messaging, a shared board, task handoff and live network visualization. Install: `dsh plugin --profile web add dsh-atn@0.4.1`. | 0 |
 
 ### 📚 Skills
 
