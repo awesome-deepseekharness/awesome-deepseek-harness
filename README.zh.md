@@ -96,6 +96,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [Ariestar/sivtr](https://github.com/Ariestar/sivtr) | 人与 agent 的统一记忆工作区 | 269 |
 | [hardes11/dsh-squeeze-command](https://github.com/hardes11/dsh-squeeze-command) | 手动、面向预算的上下文压缩:对话模型圈定要总结的范围,廉价 flash 级路由生成检查点摘要;`dsh plugin add dsh-squeeze-command` | 1 |
 | [PerryLink/dsh-memento](https://github.com/PerryLink/dsh-memento) | dsh 有界分层、审批门控、可审计的跨会话记忆，支持冻结快照注入（`dsh plugin --profile web add dsh-memento` 安装） | 90 |
+| [Sev7eEn7/sieve](https://github.com/Sev7eEn7/sieve) | 为 DSH 0.2.1-alpha.1 过滤工具输出、裁剪陈旧上下文并按需披露技能。 安装：`dsh plugin --profile headless add dsh-sieve@0.1.0`。 | 3 |
 
 ### 🎨 Web UI、皮肤与桌面宠物
 
