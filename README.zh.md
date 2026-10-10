@@ -190,6 +190,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [IORT-DOIT/dsh-meeting-room](https://github.com/IORT-DOIT/dsh-meeting-room) | DSH 会议室：多个会话（AI 或人）加入同一房间、围着「会议目标」讨论，内置记录员读完整记录起草《会议结果》供你审核发布，与会者写的文件自动收进房间「附件/」，工具授权可在会议室面板里直接批（13 个 `room_*` 工具、8 个配置键；安装：`git clone` 后 `install_bundle link:<路径>`） | 1 |
 | [ff66ccff/dsh-ATN](https://github.com/ff66ccff/dsh-ATN) | 面向 DeepSeek Harness 的自适应拓扑多智能体预设，提供点对点通信、共享白板、任务交接和实时网络可视化。 Install: `dsh plugin --profile web add dsh-atn@0.4.1`. | 2 |
 | [lcestou/dsh-oh-my-claude](https://github.com/lcestou/dsh-oh-my-claude) | 把已登录的 Claude Code CLI 作为 dsh 原生模型提供方，用订阅额度干活、无需 API key：实时模型列表、按会话恢复、审批中转、图片、记忆/回退/变更面板，以及远程 SSH 主机上的工作区。`dsh plugin --profile web add dsh-oh-my-claude` | 10 |
+| [luobosibing2/dsh-jev-plugin](https://github.com/luobosibing2/dsh-jev-plugin) | 原生 DSH 插件：TypeSafe Jev 决策层负责技能/文件筛选、任务监督、工具输出过滤与审批辅助——12 项功能独立配置、默认全部关闭（经 DSH Web 插件管理器用 GitHub 地址安装） | 203 |
 
 ### 📚 Skills 与技能包
 
