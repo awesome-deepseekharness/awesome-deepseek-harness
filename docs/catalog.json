@@ -19,7 +19,7 @@
   "starCountNote": "Project star counts are README snapshots, not live counts. Verify installation and compatibility in the linked upstream repository.",
   "repositoryStars": 21,
   "firstStarGoal": 100,
-  "total": 142,
+  "total": 143,
   "groups": [
     {
       "id": "MKT",
@@ -254,11 +254,11 @@
           "zhDesc": "dsh 有界分层、审批门控、可审计的跨会话记忆，支持冻结快照注入（`dsh plugin --profile web add dsh-memento` 安装）"
         },
         {
-          "name": "Sev7eEn7/sieve",
-          "url": "https://github.com/Sev7eEn7/sieve",
+          "name": "Sev7eEn7/dsh-sieve",
+          "url": "https://github.com/Sev7eEn7/dsh-sieve",
           "desc": "Filters tool outputs, prunes stale context and discloses skills on demand for DSH 0.2.1-alpha.1. Install: `dsh plugin --profile headless add dsh-sieve@0.1.0`.",
-          "stars": 3,
-          "zhName": "Sev7eEn7/sieve",
+          "stars": 64,
+          "zhName": "Sev7eEn7/dsh-sieve",
           "zhDesc": "为 DSH 0.2.1-alpha.1 过滤工具输出、裁剪陈旧上下文并按需披露技能。 安装：`dsh plugin --profile headless add dsh-sieve@0.1.0`。"
         }
       ],
@@ -370,7 +370,7 @@
           "name": "weibaohui/dsh-gaokao",
           "url": "https://github.com/weibaohui/dsh-gaokao",
           "desc": "Gaokao countdown blackboard: desktop widget counting down days (double-click to collapse into a slim bar) plus random knowledge-card quizzes while the agent works; installable via `dsh plugin add @weibaohui/dsh-gaokao`",
-          "stars": 0,
+          "stars": 2,
           "zhName": "Moonshile/moonshile-dsh-plugins",
           "zhDesc": "侧边栏工作区每日按最近活动排序一次，当天顺序稳定"
         },
@@ -892,12 +892,20 @@
           "name": "ff66ccff/dsh-ATN",
           "url": "https://github.com/ff66ccff/dsh-ATN",
           "desc": "Adaptive topology multi-agent preset for DeepSeek Harness with peer messaging, a shared board, task handoff and live network visualization. Install: `dsh plugin --profile web add dsh-atn@0.4.1`.",
-          "stars": 0,
+          "stars": 2,
           "zhName": "ff66ccff/dsh-ATN",
           "zhDesc": "面向 DeepSeek Harness 的自适应拓扑多智能体预设，提供点对点通信、共享白板、任务交接和实时网络可视化。 Install: `dsh plugin --profile web add dsh-atn@0.4.1`."
+        },
+        {
+          "name": "lcestou/dsh-oh-my-claude",
+          "url": "https://github.com/lcestou/dsh-oh-my-claude",
+          "desc": "Claude Code CLI as a native dsh provider: the logged-in `claude` binary does the work on its own subscription, no API key. Live model list, per-session resume, approval relay, images, a memory/rewind/changes panel, workspaces on remote SSH boxes. `dsh plugin --profile web add dsh-oh-my-claude`",
+          "stars": 10,
+          "zhName": "lcestou/dsh-oh-my-claude",
+          "zhDesc": "把已登录的 Claude Code CLI 作为 dsh 原生模型提供方，用订阅额度干活、无需 API key：实时模型列表、按会话恢复、审批中转、图片、记忆/回退/变更面板，以及远程 SSH 主机上的工作区。`dsh plugin --profile web add dsh-oh-my-claude`"
         }
       ],
-      "count": 52,
+      "count": 53,
       "prefix": "U7"
     },
     {
