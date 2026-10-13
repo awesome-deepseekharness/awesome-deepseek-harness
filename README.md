@@ -192,6 +192,7 @@ The hottest category — giving text-only models "eyes."
 | [luobosibing2/dsh-jev-plugin](https://github.com/luobosibing2/dsh-jev-plugin) | Native DSH plugin with a TypeSafe Jev decision layer for skill/file selection, task supervision, tool-output filtering and approval assistance — 12 independently configurable features, all disabled by default (install via the DSH Web plugin manager from the GitHub URL) | 203 |
 | [klarkxy/dsh-plugins#dsh-dev-index](https://github.com/klarkxy/dsh-plugins/tree/main/plugins/dsh-dev-index) | Read official DSH docs in the Plugins page; Creator mode searches docs and checks plugin npm metadata. Install: `dsh plugin --profile web add @klarkxy/dsh-dev-index`. | 7 |
 | [lo2589/deepseek-harness-media](https://github.com/lo2589/deepseek-harness-media) | Composer-bar buttons for DSH Web: switch model providers (GLM, MiniMax, OpenAI, Claude, local Ollama) without editing YAML, take screenshots, upload images/SVG/text files, send images to a vision model, plus a session media panel and history search. Install: `dsh plugin --profile web add file:./dsh-provider-quick-config`. | 4 |
+| [skyjjgw/dsh-version-guard](https://github.com/skyjjgw/dsh-version-guard) | Snapshots plugin versions and profile configuration, with an independent recovery page to restore a known-good configuration when DSH cannot start. | 1 |
 
 ### 📚 Skills
 
