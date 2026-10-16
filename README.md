@@ -59,6 +59,7 @@ DeepSeek Harness is DeepSeek AI's open-source agent harness. Its core philosophy
 | [Nagi-ovo/dsh-find-plugins](https://github.com/Nagi-ovo/dsh-find-plugins) | A DSH skill that finds, installs, and verifies GitHub plugins | 172 |
 | [AdamPlatin123/awesome-dsh-plugins](https://github.com/AdamPlatin123/awesome-dsh-plugins) | Radar index repo that auto-scans dsh plugin candidates | 1466 |
 | [LaplaceYoung/oh-my-dsh](https://github.com/LaplaceYoung/oh-my-dsh) | 700+ plugins registered only through extension seams — no agent-loop modification | 58 |
+| [ymck-x/dsh-plugin-index](https://github.com/ymck-x/dsh-plugin-index) | DSH plugin index that trusts only the `dsh.bundle.patch` field in `package.json`: 10,000+ verified third-party plugins, one-click install, plus a companion website | 1 |
 
 ### 👁️ Vision
 
@@ -97,6 +98,7 @@ The hottest category — giving text-only models "eyes."
 | [hardes11/dsh-squeeze-command](https://github.com/hardes11/dsh-squeeze-command) | Manual budget-targeted context compression: the conversation model picks the ranges to summarize and a cheap flash-tier route writes the checkpoint summaries; `dsh plugin add dsh-squeeze-command` | 1 |
 | [PerryLink/dsh-memento](https://github.com/PerryLink/dsh-memento) | Bounded, layered, approval-gated cross-session memory for dsh with frozen snapshot injection (`dsh plugin --profile web add dsh-memento`) | 90 |
 | [Sev7eEn7/dsh-sieve](https://github.com/Sev7eEn7/dsh-sieve) | Filters tool outputs, prunes stale context and discloses skills on demand for DSH 0.2.1-alpha.1. Install: `dsh plugin --profile headless add dsh-sieve@0.1.0`. | 64 |
+| [ymck-x/dsh-session-continuity](https://github.com/ymck-x/dsh-session-continuity) | Continuity pointer at the start of a new session (previous session + handoff file); reuses DSH's own compaction summary when there is no handoff file and calls no model | 1 |
 
 ### 🎨 Web UI, Skins & Desktop Pets
 
@@ -211,6 +213,7 @@ The hottest category — giving text-only models "eyes."
 | [suyukun/dsh-tech-selection](https://github.com/suyukun/dsh-tech-selection) | Model-agnostic technology-selection research protocol for any AI agent (DSH/Claude/Cursor/Codex): T1-T6 source tiers, quality gates, quantified trade-offs, traceable verdicts | 0 |
 | [morluto/rea](https://github.com/morluto/rea) | Reverse engineer anything with agents, from app behavior down to native binaries | 404 |
 | [reliable-ly0411/babeldoc-pdf-translate](https://github.com/reliable-ly0411/babeldoc-pdf-translate) | BabelDOC PDF translation skill for DSH, also packaged as a Codex plugin: bilingual output, custom glossaries and local typesetting; install under `.dsh/skills/babeldoc-pdf-translate` | 0 |
+| [ymck-x/dsh-skill-starter](https://github.com/ymck-x/dsh-skill-starter) | Skill manager with 6 built-in skills and a 20-skill Chinese engineering pack (requirements grilling, ticketing, TDD, two-axis code review, retro); upgrading never overwrites files you edited | 1 |
 
 ### 🚀 Apps & Runtimes Built on DSH
 
