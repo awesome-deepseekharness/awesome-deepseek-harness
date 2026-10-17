@@ -193,6 +193,7 @@ The hottest category — giving text-only models "eyes."
 | [klarkxy/dsh-plugins#dsh-dev-index](https://github.com/klarkxy/dsh-plugins/tree/main/plugins/dsh-dev-index) | Read official DSH docs in the Plugins page; Creator mode searches docs and checks plugin npm metadata. Install: `dsh plugin --profile web add @klarkxy/dsh-dev-index`. | 7 |
 | [lo2589/deepseek-harness-media](https://github.com/lo2589/deepseek-harness-media) | Composer-bar buttons for DSH Web: switch model providers (GLM, MiniMax, OpenAI, Claude, local Ollama) without editing YAML, take screenshots, upload images/SVG/text files, send images to a vision model, plus a session media panel and history search. Install: `dsh plugin --profile web add file:./dsh-provider-quick-config`. | 4 |
 | [skyjjgw/dsh-version-guard](https://github.com/skyjjgw/dsh-version-guard) | Snapshots plugin versions and profile configuration, with an independent recovery page to restore a known-good configuration when DSH cannot start. | 1 |
+| [weibaohui/dsh-favorites](https://github.com/weibaohui/dsh-favorites) | Session favorites: bookmark any conversation into a browser-style favorites panel — one-click star from session rows, folders for organization, notes, custom display names, resume session, fork into a new session, basic session stats, plus a fork-relationship graph showing how conversations derive from one another. Installable via `dsh plugin add @weibaohui/dsh-favorites` | 1 |
 
 ### 📚 Skills
 
