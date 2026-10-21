@@ -201,7 +201,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [hyhmrright/brooks-lint](https://github.com/hyhmrright/brooks-lint) | 以 12 本经典工程书为基础的 AI 代码审查:衰减风险诊断、6 种分析模式 | 1474 |
 | [GanyuanRan/Aegis](https://github.com/GanyuanRan/Aegis) | 让编码 agent 具备架构意识:基线优先、证据验证、漂移检查 | 1185 |
 | [superdesigndev/superdesign-skill](https://github.com/superdesigndev/superdesign-skill) | 设计技能:告别 AI-slop UI,产出可交付的精致前端 | 556 |
-| [yogsoth-ai/de-anthropocentric-research-engine](https://github.com/yogsoth-ai/de-anthropocentric-research-engine) | 900+ 纯 markdown 研究技能:4 层层级、9 个自由组合包、6 个 MCP 集成 | 470 |
+| [yogsoth-ai/de-anthropocentric-research-engine](https://github.com/yogsoth-ai/de-anthropocentric-research-engine) | 面向 agent 的研究引擎：给定方向后自行完成文献综合、空白验证、假设形成与实验设计；执行前先审批计划，证据不足时退回文献；纯 markdown | 505 |
 | [Minara-AI/minara-skills](https://github.com/Minara-AI/minara-skills) | 交易技能包:让 agent 帮你赚钱 | 345 |
 | [linhay/harmony-next.skills](https://github.com/linhay/harmony-next.skills) | HarmonyOS NEXT (API 12+) 开发专家指导 | 347 |
 | [alaliqing/claude-paper](https://github.com/alaliqing/claude-paper) | 跨 agent 论文工具:快速摘要、深度学习材料、代码演示、本地阅读器 | 336 |
