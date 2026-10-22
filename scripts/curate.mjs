@@ -28,6 +28,12 @@ const GH_READ_CHARS = /^[A-Za-z0-9._~:/?#@!%+,=-]+$/;
 // still accepts a later `-X POST` override. This mode accepts exactly one
 // endpoint, validates it, and always invokes `gh api --method GET` with no
 // way to add method/body flags.
+// The live topic lookup is the only thing allowed to add `invalid`. A PR body
+// or diff that merely says "missing dsh-plugin" must not affect labels.
+export function isPluginTopicInvalid(isPluginAdd, livePluginTopic) {
+  return Boolean(isPluginAdd) && livePluginTopic === 'missing';
+}
+
 export function validateGhReadEndpoint(args) {
   if (args.length !== 1) throw new Error('Usage: node scripts/curate.mjs gh-read <endpoint>');
   const endpoint = args[0];
@@ -69,6 +75,10 @@ export function classifierConfig() {
 }
 async function runPreliminaryChecks(pr, issue) {
   const out = [];
+  // Keep the live topic result separate from untrusted PR/issue text. The
+  // auto-labeler must never infer `invalid` from a body or diff that merely
+  // mentions "missing dsh-plugin".
+  let livePluginTopic = 'unknown';
   const exec = (cmd, args) => new Promise(res => {
     const isWin = process.platform === 'win32';
     const useShell = cmd === 'opencode' && isWin; // gh is binary, no shell needed; opencode on Win is .ps1
@@ -165,7 +175,9 @@ async function runPreliminaryChecks(pr, issue) {
           if (api.code === 0) {
             try {
               const info = JSON.parse(api.out);
-              out.push(`- Live: stars=${info.stars}, topics=${(info.topics||[]).join(',') || '(none)'}, license=${info.license || '(none)'} ${info.topics?.includes('dsh-plugin') ? '✅ dsh-plugin' : '❌ missing dsh-plugin'}`);
+              const hasPluginTopic = Array.isArray(info.topics) && info.topics.includes('dsh-plugin');
+              livePluginTopic = hasPluginTopic ? 'present' : 'missing';
+              out.push(`- Live: stars=${info.stars}, topics=${(info.topics||[]).join(',') || '(none)'}, license=${info.license || '(none)'} ${hasPluginTopic ? '✅ dsh-plugin' : '❌ missing dsh-plugin'}`);
             } catch { out.push(`- Live fetch parse failed: ${api.out.slice(0,200)}`); }
           } else {
             out.push(`- Live fetch failed for ${repo}: ${api.err.slice(0,200)}`);
@@ -199,7 +211,12 @@ async function runPreliminaryChecks(pr, issue) {
           out.push(`- Detected repo: ${mRepo} — check if already listed via grep`);
           const api2 = await exec('gh', ['api', `repos/${mRepo}`, '--jq', '{stars: .stargazers_count, topics: .topics}']);
           if (api2.code === 0) {
-            try { const inf = JSON.parse(api2.out); out.push(`- Live: stars=${inf.stars}, topics=${(inf.topics||[]).join(',')}`); } catch {}
+            try {
+              const inf = JSON.parse(api2.out);
+              const hasPluginTopic = Array.isArray(inf.topics) && inf.topics.includes('dsh-plugin');
+              livePluginTopic = hasPluginTopic ? 'present' : 'missing';
+              out.push(`- Live: stars=${inf.stars}, topics=${(inf.topics||[]).join(',')}`);
+            } catch {}
           }
         }
       } catch (e) { out.push(`- Issue parse failed: ${e.message}`); }
@@ -216,10 +233,10 @@ async function runPreliminaryChecks(pr, issue) {
       out.push('No PR/Issue event — general health audit only');
     }
   }
-  return out.join('\n');
+  return { text: out.join('\n'), livePluginTopic };
 }
 
-async function runAutoLabel(pr, issue, preChecks) {
+async function runAutoLabel(pr, issue, preChecks, livePluginTopic = 'unknown') {
   const exec = (cmd, args) => new Promise(res => {
     const child = spawn(cmd, args, { stdio: ['pipe','pipe','pipe'], shell: false });
     let o='', e='';
@@ -243,8 +260,6 @@ async function runAutoLabel(pr, issue, preChecks) {
       if (r.code === 0) issueInfo = JSON.parse(r.out);
     }
   } catch {}
-
-  const lowerPre = preChecks.toLowerCase();
 
   if (isPR && prInfo) {
     const title = prInfo.title || '';
@@ -281,7 +296,7 @@ async function runAutoLabel(pr, issue, preChecks) {
     if (isPluginAdd) {
       labelsToAdd.add('plugin');
       labelsToAdd.add('enhancement');
-      if (lowerPre.includes('missing dsh-plugin')) labelsToAdd.add('invalid');
+      if (isPluginTopicInvalid(isPluginAdd, livePluginTopic)) labelsToAdd.add('invalid');
     } else if (hasWorkflow) {
       // Infra / automation PR (like feat(curator): every 3 days...)
       // Map prefix to smarter label: feat/chore/ci/refactor -> enhancement, fix -> bug, docs -> documentation
@@ -303,7 +318,6 @@ async function runAutoLabel(pr, issue, preChecks) {
         labelsToAdd.add('documentation');
       }
       // keep plugin only if actually plugin-related (checked above)
-      if (lowerPre.includes('missing dsh-plugin') && isPluginAdd) labelsToAdd.add('invalid');
     }
 
     // Opencode-style intelligent refinement: try LLM suggestion for ambiguous titles (non-plugin, non-workflow)
@@ -346,9 +360,10 @@ async function runAutoLabel(pr, issue, preChecks) {
     // curator issues (automation) get curator label
     if (t.includes('curator') || t.includes('workflow')) labelsToAdd.add('curator');
   } else {
-    // Fallback: old heuristic if gh fetch failed
-    if (lowerPre.includes('missing dsh-plugin')) labelsToAdd.add('invalid');
-    else if (lowerPre.includes('dsh-plugin') && lowerPre.includes('detected repo:')) labelsToAdd.add('plugin');
+    // Fallback if gh fetch failed: use only the deterministic live result,
+    // never a substring of the PR/issue text.
+    if (livePluginTopic === 'missing') labelsToAdd.add('invalid');
+    else if (livePluginTopic === 'present') labelsToAdd.add('plugin');
   }
 
   // --- Cleanup wrong labels that may have been added before (smart removal) ---
@@ -515,9 +530,10 @@ async function main() {
       console.log(`[curate] Comment contains repo link ${urlMatch[1]} — will be considered by curator agent`);
     }
   }
-  const preChecks = await runPreliminaryChecks(pr, issue);
+  const preliminary = await runPreliminaryChecks(pr, issue);
+  const preChecks = preliminary.text;
   console.log(`[curate] Preliminary checks:\n${preChecks}\n---`);
-  try { await runAutoLabel(pr, issue, preChecks); } catch (e) { console.warn(`[curate] autoLabel failed: ${e.message}`); }
+  try { await runAutoLabel(pr, issue, preChecks, preliminary.livePluginTopic); } catch (e) { console.warn(`[curate] autoLabel failed: ${e.message}`); }
   const prompt = buildPrompt({ pr, issue, preChecks });
   fs.writeFileSync(path.join(ROOT, '.curate-prompt.md'), prompt, 'utf8');
   console.log(`[curate] Prompt written to .curate-prompt.md`);

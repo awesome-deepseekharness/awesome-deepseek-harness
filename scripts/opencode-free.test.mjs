@@ -4,7 +4,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { EventEmitter } from 'node:events';
 import { approvalGatedAgent, parseModels, rankFreeModels, responseText, runModel, probeModel, withFreeModel } from './opencode-free.mjs';
 import { parseDecision } from './opencode-auto.mjs';
-import { classifierConfig, runGhRead, validateGhReadEndpoint } from './curate.mjs';
+import { classifierConfig, isPluginTopicInvalid, runGhRead, validateGhReadEndpoint } from './curate.mjs';
 
 const model = (id, overrides = {}) => ({
   fullID: `opencode/${id}`, release_date: '2026-01-01', status: 'active',
@@ -195,6 +195,13 @@ function fakeChild({ code = 0, stdout = '', stderr = '' } = {}) {
   });
   return child;
 }
+
+test('plugin invalid label uses only the live topic result, not PR text', () => {
+  assert.equal(isPluginTopicInvalid(true, 'missing'), true);
+  assert.equal(isPluginTopicInvalid(true, 'present'), false);
+  assert.equal(isPluginTopicInvalid(true, 'unknown'), false);
+  assert.equal(isPluginTopicInvalid(false, 'missing'), false);
+});
 
 test('gh-read allows only documented read-only endpoint prefixes', () => {
   for (const endpoint of ['repos/o/r', 'users/alice', 'search/issues?q=author:alice+type:pr', 'rate_limit']) {
