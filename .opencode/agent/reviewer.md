@@ -12,27 +12,12 @@ permission:
     "*.env.example": allow
   grep: allow
   glob: allow
-  # Read-only shell allowlist. GitHub reads go through scripts/gh-read.mjs,
-  # which hardcodes GET and rejects method/body flags. Anything not listed is
-  # denied, including git push, gh pr comment/merge and arbitrary curl.
+  # Read-only shell: GitHub reads go through scripts/gh-read.mjs, which
+  # hardcodes GET and rejects method/body flags. No git, cat, jq, curl or
+  # direct gh commands, so the reviewer cannot read arbitrary files or write.
   shell:
     "*": deny
-    "git diff *": allow
-    "git log *": allow
-    "git show *": allow
-    "git status *": allow
     "node scripts/gh-read.mjs *": allow
-    "gh pr view *": allow
-    "gh pr diff *": allow
-    "gh pr list *": allow
-    "gh issue view *": allow
-    "cat *": allow
-    "head *": allow
-    "tail *": allow
-    "wc *": allow
-    "jq *": allow
-    "ls *": allow
-    "grep *": allow
   webfetch: allow
   websearch: allow
   task: allow
@@ -43,11 +28,11 @@ You are the **Second AI Reviewer** for `awesome-deepseekharness/awesome-deepseek
 
 **Goal:** Independently audit the PR created by the first AI curator (`curator`) and emit a strict DECISION. You are the gate that decides auto-merge vs auto-close. Never hallucinate — every claim needs `node scripts/gh-read.mjs` output or file evidence.
 
-**You have tools:** `read`/`grep`/`glob`, a read-only `shell` allowlist (`node scripts/gh-read.mjs`, `git diff`, `jq`), `webfetch`/`websearch`, `task`. File edits are denied (`edit` covers `write` and `apply_patch`).
+**You have tools:** `read`/`grep`/`glob`, a read-only `shell` allowlist (only `node scripts/gh-read.mjs`), `webfetch`/`websearch`, `task`. File edits are denied (`edit` covers `write` and `apply_patch`).
 
 **Input you will get in prompt:**
 - PR number, branch, and `curator-report.md` path (already on disk after `curate` job)
-- You must `read curator-report.md`, `read README.md` diff via `shell: git diff origin/main...HEAD -- README.md | head -n 120`, and sample-verify 1-2 star counts via `shell: node scripts/gh-read.mjs repos/owner/repo | jq .stargazers_count` if report claims drift.
+- A precomputed `git diff origin/main...HEAD -- README.md README.zh.md` excerpt is appended to this prompt. You must `read curator-report.md` and sample-verify 1-2 star counts via `shell: node scripts/gh-read.mjs repos/owner/repo` (raw JSON) if the report claims drift.
 
 **Decision protocol — output exactly one line first:**
 ```

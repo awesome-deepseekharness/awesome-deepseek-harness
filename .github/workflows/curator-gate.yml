@@ -114,14 +114,15 @@ jobs:
           git fetch origin main --depth 1 2>&1 | head -n 20 || true
           git diff origin/main...HEAD --stat 2>&1 | head -n 50 || git diff --stat 2>&1 | head -n 50 || true
 
-          cat > /tmp/reviewer-prompt.md <<'PROMPT_EOF'
+          {
+            cat <<'PROMPT_EOF'
           You are the Second AI Reviewer — independent gate for curator PRs.
-          Read curator-report.md on disk, run deterministic checks, and emit one DECISION line first.
+          Read curator-report.md on disk, use the appended README diff, and emit one DECISION line first.
 
           Steps you MUST do via tools:
           - read curator-report.md (full)
-          - shell: git diff origin/main...HEAD --stat or cat curator-report.md | head
-          - if report claims star drift, verify 1 sample via shell: node scripts/gh-read.mjs repos/owner/repo | jq .stargazers_count
+          - use the README diff excerpt appended below; do not run git, cat or jq
+          - if report claims star drift, verify 1 sample via shell: node scripts/gh-read.mjs repos/owner/repo (raw JSON)
           - then output:
           DECISION: APPROVE  # only if bilingual ✅, no duplicates, no broken links, report has Sources, and curator opinion is Approve or Needs discussion with low-risk star-refresh only
           DECISION: CLOSE    # if report says "no actionable findings" / "No PR/Issue — health audit only" with no patch, or invalid/duplicate
@@ -129,6 +130,11 @@ jobs:
 
           Then 2-3 sentence rationale citing file:line and gh-read evidence.
           PROMPT_EOF
+          echo
+          echo "--- BEGIN README diff excerpt ---"
+          git diff origin/main...HEAD -- README.md README.zh.md 2>/dev/null | head -n 200 || true
+          echo "--- END README diff excerpt ---"
+          } > /tmp/reviewer-prompt.md
           cat /tmp/reviewer-prompt.md
 
           REVIEW_MODEL="unavailable"

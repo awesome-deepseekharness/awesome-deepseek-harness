@@ -39,14 +39,22 @@ async function runPreliminaryChecks(pr, issue) {
   });
   if (pr) {
     out.push(`## Preliminary PR #${pr} checks (deterministic)`);
-    const prInfo = await exec('gh', ['pr', 'view', String(pr), '--json', 'title,body,files,author,authorAssociation,additions', '--jq', '.']);
+    const prInfo = await exec('gh', ['pr', 'view', String(pr), '--json', 'title,body,files,author,authorAssociation,additions,headRefName,labels', '--jq', '.']);
     if (prInfo.code === 0) {
       try {
         const j = JSON.parse(prInfo.out);
         const titleOk = /^(Add|docs: add) .+ to .+/i.test(j.title || '');
         out.push(`- Title: "${j.title}" ${titleOk ? '✅ matches Add owner/repo to Category' : '❌ should be Add owner/repo to Category'}`);
+        out.push(`- Body: ${(j.body || '').slice(0, 1200) || '(empty)'}`);
+        out.push(`- Head: ${j.headRefName || '(unknown)'}; Labels: ${(j.labels || []).map(l => l.name).join(', ') || '(none)'}`);
         const files = (j.files || []).map(f => f.path).join(', ');
         out.push(`- Files: ${files || '(none)'} ${files.includes('README.md') && files.includes('README.zh.md') ? '✅ bilingual' : '❌ missing README.md or README.zh.md'}`);
+        const prDiff = await exec('gh', ['pr', 'diff', String(pr)]);
+        if (prDiff.code === 0 && prDiff.out.trim()) {
+          out.push('--- PR diff (truncated) ---');
+          out.push(prDiff.out.slice(0, 8000));
+          out.push('--- end PR diff ---');
+        }
         // Author trust signals (internal only — LLM must fuse into RECOMMEND, never paste raw PII)
         const authorLogin = j.author?.login || '';
         const assoc = j.authorAssociation || '';
@@ -135,6 +143,7 @@ async function runPreliminaryChecks(pr, issue) {
       try {
         const j = JSON.parse(iss.out);
         out.push(`- Title: ${j.title}`);
+        out.push(`- Body: ${(j.body || '').slice(0, 1200) || '(empty)'}`);
         out.push(`- Labels: ${(j.labels||[]).map(l=>l.name).join(', ') || '(none)'} — suggest: plugin suggestion / fix / question`);
         let mRepo = null;
         const ghM = (j.title + ' ' + (j.body||'')).match(/https?:\/\/github\.com\/([a-zA-Z0-9_.-]+\/[a-zA-Z0-9_.-]+)/i);
@@ -158,6 +167,9 @@ async function runPreliminaryChecks(pr, issue) {
     const milestoneDiff = await exec('git', ['diff', '--', 'README.md', 'README.zh.md']);
     if (milestoneDiff.code === 0 && /stars is our first milestone|颗星是第一里程碑/.test(milestoneDiff.out)) {
       out.push('Actionable bilingual repository star milestone refresh already applied by scripts/update-repo-stars.mjs. Review the local README diff, preserve it, and cite https://api.github.com/repos/awesome-deepseekharness/awesome-deepseek-harness. Do not report no actionable findings.');
+      out.push('--- README milestone diff (truncated) ---');
+      out.push(milestoneDiff.out.slice(0, 5000));
+      out.push('--- end README milestone diff ---');
     } else {
       out.push('No PR/Issue event — general health audit only');
     }
@@ -353,7 +365,7 @@ async function generateWithTraversal(prompt) {
 
 function buildPrompt({ pr, issue, preChecks }) {
   const now = new Date().toISOString();
-  const prInfo = pr ? `PR #${pr} (check via gh pr view ${pr})` : 'no PR event';
+  const prInfo = pr ? `PR #${pr} (metadata included in preChecks)` : 'no PR event';
   const issueInfo = issue ? `Issue #${issue}` : 'no issue event';
   return [
     `You are the autonomous Awesome DSH Curator (see .opencode/agent/curator.md). Be agentic, not mechanical.`,
@@ -369,7 +381,7 @@ function buildPrompt({ pr, issue, preChecks }) {
     `Task: Do a quick health audit (README tables, duplicates, star drift sample), and if GH_PR/GH_ISSUE is set, preprocess that PR/Issue per curator.md. For any new project (owner/repo), autonomously verify with websearch/webfetch/kitesurf browser (chrome-devtools-mcp via wss://kitesurf.cloudflare.app/devtools/browser) — fetch repo page, check README for dsh install, verify dsh-plugin topic via \`node scripts/gh-read.mjs\`, and search for the project to confirm it's real. Write findings to the New Project Verification section of curator-report.md (file only, stripped from the public comment). Then provide a maintainer review opinion (Approve / Request changes / Needs discussion) with confidence and 1-paragraph rationale in curator-report.md. Write the postable friendly comment (Thanks @author ..., in PR language, ping @hdjekuue only if author is NOT owner) to review-comment.md ONLY — never paste the full Thanks @... comment into curator-report.md. Always overwrite curator-report.md with the required structure: title \`# curator-report.md — <UTC time>\` (no model), short \`## \` headings with NO dash-suffix descriptors, Preliminary Checks as a markdown table plus fused Author trust, Maintainer Review Opinion as a standalone RECOMMEND line (RECOMMEND: <decision> — confidence <level>.) followed by a Rationale: paragraph (never in the heading, no Suggested comment body), and a final \`<sub>model: opencode/<id></sub>\` line; and overwrite review-comment.md with ONLY the postable comment. Author trust signals in preChecks are INTERNAL: never paste raw account dates/counts/bio into either file; fuse into a single 'Author trust: high/medium/low' line plus risk-adjusted scrutiny (low-trust → strict verification, cap confidence at medium, prefer Needs discussion; never accuse spam/poisoning in review-comment.md, keep it friendly/neutral).`,
     ``,
     `Toolbox hints:`,
-    `- Prefer \`node scripts/gh-read.mjs\` for GitHub reads (it hardcodes GET and rejects method/body flags), \`jq\` for shaping JSON, webfetch first then kitesurf browser for JS-heavy pages, websearch for auto-discovery. Do not call \`gh api\` or \`curl\` directly.`,
+    `- Prefer \`node scripts/gh-read.mjs\` for GitHub reads (it hardcodes GET, rejects method/body flags, and returns raw JSON); webfetch first then kitesurf browser for JS-heavy pages, websearch for auto-discovery. Do not call \`gh api\`, \`git\`, \`jq\` or \`curl\` directly.`,
     `- Use the selected OpenCode model — its zero-cost metadata and response were checked before this task.`,
     `- kitesurf MCP is available as local MCP "kitesurf" (command: npx chrome-devtools-mcp --wsEndpoint=wss://kitesurf.cloudflare.app/devtools/browser) — use it to open https://github.com/owner/repo or demo URLs when webfetch returns shell.`,
     ``,
@@ -392,7 +404,7 @@ No LLM run (no current free CLI model completed the task). This is a determinist
 
 ## Repo Health
 - ${health}
-- Star drift: not checked (fallback). Run \`node scripts/gh-read.mjs repos/owner/repo | jq .stargazers_count\` manually for 2–3 rows.
+- Star drift: not checked (fallback). Run \`node scripts/gh-read.mjs repos/owner/repo\` manually for 2–3 rows and read \`stargazers_count\`.
 - Duplicates: not checked.
 
 ## PR Triage

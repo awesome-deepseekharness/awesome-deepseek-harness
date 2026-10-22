@@ -116,8 +116,10 @@ test('v1 agent definitions use permission and shell, with deny-by-default shell 
     assert.match(frontmatter, /^  shell:$/m);
     assert.doesNotMatch(frontmatter, /^  bash:/m);
     assert.match(frontmatter, /^    "\*": deny$/m);
-    // GitHub reads use the deterministic wrapper, not a raw `gh api` glob.
-    assert.match(frontmatter, /^    "node scripts\/gh-read\.mjs \*": allow$/m);
+    // The only shell command allowed is the deterministic GitHub-read wrapper.
+    const shellBlock = frontmatter.split(/^  shell:$/m)[1]?.split(/^  [a-z]/m)[0] || '';
+    const shellAllows = [...shellBlock.matchAll(/^    "([^"]+)": allow$/gm)].map(m => m[1]);
+    assert.deepEqual(shellAllows, ['node scripts/gh-read.mjs *']);
     assert.doesNotMatch(frontmatter, /gh api/);
     if (agent === 'reviewer') {
       // `edit` covers edit, write and apply_patch; a separate write rule is unnecessary.
