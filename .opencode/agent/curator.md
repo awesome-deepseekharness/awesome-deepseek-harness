@@ -2,7 +2,7 @@
 description: Awesome DSH curator — headless repo management, PR/Issue preprocessing with auto-discovery verification
 mode: primary
 temperature: 0.25
-permissions:
+permission:
   read: allow
   grep: allow
   glob: allow

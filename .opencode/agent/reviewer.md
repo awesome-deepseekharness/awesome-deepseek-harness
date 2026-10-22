@@ -2,7 +2,8 @@
 description: Second AI reviewer — independent gate for curator PRs, decides APPROVE/CLOSE
 mode: primary
 temperature: 0.2
-permissions:
+permission:
+  edit: deny
   read: allow
   grep: allow
   glob: allow

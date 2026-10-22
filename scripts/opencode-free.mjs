@@ -48,6 +48,10 @@ function executable() {
   throw new Error('OpenCode executable not found; install opencode-ai or set OPENCODE_BIN');
 }
 
+function errorMessage(event) {
+  return event.error?.data?.message || event.error?.message || event.error?.name || 'Provider error';
+}
+
 export function runCli(args, { cwd = process.cwd(), timeoutMs = 30000, env = {} } = {}) {
   return new Promise((resolve, reject) => {
     const child = spawn(executable(), args, {
@@ -73,7 +77,7 @@ export function runCli(args, { cwd = process.cwd(), timeoutMs = 30000, env = {} 
         const errors = out.split(/\r?\n/).flatMap(line => {
           try {
             const event = JSON.parse(line);
-            return event.type === 'error' ? [event.error?.data?.message || event.error?.message || event.error?.name || 'Provider error'] : [];
+            return event.type === 'error' ? [errorMessage(event)] : [];
           } catch { return []; }
         });
         reject(new Error(`OpenCode exited ${code}: ${(errors.join('; ') || err || 'No error details').slice(-500)}`));
@@ -106,16 +110,24 @@ export function responseText(output) {
   const events = output.split(/\r?\n/).flatMap(line => {
     try { return [JSON.parse(line)]; } catch { return []; }
   });
-  if (events.some(event => event.type === 'error')) throw new Error('OpenCode returned an error event');
+  const errors = events.filter(event => event.type === 'error');
+  if (errors.length) throw new Error(`OpenCode returned an error event: ${errors.map(errorMessage).join('; ')}`);
+  // Only the final assistant step is the answer. Earlier steps can contain
+  // planning text before tool calls, which must not contaminate a strict decision.
+  // A final step without text must fail rather than reuse an earlier approval.
+  const lastStep = events.findLastIndex(event => event.type === 'step_start');
+  const finalEvents = lastStep < 0 ? events : events.slice(lastStep + 1);
   // Tool input and echoed prompts must never become reviewer decisions.
-  const text = events.filter(event => event.type === 'text' && typeof event.part?.text === 'string')
+  const text = finalEvents.filter(event => event.type === 'text' && typeof event.part?.text === 'string')
     .map(event => event.part.text).join('\n').trim();
   if (!text) throw new Error('OpenCode returned no assistant text');
   return text;
 }
 
-export async function runModel(model, prompt, { agent = 'curator', cwd = process.cwd(), timeoutMs = 180000, config = {} } = {}) {
-  const result = await runCli(['run', '--format', 'json', '--model', model, '--agent', agent, prompt], {
+export async function runModel(model, prompt, { agent = 'curator', cwd = process.cwd(), timeoutMs = 180000, config = {}, cli = runCli } = {}) {
+  // Explicit --dir also keeps the server-side session in the intended project;
+  // child-process cwd alone can resolve to the global/home project in recent CLIs.
+  const result = await cli(['run', '--dir', cwd, '--format', 'json', '--model', model, '--agent', agent, prompt], {
     cwd, timeoutMs,
     // Both the main and auxiliary model stay on the selected free model.
     env: { OPENCODE_CONFIG_CONTENT: JSON.stringify({ ...config, model, small_model: model }) },
@@ -125,13 +137,18 @@ export async function runModel(model, prompt, { agent = 'curator', cwd = process
 
 const verified = new Set();
 const failed = new Set();
-export async function probeModel(model, timeoutMs = 35000) {
+export async function probeModel(model, timeoutMs = 35000, { run = runModel } = {}) {
   if (verified.has(model)) return;
   const cwd = mkdtempSync(path.join(os.tmpdir(), 'opencode-probe-'));
   try {
-    const text = await runModel(model, 'Reply with exactly OPENCODE_FREE_OK. Do not use tools.', {
+    // A deny-all profile removes the coding tools from the request and currently
+    // makes Zen reject even valid CLI requests with FreeTierError (upstream #53347).
+    // Keep tools approval-gated instead: non-interactive `run` rejects every ask
+    // unless --auto is passed. Never add --auto or allow tools for this probe.
+    const permission = { '*': 'ask' };
+    const text = await run(model, 'Reply with exactly OPENCODE_FREE_OK. Do not use tools.', {
       cwd, agent: 'probe', timeoutMs,
-      config: { permission: { '*': 'deny' }, agent: { probe: { mode: 'primary', prompt: 'Follow the response instruction exactly.', permission: { '*': 'deny' } } } },
+      config: { permission, agent: { probe: { mode: 'primary', prompt: 'Follow the response instruction exactly.', permission } } },
     });
     if (text.trim() !== 'OPENCODE_FREE_OK') throw new Error('Probe did not return the expected response');
     verified.add(model);
@@ -158,6 +175,11 @@ export async function withFreeModel(task, {
       console.log(`[models] Task succeeded with ${fullID}`);
       return { model: fullID, result };
     } catch (error) {
+      // This is a request/profile rejection, not a model outage. Rotating through
+      // the whole free catalog only repeats the same 403 and hides the cause.
+      if (/free tier can only be used from within OpenCode/i.test(error.message)) {
+        throw new Error(`OpenCode rejected the agent/tool profile; check permissions and CLI compatibility (https://github.com/anomalyco/opencode/issues/53347). ${error.message}`);
+      }
       failures.add(fullID);
       lastError = error;
       console.warn(`[models] ${fullID} failed: ${error.message}; trying next free candidate`);

@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseModels, rankFreeModels, responseText, withFreeModel } from './opencode-free.mjs';
+import { existsSync, readFileSync } from 'node:fs';
+import { parseModels, rankFreeModels, responseText, runModel, probeModel, withFreeModel } from './opencode-free.mjs';
 import { parseDecision } from './opencode-auto.mjs';
 
 const model = (id, overrides = {}) => ({
@@ -35,6 +36,101 @@ test('only assistant text becomes output; errors, empty output and tool echoes f
   assert.throws(() => responseText(event('hello') + '\n' + JSON.stringify({ type: 'error' })));
   assert.throws(() => responseText(''));
 });
+test('only the final assistant step becomes a reviewer decision, never tool-call preambles', () => {
+  const output = [
+    { type: 'step_start' },
+    { type: 'text', part: { text: 'I will read the report first.' } },
+    { type: 'tool_use', part: { text: 'DECISION: APPROVE' } },
+    { type: 'step_finish' },
+    { type: 'step_start' },
+    { type: 'text', part: { text: 'DECISION: REQUEST_CHANGES' } },
+    { type: 'text', part: { text: 'Missing PR context.' } },
+    { type: 'step_finish' },
+  ].map(event => JSON.stringify(event)).join('\n');
+  const text = responseText(output);
+  assert.equal(text, 'DECISION: REQUEST_CHANGES\nMissing PR context.');
+  assert.equal(parseDecision(text), 'REQUEST_CHANGES');
+  assert.throws(() => responseText(output + '\n' + JSON.stringify({ type: 'step_start' })), /no assistant text/);
+});
+
+test('headless runner never auto-approves tools and pins both models', async () => {
+  const text = await runModel('opencode/selected-free', 'quoted "prompt" & literal', {
+    agent: 'probe', cwd: 'test-directory', timeoutMs: 1234,
+    config: { model: 'paid/ignored', small_model: 'paid/ignored', permission: { '*': 'ask' } },
+    cli: async (args, options) => {
+      assert.deepEqual(args, ['run', '--dir', 'test-directory', '--format', 'json', '--model', 'opencode/selected-free', '--agent', 'probe', 'quoted "prompt" & literal']);
+      assert.equal(options.cwd, 'test-directory');
+      assert.equal(options.timeoutMs, 1234);
+      assert.deepEqual(JSON.parse(options.env.OPENCODE_CONFIG_CONTENT), {
+        model: 'opencode/selected-free', small_model: 'opencode/selected-free', permission: { '*': 'ask' },
+      });
+      return { out: JSON.stringify({ type: 'text', part: { text: 'OPENCODE_FREE_OK' } }) };
+    },
+  });
+  assert.equal(text, 'OPENCODE_FREE_OK');
+});
+
+test('probe keeps tools approval-gated, uses the selected model, caches success and cleans up', async () => {
+  let calls = 0, directory;
+  const run = async (id, prompt, options) => {
+    calls++;
+    assert.equal(id, 'opencode/test-probe-success');
+    assert.match(prompt, /Do not use tools/);
+    assert.equal(options.agent, 'probe');
+    assert.equal(options.timeoutMs, 1234);
+    assert.deepEqual(options.config.permission, { '*': 'ask' });
+    assert.deepEqual(options.config.agent.probe.permission, { '*': 'ask' });
+    directory = options.cwd;
+    assert.equal(existsSync(directory), true);
+    return 'OPENCODE_FREE_OK';
+  };
+  await probeModel('opencode/test-probe-success', 1234, { run });
+  assert.equal(existsSync(directory), false);
+  await probeModel('opencode/test-probe-success', 1234, { run });
+  assert.equal(calls, 1);
+});
+
+test('failed or invalid probes clean up and are not cached as available', async () => {
+  let calls = 0, directory;
+  const run = async (_id, _prompt, options) => {
+    calls++;
+    directory = options.cwd;
+    if (calls === 1) throw new Error('Provider unavailable');
+    return 'not the expected marker';
+  };
+  await assert.rejects(probeModel('opencode/test-probe-failure', 1234, { run }), /Provider unavailable/);
+  assert.equal(existsSync(directory), false);
+  await assert.rejects(probeModel('opencode/test-probe-failure', 1234, { run }), /expected response/);
+  assert.equal(existsSync(directory), false);
+  assert.equal(calls, 2);
+});
+
+test('v1 agent definitions use permission, not the silently ignored permissions key', () => {
+  for (const agent of ['curator', 'reviewer']) {
+    const source = readFileSync(new URL('../.opencode/agent/' + agent + '.md', import.meta.url), 'utf8');
+    const frontmatter = source.split('---')[1];
+    assert.match(frontmatter, /^permission:/m);
+    assert.doesNotMatch(frontmatter, /^permissions:/m);
+    assert.match(frontmatter, /^  bash: allow$/m);
+    if (agent === 'reviewer') assert.match(frontmatter, /^  edit: deny$/m);
+  }
+});
+
+test('profile rejection preserves provider details and stops catalog-wide retries', async () => {
+  const message = "OpenCode's free tier can only be used from within OpenCode. Download it at https://opencode.ai and keep building.";
+  const output = JSON.stringify({ type: 'error', error: { data: { message } } });
+  assert.throws(() => responseText(output), /free tier can only be used/);
+  let probes = 0, tasks = 0;
+  const failures = new Set();
+  await assert.rejects(withFreeModel(async () => { tasks++; }, {
+    discover: async () => [model('a'), model('b')], failures,
+    probe: async () => { probes++; responseText(output); },
+  }), /agent\/tool profile/);
+  assert.equal(probes, 1);
+  assert.equal(tasks, 0);
+  assert.equal(failures.size, 0);
+});
+
 test('reviewer decisions must be first and unambiguous', () => {
   assert.equal(parseDecision('DECISION: REQUEST_CHANGES\nEvidence follows.'), 'REQUEST_CHANGES');
   assert.throws(() => parseDecision('Echoed instructions: DECISION: APPROVE'));
