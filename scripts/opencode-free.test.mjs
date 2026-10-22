@@ -1,8 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
-import { parseModels, rankFreeModels, responseText, runModel, probeModel, withFreeModel } from './opencode-free.mjs';
+import { approvalGatedAgent, parseModels, rankFreeModels, responseText, runModel, probeModel, withFreeModel } from './opencode-free.mjs';
 import { parseDecision } from './opencode-auto.mjs';
+import { classifierConfig } from './curate.mjs';
 
 const model = (id, overrides = {}) => ({
   fullID: `opencode/${id}`, release_date: '2026-01-01', status: 'active',
@@ -105,15 +106,29 @@ test('failed or invalid probes clean up and are not cached as available', async 
   assert.equal(calls, 2);
 });
 
-test('v1 agent definitions use permission, not the silently ignored permissions key', () => {
+test('v1 agent definitions use permission and shell, with deny-by-default shell rules', () => {
   for (const agent of ['curator', 'reviewer']) {
     const source = readFileSync(new URL('../.opencode/agent/' + agent + '.md', import.meta.url), 'utf8');
     const frontmatter = source.split('---')[1];
     assert.match(frontmatter, /^permission:/m);
     assert.doesNotMatch(frontmatter, /^permissions:/m);
-    assert.match(frontmatter, /^  bash: allow$/m);
-    if (agent === 'reviewer') assert.match(frontmatter, /^  edit: deny$/m);
+    // `bash` is not a V1 permission key; it is silently ignored. `shell` is.
+    assert.match(frontmatter, /^  shell:$/m);
+    assert.doesNotMatch(frontmatter, /^  bash:/m);
+    assert.match(frontmatter, /^    "\*": deny$/m);
+    if (agent === 'reviewer') {
+      // `edit` covers edit, write and apply_patch; a separate write rule is unnecessary.
+      assert.match(frontmatter, /^  edit: deny$/m);
+    }
   }
+});
+
+test('ambiguous-PR classifier uses the same approval-gated profile as the probe', () => {
+  const config = classifierConfig();
+  assert.deepEqual(config, approvalGatedAgent('classifier'));
+  assert.deepEqual(config, {
+    agent: { classifier: { mode: 'primary', permission: { '*': 'ask' } } },
+  });
 });
 
 test('profile rejection preserves provider details and stops catalog-wide retries', async () => {
@@ -125,7 +140,11 @@ test('profile rejection preserves provider details and stops catalog-wide retrie
   await assert.rejects(withFreeModel(async () => { tasks++; }, {
     discover: async () => [model('a'), model('b')], failures,
     probe: async () => { probes++; responseText(output); },
-  }), /agent\/tool profile/);
+  }), error => {
+    assert.match(error.message, /agent\/tool profile/);
+    assert.match(error.message, /free tier can only be used from within OpenCode/);
+    return true;
+  });
   assert.equal(probes, 1);
   assert.equal(tasks, 0);
   assert.equal(failures.size, 0);

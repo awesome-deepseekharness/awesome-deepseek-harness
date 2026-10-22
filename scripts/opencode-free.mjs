@@ -135,20 +135,28 @@ export async function runModel(model, prompt, { agent = 'curator', cwd = process
   return responseText(result.out);
 }
 
+// A deny-all profile removes the coding tool definitions and currently makes
+// Zen reject even valid CLI requests with FreeTierError. Keep tools defined
+// but approval-gated: non-interactive `run` rejects every ask unless --auto is
+// passed. Never add --auto or allow tools for this probe.
+export const APPROVAL_GATED_PERMISSION = Object.freeze({ '*': 'ask' });
+
+export function approvalGatedAgent(agent, options = {}) {
+  return { agent: { [agent]: { mode: 'primary', permission: APPROVAL_GATED_PERMISSION, ...options } } };
+}
+
 const verified = new Set();
 const failed = new Set();
 export async function probeModel(model, timeoutMs = 35000, { run = runModel } = {}) {
   if (verified.has(model)) return;
   const cwd = mkdtempSync(path.join(os.tmpdir(), 'opencode-probe-'));
   try {
-    // A deny-all profile removes the coding tools from the request and currently
-    // makes Zen reject even valid CLI requests with FreeTierError (upstream #53347).
-    // Keep tools approval-gated instead: non-interactive `run` rejects every ask
-    // unless --auto is passed. Never add --auto or allow tools for this probe.
-    const permission = { '*': 'ask' };
     const text = await run(model, 'Reply with exactly OPENCODE_FREE_OK. Do not use tools.', {
       cwd, agent: 'probe', timeoutMs,
-      config: { permission, agent: { probe: { mode: 'primary', prompt: 'Follow the response instruction exactly.', permission } } },
+      config: {
+        permission: APPROVAL_GATED_PERMISSION,
+        ...approvalGatedAgent('probe', { prompt: 'Follow the response instruction exactly.' }),
+      },
     });
     if (text.trim() !== 'OPENCODE_FREE_OK') throw new Error('Probe did not return the expected response');
     verified.add(model);
@@ -178,7 +186,7 @@ export async function withFreeModel(task, {
       // This is a request/profile rejection, not a model outage. Rotating through
       // the whole free catalog only repeats the same 403 and hides the cause.
       if (/free tier can only be used from within OpenCode/i.test(error.message)) {
-        throw new Error(`OpenCode rejected the agent/tool profile; check permissions and CLI compatibility (https://github.com/anomalyco/opencode/issues/53347). ${error.message}`);
+        throw new Error(`OpenCode rejected the agent/tool profile; check permissions and CLI compatibility. ${error.message}`);
       }
       failures.add(fullID);
       lastError = error;

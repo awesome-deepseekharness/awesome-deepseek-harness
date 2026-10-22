@@ -10,14 +10,21 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { spawn } from 'node:child_process';
-import { runCli, runModel, withFreeModel } from './opencode-free.mjs';
+import { approvalGatedAgent, runCli, runModel, withFreeModel } from './opencode-free.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
 const REPORT_FILE = path.join(ROOT, 'curator-report.md');
 const REVIEW_FILE = path.join(ROOT, 'review-comment.md');
+
+// Ambiguous-PR classification must use the same approval-gated profile as the
+// probe. Denying every tool removes the tool definitions and triggers the free
+// tier's agent/tool-profile rejection before a label can be suggested.
+export function classifierConfig() {
+  return approvalGatedAgent('classifier');
+}
 async function runPreliminaryChecks(pr, issue) {
   const out = [];
   const exec = (cmd, args) => new Promise(res => {
@@ -255,7 +262,7 @@ async function runAutoLabel(pr, issue, preChecks) {
           const prompt = `Classify this PR title/files into one label: plugin, enhancement, bug, documentation, question. Title: "${title}" Files: ${files.join(', ')}. Reply only with the label.`;
           const { result: llm } = await withFreeModel(async (model, timeoutMs) => {
             const answer = await runModel(model, prompt.slice(0, 400), { agent: 'classifier', cwd: ROOT, timeoutMs,
-              config: { agent: { classifier: { mode: 'primary', permission: { '*': 'deny' } } } } });
+              config: classifierConfig() });
             if (!/^(plugin|enhancement|bug|documentation|question)$/i.test(answer.trim())) throw new Error('Invalid label');
             return answer;
           }, { totalMs: 60000, attemptMs: 25000 });
@@ -488,4 +495,6 @@ async function main() {
   }
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
+  main().catch(e => { console.error(e); process.exit(1); });
+}

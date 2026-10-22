@@ -120,8 +120,8 @@ jobs:
 
           Steps you MUST do via tools:
           - read curator-report.md (full)
-          - bash: git diff origin/main...HEAD --stat or cat curator-report.md | head
-          - if report claims star drift, verify 1 sample via bash: gh api repos/owner/repo --jq .stargazers_count
+          - shell: git diff origin/main...HEAD --stat or cat curator-report.md | head
+          - if report claims star drift, verify 1 sample via shell: gh api --method GET repos/owner/repo --jq .stargazers_count
           - then output:
           DECISION: APPROVE  # only if bilingual ✅, no duplicates, no broken links, report has Sources, and curator opinion is Approve or Needs discussion with low-risk star-refresh only
           DECISION: CLOSE    # if report says "no actionable findings" / "No PR/Issue — health audit only" with no patch, or invalid/duplicate
