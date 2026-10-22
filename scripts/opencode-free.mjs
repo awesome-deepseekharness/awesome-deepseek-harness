@@ -19,6 +19,22 @@ function zeroCost(value) {
   return false;
 }
 
+// Vendor preference is a deliberate trust policy, not a capability claim. The
+// order is the maintainer priority: proven model families before a newer
+// release from a vendor with no track record. Add a vendor here only after its
+// free models have a reliable history in this automation.
+export const TRUSTED_FREE_MODEL_VENDORS = Object.freeze([
+  'deepseek', 'glm', 'minimax', 'kimi', 'qwen', 'step', 'muse',
+]);
+const vendorPatterns = TRUSTED_FREE_MODEL_VENDORS.map(vendor =>
+  [vendor, new RegExp(`^${vendor}(?:$|[-_.\\d])`, 'i')]);
+
+function vendorRank(model) {
+  const id = (model.fullID || '').replace(/^opencode\//i, '');
+  const index = vendorPatterns.findIndex(([, pattern]) => pattern.test(id));
+  return index === -1 ? TRUSTED_FREE_MODEL_VENDORS.length : index;
+}
+
 export function rankFreeModels(models) {
   const released = (model) => Date.parse(model.release_date) || 0;
   return [...new Map(models.filter(model =>
@@ -28,6 +44,7 @@ export function rankFreeModels(models) {
     model.capabilities?.input?.text === true && model.capabilities?.output?.text === true &&
     (!model.status || model.status === 'active')
   ).map(model => [model.fullID, model])).values()].sort((a, b) =>
+    vendorRank(a) - vendorRank(b) ||
     released(b) - released(a) ||
     Number(!!b.capabilities.reasoning) - Number(!!a.capabilities.reasoning) ||
     (b.limit?.context || 0) - (a.limit?.context || 0) ||
@@ -100,7 +117,7 @@ export async function discoverFreeModels() {
     }
     const models = rankFreeModels(parseModels(result.out));
     if (!models.length) throw new Error('CLI lists no verified zero-cost, tool-capable text models');
-    console.log(`[models] Free candidates (release date, then capabilities): ${models.map(m => `${m.fullID} [${m.release_date || 'date unknown'}]`).join(', ')}`);
+    console.log(`[models] Free candidates (trusted vendors first, then release date): ${models.map(m => `${m.fullID} [${m.release_date || 'date unknown'}]`).join(', ')}`);
     return models;
   })();
   try { return await discovered; } catch (error) { discovered = undefined; throw error; }

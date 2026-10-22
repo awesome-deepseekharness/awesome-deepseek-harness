@@ -27,9 +27,47 @@ test('requires zero pricing and tool/text capability, not a free-looking name', 
     model('no-tools', { capabilities: { toolcall: false } }), model('string-price', { cost: { input: '0', output: '0' } })];
   assert.deepEqual(rankFreeModels(input).map(m => m.fullID), ['opencode/plain-name']);
 });
-test('new releases rank first and dates missing do not pretend to be newest', () => {
+test('newer releases lead among unlisted vendors and missing dates do not pretend to be newest', () => {
   const input = [model('a-old'), model('z-new', { release_date: '2026-10-01' }), model('unknown', { release_date: undefined }), model('a-old')];
   assert.deepEqual(rankFreeModels(input).map(m => m.fullID), ['opencode/z-new', 'opencode/a-old', 'opencode/unknown']);
+});
+test('trusted vendors outrank newer unknown releases in policy order', () => {
+  const input = [
+    model('flint-40b-free', { release_date: '2026-10-21' }),
+    model('unknown-new', { release_date: '2026-10-20' }),
+    model('muse-1-free', { release_date: '2026-09-01' }),
+    model('step-3-free', { release_date: '2026-09-01' }),
+    model('qwen3-coder-free', { release_date: '2026-09-01' }),
+    model('kimi-k2-free', { release_date: '2026-09-01' }),
+    model('minimax-m3.1-flash-free', { release_date: '2026-09-01' }),
+    model('glm-5.3-flash-free', { release_date: '2026-09-01' }),
+    model('deepseek-v4.1-flash-free', { release_date: '2026-09-01' }),
+  ];
+  assert.deepEqual(rankFreeModels(input).map(m => m.fullID), [
+    'opencode/deepseek-v4.1-flash-free',
+    'opencode/glm-5.3-flash-free',
+    'opencode/minimax-m3.1-flash-free',
+    'opencode/kimi-k2-free',
+    'opencode/qwen3-coder-free',
+    'opencode/step-3-free',
+    'opencode/muse-1-free',
+    'opencode/flint-40b-free',
+    'opencode/unknown-new',
+  ]);
+});
+test('newest model wins within a trusted vendor, but an older trusted model still beats untrusted releases', () => {
+  const input = [
+    model('deepseek-old', { release_date: '2025-01-01' }),
+    model('deepseek-new', { release_date: '2026-09-10' }),
+    model('glm-5.3-flash-free', { release_date: '2026-08-26' }),
+    model('flint-40b-free', { release_date: '2026-10-21' }),
+  ];
+  assert.deepEqual(rankFreeModels(input).map(m => m.fullID), [
+    'opencode/deepseek-new',
+    'opencode/deepseek-old',
+    'opencode/glm-5.3-flash-free',
+    'opencode/flint-40b-free',
+  ]);
 });
 test('only assistant text becomes output; errors, empty output and tool echoes fail', () => {
   const event = text => JSON.stringify({ type: 'text', part: { text } });

@@ -4,11 +4,15 @@ The curator, ambiguous-PR classifier and independent reviewer share `opencode-fr
 
 1. Run `opencode models opencode --refresh --verbose`. If refresh fails, read the CLI's existing catalog with `--verbose`.
 2. Keep only models with explicitly zero input/output/cache/tier prices and text + tool-call capabilities. A `-free` suffix alone is not sufficient.
-3. Sort by release date, then reasoning support and context size. This prefers recent capable models; it is not an intelligence benchmark.
+3. Sort trusted vendors first, in this deliberate policy order: DeepSeek, GLM, MiniMax, Kimi, Qwen, Step, Muse. Within one vendor, prefer release date, then reasoning support and context size; unlisted vendors follow by the same release/capability order. This stops a brand-new release from an unknown vendor from outranking a proven model family. The vendor order is a maintainer trust preference, not an intelligence benchmark; add a vendor only after its free models have a reliable track record in this automation.
 4. Make a short real request in a temporary directory with every tool approval-gated (`permission: { "*": "ask" }`). Non-interactive `opencode run` automatically rejects approval requests; the runner must never pass `--auto`. Only the expected assistant response passes.
 5. Run the task with an explicit `--dir` for the intended project and both `model` and `small_model` set to that free model. On model errors, timeouts or invalid output, try the next current candidate. A free-tier agent/tool-profile rejection stops immediately with a diagnostic instead of repeating the same 403 across the catalog. Each process remembers model failures and successful probes; no obsolete model roster is committed.
 
 The curator has a nine-minute selection/task budget; the reviewer has six minutes. Individual task attempts are bounded. A missing or failed independent reviewer leaves `REQUEST_CHANGES`; it cannot inherit approval from the curator. Curator reports must be freshly generated and contain Sources.
+
+## Local probe vs full CI task
+
+`npm run models:check` only verifies that a model can answer a one-line probe. It does not run the curator prompt. In Actions the full task has a nine-minute total budget and a three-minute per-model attempt cap. A model can pass the probe and still time out on the much larger prompt, or return no final assistant text. Those are task failures, not proof that the model is unavailable in local OpenCode. Likewise, a model absent from `[models] Checking ...` was never tried because an earlier candidate succeeded or the budget expired. Look for `[models] Task succeeded with ...` to confirm which model actually produced the result.
 
 ## Compatibility and the free-tier 403
 
