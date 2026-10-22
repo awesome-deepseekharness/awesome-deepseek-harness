@@ -1556,6 +1556,17 @@ Desktop data-analysis app built on DeepSeek Harness, running local Python and R 
 Stars (README snapshot): 59
 
 
+### pavel-logachev/dsh-mobile
+
+Repository: https://github.com/pavel-logachev/dsh-mobile
+
+Native Android app + host plugin for DSH: all project chats, photos/files, steer, agent questions; QR pairing, Wi-Fi/Tailscale, no cloud
+
+DSH 原生 Android 应用 + 宿主插件：手机查看所有项目会话、发送照片/文件、引导智能体、回答其提问；扫码配对，Wi-Fi/Tailscale，无需云端
+
+Stars (README snapshot): 1
+
+
 ## Core Infrastructure / 核心基础设施
 
 
