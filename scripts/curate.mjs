@@ -236,7 +236,7 @@ async function runPreliminaryChecks(pr, issue) {
   return { text: out.join('\n'), livePluginTopic };
 }
 
-async function runAutoLabel(pr, issue, preChecks, livePluginTopic = 'unknown') {
+async function runAutoLabel(pr, issue, livePluginTopic = 'unknown') {
   const exec = (cmd, args) => new Promise(res => {
     const child = spawn(cmd, args, { stdio: ['pipe','pipe','pipe'], shell: false });
     let o='', e='';
@@ -533,7 +533,7 @@ async function main() {
   const preliminary = await runPreliminaryChecks(pr, issue);
   const preChecks = preliminary.text;
   console.log(`[curate] Preliminary checks:\n${preChecks}\n---`);
-  try { await runAutoLabel(pr, issue, preChecks, preliminary.livePluginTopic); } catch (e) { console.warn(`[curate] autoLabel failed: ${e.message}`); }
+  try { await runAutoLabel(pr, issue, preliminary.livePluginTopic); } catch (e) { console.warn(`[curate] autoLabel failed: ${e.message}`); }
   const prompt = buildPrompt({ pr, issue, preChecks });
   fs.writeFileSync(path.join(ROOT, '.curate-prompt.md'), prompt, 'utf8');
   console.log(`[curate] Prompt written to .curate-prompt.md`);
