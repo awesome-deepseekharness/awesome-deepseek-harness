@@ -312,15 +312,15 @@ Stars (README snapshot): 64
 ## Web UI, Skins & Desktop Pets / Web UI、皮肤与桌面宠物
 
 
-### zhu1090093659/dsh-web-ui
+### zhu1090093659/dsh-web
 
-Repository: https://github.com/zhu1090093659/dsh-web-ui
+Repository: https://github.com/zhu1090093659/dsh-web
 
 Plugin & skin collection for the DSH Web UI: task board, git graph, right-side panel, remote mobile UI, pet, live token stats, skin center
 
 DSH Web UI 插件与皮肤合集:任务看板、git 图、右侧面板、移动端 UI、宠物、实时 token 统计、皮肤中心
 
-Stars (README snapshot): 7558
+Stars (README snapshot): 9270
 
 
 ### Small-tailqwq/dsh-deep-whale
@@ -524,15 +524,15 @@ Interactive terminal UI + harness workflows: adds TDD, evidence gates, vision mo
 Stars (README snapshot): 276
 
 
-### anywhere-labs/deepseek-harness-desktop
+### anywhere-labs/dsh-desktop
 
-Repository: https://github.com/anywhere-labs/deepseek-harness-desktop
+Repository: https://github.com/anywhere-labs/dsh-desktop
 
 A modern desktop experience for the DSH ecosystem
 
 为 DSH 生态打造的现代化桌面端体验
 
-Stars (README snapshot): 26457
+Stars (README snapshot): 32280
 
 
 ### hust-open-atom-club/oh-dsh

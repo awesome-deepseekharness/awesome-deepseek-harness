@@ -17,7 +17,7 @@
     "zh": "https://github.com/awesome-deepseekharness/awesome-deepseek-harness/blob/main/README.zh.md"
   },
   "starCountNote": "Project star counts are README snapshots, not live counts. Verify installation and compatibility in the linked upstream repository.",
-  "repositoryStars": 24,
+  "repositoryStars": 25,
   "firstStarGoal": 100,
   "total": 151,
   "groups": [
@@ -271,11 +271,11 @@
       "zhTitle": "Web UI、皮肤与桌面宠物",
       "items": [
         {
-          "name": "zhu1090093659/dsh-web-ui",
-          "url": "https://github.com/zhu1090093659/dsh-web-ui",
+          "name": "zhu1090093659/dsh-web",
+          "url": "https://github.com/zhu1090093659/dsh-web",
           "desc": "Plugin & skin collection for the DSH Web UI: task board, git graph, right-side panel, remote mobile UI, pet, live token stats, skin center",
-          "stars": 7558,
-          "zhName": "zhu1090093659/dsh-web-ui",
+          "stars": 9270,
+          "zhName": "zhu1090093659/dsh-web",
           "zhDesc": "DSH Web UI 插件与皮肤合集:任务看板、git 图、右侧面板、移动端 UI、宠物、实时 token 统计、皮肤中心"
         },
         {
@@ -432,11 +432,11 @@
           "zhDesc": "交互式终端 UI + harness 工作流:增加 TDD、证据门、视觉图像模块"
         },
         {
-          "name": "anywhere-labs/deepseek-harness-desktop",
-          "url": "https://github.com/anywhere-labs/deepseek-harness-desktop",
+          "name": "anywhere-labs/dsh-desktop",
+          "url": "https://github.com/anywhere-labs/dsh-desktop",
           "desc": "A modern desktop experience for the DSH ecosystem",
-          "stars": 26457,
-          "zhName": "anywhere-labs/deepseek-harness-desktop",
+          "stars": 32280,
+          "zhName": "anywhere-labs/dsh-desktop",
           "zhDesc": "为 DSH 生态打造的现代化桌面端体验"
         },
         {
