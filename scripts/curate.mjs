@@ -19,6 +19,48 @@ const ROOT = path.resolve(__dirname, '..');
 const REPORT_FILE = path.join(ROOT, 'curator-report.md');
 const REVIEW_FILE = path.join(ROOT, 'review-comment.md');
 
+const GH_READ_PREFIXES = ['repos/', 'users/', 'search/', 'rate_limit'];
+// Conservative endpoint alphabet: no whitespace or shell metacharacters.
+const GH_READ_CHARS = /^[A-Za-z0-9._~:/?#@!%+,=-]+$/;
+
+// Read-only GitHub API mode for the headless agents. The shell allowlist can
+// only match command strings with globs, so `gh api --method GET repos/*`
+// still accepts a later `-X POST` override. This mode accepts exactly one
+// endpoint, validates it, and always invokes `gh api --method GET` with no
+// way to add method/body flags.
+export function validateGhReadEndpoint(args) {
+  if (args.length !== 1) throw new Error('Usage: node scripts/curate.mjs gh-read <endpoint>');
+  const endpoint = args[0];
+  if (!GH_READ_PREFIXES.some(prefix => endpoint === prefix.replace(/\/$/, '') || endpoint.startsWith(prefix))) {
+    throw new Error(`Endpoint not allowed: ${endpoint}`);
+  }
+  if (!GH_READ_CHARS.test(endpoint) || endpoint.split('/').includes('..')) {
+    throw new Error('Endpoint contains unsupported characters or traversal');
+  }
+  return endpoint;
+}
+
+export function runGhRead(endpoint, { gh = 'gh', spawnFn = spawn } = {}) {
+  return new Promise((resolve, reject) => {
+    const child = spawnFn(gh, ['api', '--method', 'GET', endpoint], {
+      stdio: ['ignore', 'pipe', 'pipe'], windowsHide: true, shell: false,
+    });
+    let out = '', err = '';
+    child.stdout.on('data', data => { out += data; });
+    child.stderr.on('data', data => { err = (err + data).slice(-4000); });
+    child.on('error', reject);
+    child.on('close', code => {
+      if (code === 0) resolve(out);
+      else reject(new Error(`gh api GET failed (${code}): ${err.trim() || 'no error details'}`));
+    });
+  });
+}
+
+async function ghReadCli(args) {
+  const endpoint = validateGhReadEndpoint(args);
+  process.stdout.write(await runGhRead(endpoint));
+}
+
 // Ambiguous-PR classification must use the same approval-gated profile as the
 // probe. Denying every tool removes the tool definitions and triggers the free
 // tier's agent/tool-profile rejection before a label can be suggested.
@@ -378,10 +420,10 @@ function buildPrompt({ pr, issue, preChecks }) {
     `Preliminary deterministic checks (already run by scripts/curate.mjs — use as ground truth, then do deeper verification):`,
     preChecks ? preChecks.split('\n').map(l => `> ${l}`).join('\n') : '> (no preliminary checks)',
     ``,
-    `Task: Do a quick health audit (README tables, duplicates, star drift sample), and if GH_PR/GH_ISSUE is set, preprocess that PR/Issue per curator.md. For any new project (owner/repo), autonomously verify with websearch/webfetch/kitesurf browser (chrome-devtools-mcp via wss://kitesurf.cloudflare.app/devtools/browser) — fetch repo page, check README for dsh install, verify dsh-plugin topic via \`node scripts/gh-read.mjs\`, and search for the project to confirm it's real. Write findings to the New Project Verification section of curator-report.md (file only, stripped from the public comment). Then provide a maintainer review opinion (Approve / Request changes / Needs discussion) with confidence and 1-paragraph rationale in curator-report.md. Write the postable friendly comment (Thanks @author ..., in PR language, ping @hdjekuue only if author is NOT owner) to review-comment.md ONLY — never paste the full Thanks @... comment into curator-report.md. Always overwrite curator-report.md with the required structure: title \`# curator-report.md — <UTC time>\` (no model), short \`## \` headings with NO dash-suffix descriptors, Preliminary Checks as a markdown table plus fused Author trust, Maintainer Review Opinion as a standalone RECOMMEND line (RECOMMEND: <decision> — confidence <level>.) followed by a Rationale: paragraph (never in the heading, no Suggested comment body), and a final \`<sub>model: opencode/<id></sub>\` line; and overwrite review-comment.md with ONLY the postable comment. Author trust signals in preChecks are INTERNAL: never paste raw account dates/counts/bio into either file; fuse into a single 'Author trust: high/medium/low' line plus risk-adjusted scrutiny (low-trust → strict verification, cap confidence at medium, prefer Needs discussion; never accuse spam/poisoning in review-comment.md, keep it friendly/neutral).`,
+    `Task: Do a quick health audit (README tables, duplicates, star drift sample), and if GH_PR/GH_ISSUE is set, preprocess that PR/Issue per curator.md. For any new project (owner/repo), autonomously verify with websearch/webfetch/kitesurf browser (chrome-devtools-mcp via wss://kitesurf.cloudflare.app/devtools/browser) — fetch repo page, check README for dsh install, verify dsh-plugin topic via \`node scripts/curate.mjs gh-read\`, and search for the project to confirm it's real. Write findings to the New Project Verification section of curator-report.md (file only, stripped from the public comment). Then provide a maintainer review opinion (Approve / Request changes / Needs discussion) with confidence and 1-paragraph rationale in curator-report.md. Write the postable friendly comment (Thanks @author ..., in PR language, ping @hdjekuue only if author is NOT owner) to review-comment.md ONLY — never paste the full Thanks @... comment into curator-report.md. Always overwrite curator-report.md with the required structure: title \`# curator-report.md — <UTC time>\` (no model), short \`## \` headings with NO dash-suffix descriptors, Preliminary Checks as a markdown table plus fused Author trust, Maintainer Review Opinion as a standalone RECOMMEND line (RECOMMEND: <decision> — confidence <level>.) followed by a Rationale: paragraph (never in the heading, no Suggested comment body), and a final \`<sub>model: opencode/<id></sub>\` line; and overwrite review-comment.md with ONLY the postable comment. Author trust signals in preChecks are INTERNAL: never paste raw account dates/counts/bio into either file; fuse into a single 'Author trust: high/medium/low' line plus risk-adjusted scrutiny (low-trust → strict verification, cap confidence at medium, prefer Needs discussion; never accuse spam/poisoning in review-comment.md, keep it friendly/neutral).`,
     ``,
     `Toolbox hints:`,
-    `- Prefer \`node scripts/gh-read.mjs\` for GitHub reads (it hardcodes GET, rejects method/body flags, and returns raw JSON); webfetch first then kitesurf browser for JS-heavy pages, websearch for auto-discovery. Do not call \`gh api\`, \`git\`, \`jq\` or \`curl\` directly.`,
+    `- Prefer \`node scripts/curate.mjs gh-read\` for GitHub reads (it hardcodes GET, rejects method/body flags, and returns raw JSON); webfetch first then kitesurf browser for JS-heavy pages, websearch for auto-discovery. Do not call \`gh api\`, \`git\`, \`jq\` or \`curl\` directly.`,
     `- Use the selected OpenCode model — its zero-cost metadata and response were checked before this task.`,
     `- kitesurf MCP is available as local MCP "kitesurf" (command: npx chrome-devtools-mcp --wsEndpoint=wss://kitesurf.cloudflare.app/devtools/browser) — use it to open https://github.com/owner/repo or demo URLs when webfetch returns shell.`,
     ``,
@@ -404,7 +446,7 @@ No LLM run (no current free CLI model completed the task). This is a determinist
 
 ## Repo Health
 - ${health}
-- Star drift: not checked (fallback). Run \`node scripts/gh-read.mjs repos/owner/repo\` manually for 2–3 rows and read \`stargazers_count\`.
+- Star drift: not checked (fallback). Run \`node scripts/curate.mjs gh-read repos/owner/repo\` manually for 2–3 rows and read \`stargazers_count\`.
 - Duplicates: not checked.
 
 ## PR Triage
@@ -508,5 +550,9 @@ async function main() {
 }
 
 if (process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url) {
-  main().catch(e => { console.error(e); process.exit(1); });
+  if (process.argv[2] === 'gh-read') {
+    ghReadCli(process.argv.slice(3)).catch(e => { console.error(e.message); process.exitCode = 1; });
+  } else {
+    main().catch(e => { console.error(e); process.exit(1); });
+  }
 }

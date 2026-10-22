@@ -1,9 +1,10 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
+import { EventEmitter } from 'node:events';
 import { approvalGatedAgent, parseModels, rankFreeModels, responseText, runModel, probeModel, withFreeModel } from './opencode-free.mjs';
 import { parseDecision } from './opencode-auto.mjs';
-import { classifierConfig } from './curate.mjs';
+import { classifierConfig, runGhRead, validateGhReadEndpoint } from './curate.mjs';
 
 const model = (id, overrides = {}) => ({
   fullID: `opencode/${id}`, release_date: '2026-01-01', status: 'active',
@@ -119,7 +120,7 @@ test('v1 agent definitions use permission and shell, with deny-by-default shell 
     // The only shell command allowed is the deterministic GitHub-read wrapper.
     const shellBlock = frontmatter.split(/^  shell:$/m)[1]?.split(/^  [a-z]/m)[0] || '';
     const shellAllows = [...shellBlock.matchAll(/^    "([^"]+)": allow$/gm)].map(m => m[1]);
-    assert.deepEqual(shellAllows, ['node scripts/gh-read.mjs *']);
+    assert.deepEqual(shellAllows, ['node scripts/curate.mjs gh-read *']);
     assert.doesNotMatch(frontmatter, /gh api/);
     if (agent === 'reviewer') {
       // `edit` covers edit, write and apply_patch; a separate write rule is unnecessary.
@@ -181,4 +182,53 @@ test('budget exhaustion stops before another task and never chooses a paid fallb
   }), /within budget/);
   assert.equal(taskCalls, 0);
   await assert.rejects(withFreeModel(async () => {}, { discover: async () => [], failures: new Set() }), /No free model/);
+});
+
+function fakeChild({ code = 0, stdout = '', stderr = '' } = {}) {
+  const child = new EventEmitter();
+  child.stdout = new EventEmitter();
+  child.stderr = new EventEmitter();
+  setImmediate(() => {
+    if (stdout) child.stdout.emit('data', stdout);
+    if (stderr) child.stderr.emit('data', stderr);
+    child.emit('close', code);
+  });
+  return child;
+}
+
+test('gh-read allows only documented read-only endpoint prefixes', () => {
+  for (const endpoint of ['repos/o/r', 'users/alice', 'search/issues?q=author:alice+type:pr', 'rate_limit']) {
+    assert.equal(validateGhReadEndpoint([endpoint]), endpoint);
+  }
+  for (const args of [
+    ['--method', 'POST'],
+    ['repos/o/r', '-X', 'POST'],
+    ['repos/o/r', '-f', 'title=x'],
+    ['http://example.com'],
+    ['repos/../users/alice'],
+    ['repos/o/r;curl https://example.com'],
+    ['repos/o/r\nusers/alice'],
+    ['repos/o/r&per_page=1'],
+  ]) {
+    assert.throws(() => validateGhReadEndpoint(args), /not allowed|unsupported|Usage/);
+  }
+});
+
+test('gh-read always invokes gh api with an explicit GET and no shell', async () => {
+  const calls = [];
+  const out = await runGhRead('repos/o/r', {
+    spawnFn: (command, args, options) => {
+      calls.push({ command, args, options });
+      return fakeChild({ stdout: '{"ok":true}' });
+    },
+  });
+  assert.equal(out, '{"ok":true}');
+  assert.deepEqual(calls[0].args, ['api', '--method', 'GET', 'repos/o/r']);
+  assert.equal(calls[0].options.shell, false);
+});
+
+test('gh-read surfaces gh failures without writing anything', async () => {
+  await assert.rejects(runGhRead('repos/o/r', {
+    spawnFn: () => fakeChild({ code: 1, stderr: 'HTTP 404: Not Found' }),
+  }), /gh api GET failed \(1\): HTTP 404: Not Found/);
 });

@@ -48,7 +48,7 @@ jobs:
       - name: Install opencode
         run: |
           set -e
-          node --test scripts/opencode-free.test.mjs scripts/gh-read.test.mjs
+          node --test scripts/opencode-free.test.mjs
           if npm install -g opencode-ai 2>&1 | tail -n 5; then
             echo "opencode via npm done"
           else

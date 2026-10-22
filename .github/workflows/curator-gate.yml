@@ -82,7 +82,7 @@ jobs:
         if: steps.resolve.outputs.pr != ''
         run: |
           set -e
-          node --test scripts/opencode-free.test.mjs scripts/gh-read.test.mjs
+          node --test scripts/opencode-free.test.mjs
           if npm install -g opencode-ai 2>&1 | tail -n 5; then
             echo "opencode via npm done"
           else
@@ -122,7 +122,7 @@ jobs:
           Steps you MUST do via tools:
           - read curator-report.md (full)
           - use the README diff excerpt appended below; do not run git, cat or jq
-          - if report claims star drift, verify 1 sample via shell: node scripts/gh-read.mjs repos/owner/repo (raw JSON)
+          - if report claims star drift, verify 1 sample via shell: node scripts/curate.mjs gh-read repos/owner/repo (raw JSON)
           - then output:
           DECISION: APPROVE  # only if bilingual ✅, no duplicates, no broken links, report has Sources, and curator opinion is Approve or Needs discussion with low-risk star-refresh only
           DECISION: CLOSE    # if report says "no actionable findings" / "No PR/Issue — health audit only" with no patch, or invalid/duplicate
