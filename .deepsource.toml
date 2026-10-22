@@ -1,0 +1,12 @@
+version = 1
+
+# The repository is ESM (`"type": "module"` and .mjs scripts). DeepSource's
+# JavaScript analyzer otherwise defaults to CommonJS in this repository and
+# reports false parsing errors for every `import` statement.
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+  [analyzers.meta]
+  module_system = "es-modules"
+  environment = ["nodejs"]
