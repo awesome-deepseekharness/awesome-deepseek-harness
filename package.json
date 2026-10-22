@@ -11,7 +11,7 @@
     "check": "astro check --root site",
     "models:list": "node scripts/opencode-auto.mjs --list",
     "models:check": "node scripts/opencode-auto.mjs --probe",
-    "test:models": "node --test scripts/opencode-free.test.mjs"
+    "test:models": "node --test scripts/opencode-free.test.mjs scripts/gh-read.test.mjs"
   },
   "dependencies": {
     "astro": "^7.3.5",

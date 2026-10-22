@@ -82,7 +82,7 @@ jobs:
         if: steps.resolve.outputs.pr != ''
         run: |
           set -e
-          node --test scripts/opencode-free.test.mjs
+          node --test scripts/opencode-free.test.mjs scripts/gh-read.test.mjs
           if npm install -g opencode-ai 2>&1 | tail -n 5; then
             echo "opencode via npm done"
           else
@@ -121,13 +121,13 @@ jobs:
           Steps you MUST do via tools:
           - read curator-report.md (full)
           - shell: git diff origin/main...HEAD --stat or cat curator-report.md | head
-          - if report claims star drift, verify 1 sample via shell: gh api --method GET repos/owner/repo --jq .stargazers_count
+          - if report claims star drift, verify 1 sample via shell: node scripts/gh-read.mjs repos/owner/repo | jq .stargazers_count
           - then output:
           DECISION: APPROVE  # only if bilingual ✅, no duplicates, no broken links, report has Sources, and curator opinion is Approve or Needs discussion with low-risk star-refresh only
           DECISION: CLOSE    # if report says "no actionable findings" / "No PR/Issue — health audit only" with no patch, or invalid/duplicate
           DECISION: REQUEST_CHANGES # otherwise (minor bilingual/star drift within fixable range)
 
-          Then 2-3 sentence rationale citing file:line and gh api evidence.
+          Then 2-3 sentence rationale citing file:line and gh-read evidence.
           PROMPT_EOF
           cat /tmp/reviewer-prompt.md
 
