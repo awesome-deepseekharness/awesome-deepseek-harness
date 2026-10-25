@@ -216,6 +216,7 @@ The hottest category — giving text-only models "eyes."
 | [suyukun/dsh-tech-selection](https://github.com/suyukun/dsh-tech-selection) | Model-agnostic technology-selection research protocol for any AI agent (DSH/Claude/Cursor/Codex): T1-T6 source tiers, quality gates, quantified trade-offs, traceable verdicts | 0 |
 | [morluto/rea](https://github.com/morluto/rea) | Reverse engineer anything with agents, from app behavior down to native binaries | 404 |
 | [reliable-ly0411/babeldoc-pdf-translate](https://github.com/reliable-ly0411/babeldoc-pdf-translate) | BabelDOC PDF translation skill for DSH, also packaged as a Codex plugin: bilingual output, custom glossaries and local typesetting; install under `.dsh/skills/babeldoc-pdf-translate` | 0 |
+| [zabuxie/vc-voice-train-skill](https://github.com/zabuxie/vc-voice-train-skill) | RVC voice training skill for DSH: dataset QA, fix for the RVC 20240604 audio_norm defect (silent broadband-noise output), objective acceptance (flat/harmonics/band energy), 40k/32k pipelines, cloud-GPU SOP | 0 |
 
 ### 🚀 Apps & Runtimes Built on DSH
 
