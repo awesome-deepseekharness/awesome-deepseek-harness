@@ -54,7 +54,7 @@ DeepSeek Harness is DeepSeek AI's open-source agent harness. Its core philosophy
 
 | Project | Description | ⭐ |
 | --- | --- | --- |
-| [dsh-market/dsh-market](https://github.com/dsh-market/dsh-market) | The plugin market inside DeepSeek Harness — browse, search, one-click install | 3887 |
+| [dsh-market/dsh-market](https://github.com/dsh-market/dsh-market) | The plugin market inside DeepSeek Harness — browse, search, one-click install | 8760 |
 | [bradeGithub/DSH-Plugins-Marketplace](https://github.com/bradeGithub/DSH-Plugins-Marketplace) | Browse, install & update all GitHub `dsh-plugin` plugins in the DSH Web GUI | 165 |
 | [Nagi-ovo/dsh-find-plugins](https://github.com/Nagi-ovo/dsh-find-plugins) | A DSH skill that finds, installs, and verifies GitHub plugins | 172 |
 | [AdamPlatin123/awesome-dsh-plugins](https://github.com/AdamPlatin123/awesome-dsh-plugins) | Radar index repo that auto-scans dsh plugin candidates | 1466 |
@@ -105,7 +105,7 @@ The hottest category — giving text-only models "eyes."
 | [zhu1090093659/dsh-web](https://github.com/zhu1090093659/dsh-web) | Plugin & skin collection for the DSH Web UI: task board, git graph, right-side panel, remote mobile UI, pet, live token stats, skin center | 9270 |
 | [Small-tailqwq/dsh-deep-whale](https://github.com/Small-tailqwq/dsh-deep-whale) | "Whale girl" skin series for DSH Web (maid-atelier) | 2077 |
 | [vlln/whale-girl](https://github.com/vlln/whale-girl) | Desktop pet plugin for the DSH Web GUI (QQ-pet style): floating, draggable, feedable | 322 |
-| [omdsh-dev/DSH-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | A complete sidebar workbench: file rendering/editing, terminal, Git, subagents, third-party pages | 3593 |
+| [omdsh-dev/DSH-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | A complete sidebar workbench: file rendering/editing, terminal, Git, subagents, third-party pages | 4525 |
 | [omdsh-dev/dsh-annotation](https://github.com/omdsh-dev/dsh-annotation) | Select-to-annotate plugin: select text → annotate → send with message | 116 |
 | [Nagi-ovo/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | Turn DSH into a 2005-era portal: parody ads, fake games, and popups | 624 |
 | [Nagi-ovo/dsh-visualize](https://github.com/Nagi-ovo/dsh-visualize) | Render interactive visualization cards inside DSH conversations | 258 |
@@ -117,7 +117,7 @@ The hottest category — giving text-only models "eyes."
 | [weibaohui/dsh-gaokao](https://github.com/weibaohui/dsh-gaokao) | Gaokao countdown blackboard: desktop widget counting down days (double-click to collapse into a slim bar) plus random knowledge-card quizzes while the agent works; installable via `dsh plugin add @weibaohui/dsh-gaokao` | 2 |
 | [weibaohui/dsh-fireworks](https://github.com/weibaohui/dsh-fireworks) | Fireworks celebration engine: event-driven shows above the chat window while the agent codes (welcome / per-turn / tool sparks / milestone / finale / failure dud), token usage decides size & splendour; installable via `dsh plugin add @weibaohui/dsh-fireworks` | 0 |
 | [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | Re-sorts sidebar workspaces by last activity once per day; stable order within the day | 2 |
-| [12we21/cute-fat-fish-pet](https://github.com/12we21/cute-fat-fish-pet) | A chibi blue-haired maid desktop pet for the DSH Web UI with 106 hand-drawn transparent animations, desktop wandering, chat through local Ollama or the DSH online models, and optional screen watching (installable via `dsh plugin add github:12we21/cute-fat-fish-pet#path:/src`) | 1 |
+| [12we21/cute-fat-fish-pet](https://github.com/12we21/cute-fat-fish-pet) | A chibi blue-haired maid desktop pet for the DSH Web UI with 106 hand-drawn transparent animations, desktop wandering, chat through local Ollama or the DSH online models, and optional screen watching (installable via `dsh plugin add github:12we21/cute-fat-fish-pet#path:/src`) | 19 |
 ### 🖥️ TUI & Desktop
 
 | Project | Description | ⭐ |
@@ -201,7 +201,7 @@ The hottest category — giving text-only models "eyes."
 | Project | Description | ⭐ |
 | --- | --- | --- |
 | [titanwings/colleague-skill](https://github.com/titanwings/colleague-skill) | Digital Life 1.0: transforming cold farewells into warm skills | 24710 |
-| [tt-a1i/archify](https://github.com/tt-a1i/archify) | Beautiful, verifiable architecture/workflow/sequence/data-flow/lifecycle diagrams — self-contained HTML with motion | 61772 |
+| [tt-a1i/archify](https://github.com/tt-a1i/archify) | Beautiful, verifiable architecture/workflow/sequence/data-flow/lifecycle diagrams — self-contained HTML with motion | 88867 |
 | [hyhmrright/brooks-lint](https://github.com/hyhmrright/brooks-lint) | AI code reviews grounded in 12 classic engineering books: decay-risk diagnostics, 6 analysis modes | 1474 |
 | [GanyuanRan/Aegis](https://github.com/GanyuanRan/Aegis) | Make coding agents architecture-aware: baseline-first, evidence-verified, drift-checked | 1185 |
 | [superdesigndev/superdesign-skill](https://github.com/superdesigndev/superdesign-skill) | The design skill for coding agents: stop shipping AI-slop UI, ship shippable frontends | 556 |
@@ -233,7 +233,7 @@ The hottest category — giving text-only models "eyes."
 | [JingbiaoMei/Tokdash](https://github.com/JingbiaoMei/Tokdash) | Visualization & analytics for sessions and quota usage: heatmaps, cost tracking | 72 |
 | [EthanYoQ/Invoice-Downloader](https://github.com/EthanYoQ/Invoice-Downloader) | DSH bundle for local IMAP invoice download, OCR, archival, and Excel reimbursement summaries | 415 |
 | [SuperJJ007/papermachine](https://github.com/SuperJJ007/papermachine) | Desktop data-analysis app built on DeepSeek Harness, running local Python and R with inspectable execution steps and chart/table provenance. | 59 |
-| [pavel-logachev/dsh-mobile](https://github.com/pavel-logachev/dsh-mobile) | Native Android app + host plugin for DSH: all project chats, photos/files, steer, agent questions; QR pairing, Wi-Fi/Tailscale, no cloud | 1 |
+| [pavel-logachev/dsh-mobile](https://github.com/pavel-logachev/dsh-mobile) | Native Android app + host plugin for DSH: all project chats, photos/files, steer, agent questions; QR pairing, Wi-Fi/Tailscale, no cloud | 2 |
 
 ---
 
@@ -241,7 +241,7 @@ The hottest category — giving text-only models "eyes."
 
 | Project | Description | ⭐ |
 | --- | --- | --- |
-| [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | Official repo: Everything is a Plugin | 104.5k |
+| [deepseek-ai/deepseek-harness](https://github.com/deepseek-ai/deepseek-harness) | Official repo: Everything is a Plugin | 260.8k |
 | [cordiverse/cordis](https://github.com/cordiverse/cordis) | Meta-framework of spatiotemporal composability — the plugin runtime behind DSH | 8488 |
 | [cordiverse/paper](https://github.com/cordiverse/paper) | *A Programming Paradigm for Spatiotemporal Composability* (Cordis design paper) | — |
 | [@deepseek-ai/dsh](https://www.npmjs.com/package/@deepseek-ai/dsh) | Official npm package: `npx @deepseek-ai/dsh web` to launch | — |
@@ -293,7 +293,7 @@ Found a great project? Open a [PR](CONTRIBUTING.md) or file an issue. Criteria: 
 
 > 💡 **PR tip — get merged in <24h:** follow the new [PR template](.github/pull_request_template.md) + [CONTRIBUTING.md](CONTRIBUTING.md) checklist (bilingual entry, correct category, verified install, `dsh-plugin` topic). Well-formed PRs are auto-labelled and get priority review. If no review in 48h, feel free to friendly ping `@hdjekuue` or other maintainers in the PR.
 
-*This list is continuously updated. Star counts as of 2026-09-14.*
+*This list is continuously updated. Star counts are approximate README snapshots; sampled rows refreshed 2026-10-25.*
 
 ## License
 

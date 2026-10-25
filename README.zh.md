@@ -54,7 +54,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 | 项目 | 说明 | ⭐ |
 | --- | --- | --- |
-| [dsh-market/dsh-market](https://github.com/dsh-market/dsh-market) | DSH 内置插件市场:浏览、搜索、一键安装 | 3887 |
+| [dsh-market/dsh-market](https://github.com/dsh-market/dsh-market) | DSH 内置插件市场:浏览、搜索、一键安装 | 8760 |
 | [bradeGithub/DSH-Plugins-Marketplace](https://github.com/bradeGithub/DSH-Plugins-Marketplace) | 在 DSH Web GUI 中一键浏览、安装与更新全部 GitHub `dsh-plugin` 插件 | 165 |
 | [Nagi-ovo/dsh-find-plugins](https://github.com/Nagi-ovo/dsh-find-plugins) | 帮 DSH 搜索、安装并验证插件的 Skill | 172 |
 | [AdamPlatin123/awesome-dsh-plugins](https://github.com/AdamPlatin123/awesome-dsh-plugins) | 自动扫描 dsh 插件候选的前部索引仓库(Radar) | 1466 |
@@ -105,7 +105,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [zhu1090093659/dsh-web](https://github.com/zhu1090093659/dsh-web) | DSH Web UI 插件与皮肤合集:任务看板、git 图、右侧面板、移动端 UI、宠物、实时 token 统计、皮肤中心 | 9270 |
 | [Small-tailqwq/dsh-deep-whale](https://github.com/Small-tailqwq/dsh-deep-whale) | DSH Web「鲸鱼娘」皮肤系列(深海女仆工坊) | 2077 |
 | [vlln/whale-girl](https://github.com/vlln/whale-girl) | DSH Web GUI 桌面宠物插件(QQ 宠物形态):可拖拽/投喂/玩耍 | 322 |
-| [omdsh-dev/DSH-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | 侧边栏完整工作台:文件渲染编辑/终端/Git/子代理,支持三方扩展页面 | 3593 |
+| [omdsh-dev/DSH-better-sidebar](https://github.com/omdsh-dev/DSH-better-sidebar) | 侧边栏完整工作台:文件渲染编辑/终端/Git/子代理,支持三方扩展页面 | 4525 |
 | [omdsh-dev/dsh-annotation](https://github.com/omdsh-dev/dsh-annotation) | 选中批注插件:选文字→批注→随消息发送 | 116 |
 | [Nagi-ovo/dsh-ads](https://github.com/Nagi-ovo/dsh-ads) | 把 DSH 变成 2005 年门户网站:恶搞广告、小游戏与弹窗 | 624 |
 | [Nagi-ovo/dsh-visualize](https://github.com/Nagi-ovo/dsh-visualize) | 在 DSH 对话中生成交互式可视化卡片 | 258 |
@@ -114,10 +114,10 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [ZSeven-W/dsh-openpencil](https://github.com/ZSeven-W/dsh-openpencil) | OpenPencil 设计预览与编辑插件 | 169 |
 | [zizaiwo/dsh_plugins](https://github.com/zizaiwo/dsh_plugins) | dsh 侧边栏会话分类插件：零配置接管官方工作区浏览器，按自定义分类文件夹管理会话（拖拽归类/分类内建会话/每工作区独立） | 0 |
 | [lcsdg/dsh-quick-prompts](https://github.com/lcsdg/dsh-quick-prompts) | 输入框上方的快捷指令胶囊栏：按分类存常用 prompt，橙色高亮占位符，两栏管理，分类记忆按会话独立持久化 | 1 |
-| [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | 侧边栏工作区每日按最近活动排序一次，当天顺序稳定 | 2 |
 | [weibaohui/dsh-gaokao](https://github.com/weibaohui/dsh-gaokao) | 梦回高三：桌面小黑板高考倒计时（双击收成竖条），AI 干活时随机抽背知识点卡；`dsh plugin add @weibaohui/dsh-gaokao` 即装 | 2 |
 | [weibaohui/dsh-fireworks](https://github.com/weibaohui/dsh-fireworks) | 烟花庆祝引擎：agent 编程时在对话窗口上空放烟花（开场/回合/工具/里程碑/收工/失败各成卡组），token 用量决定大小与绚烂程度；`dsh plugin add @weibaohui/dsh-fireworks` 即装 | 0 |
-| [12we21/cute-fat-fish-pet](https://github.com/12we21/cute-fat-fish-pet) | DSH Web UI 的 Q 版蓝发小女仆桌宠：106 个手绘透明动画、桌面漫步、本地 Ollama 或 DSH 在线模型陪聊，可选看屏幕吐槽（`dsh plugin add github:12we21/cute-fat-fish-pet#path:/src` 即装） | 1 |
+| [Moonshile/moonshile-dsh-plugins](https://github.com/Moonshile/moonshile-dsh-plugins) | 侧边栏工作区每日按最近活动排序一次，当天顺序稳定 | 2 |
+| [12we21/cute-fat-fish-pet](https://github.com/12we21/cute-fat-fish-pet) | DSH Web UI 的 Q 版蓝发小女仆桌宠：106 个手绘透明动画、桌面漫步、本地 Ollama 或 DSH 在线模型陪聊，可选看屏幕吐槽（`dsh plugin add github:12we21/cute-fat-fish-pet#path:/src` 即装） | 19 |
 
 ### 🖥️ TUI 与桌面端
 
@@ -234,7 +234,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [JingbiaoMei/Tokdash](https://github.com/JingbiaoMei/Tokdash) | Sessions 与配额的可视化分析:热力图、成本追踪 | 72 |
 | [EthanYoQ/Invoice-Downloader](https://github.com/EthanYoQ/Invoice-Downloader) | 用于本地 IMAP 发票下载、OCR 识别、归档和 Excel 报销汇总的 DSH bundle | 415 |
 | [SuperJJ007/papermachine](https://github.com/SuperJJ007/papermachine) | 基于 DeepSeek Harness 的桌面数据分析应用，在本机运行 Python 和 R，支持检查执行步骤及追溯图表和表格的来源。 | 59 |
-| [pavel-logachev/dsh-mobile](https://github.com/pavel-logachev/dsh-mobile) | DSH 原生 Android 应用 + 宿主插件：手机查看所有项目会话、发送照片/文件、引导智能体、回答其提问；扫码配对，Wi-Fi/Tailscale，无需云端 | 1 |
+| [pavel-logachev/dsh-mobile](https://github.com/pavel-logachev/dsh-mobile) | DSH 原生 Android 应用 + 宿主插件：手机查看所有项目会话、发送照片/文件、引导智能体、回答其提问；扫码配对，Wi-Fi/Tailscale，无需云端 | 2 |
 
 ---
 
@@ -294,7 +294,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 > 💡 **PR 24h 内合并秘籍：** 严格按新的 [PR 模板](.github/pull_request_template.md) + [贡献指南](CONTRIBUTING.zh.md) 清单来（双语条目、正确分类、已验证安装、`dsh-plugin` topic）。格式规范的 PR 会自动打 label 并优先评审。若 48 小时内无人评审，欢迎在 PR 里友善地 @`hdjekuue` 或其他维护者。
 
-*本列表持续更新。星标数截止 2026-09-14。*
+*本列表持续更新。星标数为 README 近似快照；本次抽样刷新于 2026-10-25。*
 
 ## License
 
