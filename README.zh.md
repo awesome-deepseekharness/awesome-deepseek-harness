@@ -137,7 +137,6 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 | 项目 | 说明 | ⭐ |
 | --- | --- | --- |
-| [jerryxff26-alt/dsh-delivery-board](https://github.com/jerryxff26-alt/dsh-delivery-board) | 仓内交付看板（人与 Agent 共用）：阶段流水线、交接留痕、软 WIP、客户周报、Timeline；DSH 插件 + 独立 `npx dsh-delivery-board` | 3 |
 | [Q00/ouroboros](https://github.com/Q00/ouroboros/tree/main/integrations/dsh-plugin) | 纯配置包，经 MCP 挂载 Ouroboros，提供 36 个访谈/Seed/执行/评估/演化工作流工具 | 5839 |
 | [xmanrui/dsh-im](https://github.com/xmanrui/dsh-im) | 9 渠道 IM 接入：飞书/微信/钉钉/企微/QQ/Slack/TG/Discord/WhatsApp，扫码或凭据接入 | 1307 |
 | [zh667/TokenLedger](https://github.com/zh667/TokenLedger) | 侧边栏用量面板：按中转站归因 Token，今日/本月/累计+热力图，支持 New API/Sub2API/官方余额 | 199 |
@@ -147,6 +146,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [zhengjy01/dsh-wps](https://github.com/zhengjy01/dsh-wps) | 经官方金山 SkillHub MCP 的 WPS / 金山文档云文档集成（mcp__wps__*）。 | 1 |
 | [xiaobright/dsh-anchored-standard](https://github.com/xiaobright/dsh-anchored-standard) | 两阶段 DSH 预设:先 Minimal 对齐启动,再补全 Standard 工具 | 3817 |
 | [icetomoyo/dsh_workflow](https://github.com/icetomoyo/dsh_workflow) | 把 DSH 一次性多 Agent 调度升级为可生成/保存/治理/观察/恢复的 Workflow 层 | 123 |
+| [jerryxff26-alt/dsh-delivery-board](https://github.com/jerryxff26-alt/dsh-delivery-board) | 仓内交付看板（人与 Agent 共用）：阶段流水线、交接留痕、软 WIP、客户周报、Timeline；DSH 插件 + 独立 `npx dsh-delivery-board` | 3 |
 | [liceses/dsh-gitbash-preset](https://github.com/liceses/dsh-gitbash-preset) | 一键安装「极简模式 (Git Bash)」预设,让 Windows 极简模式真正可用 | 131 |
 | [omdsh-dev/dsh-at-file](https://github.com/omdsh-dev/dsh-at-file) | Codex 风格 `@file` 引用:在 composer 中搜索工作区文件并附加内容 | 512 |
 | [omdsh-dev/dsh-open-in-vscode](https://github.com/omdsh-dev/dsh-open-in-vscode) | 从 Web GUI 直接在 VS Code 打开 DSH 工作区目录 | 53 |
