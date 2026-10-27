@@ -118,6 +118,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [weibaohui/dsh-gaokao](https://github.com/weibaohui/dsh-gaokao) | 梦回高三：桌面小黑板高考倒计时（双击收成竖条），AI 干活时随机抽背知识点卡；`dsh plugin add @weibaohui/dsh-gaokao` 即装 | 2 |
 | [weibaohui/dsh-fireworks](https://github.com/weibaohui/dsh-fireworks) | 烟花庆祝引擎：agent 编程时在对话窗口上空放烟花（开场/回合/工具/里程碑/收工/失败各成卡组），token 用量决定大小与绚烂程度；`dsh plugin add @weibaohui/dsh-fireworks` 即装 | 0 |
 | [12we21/cute-fat-fish-pet](https://github.com/12we21/cute-fat-fish-pet) | DSH Web UI 的 Q 版蓝发小女仆桌宠：106 个手绘透明动画、桌面漫步、本地 Ollama 或 DSH 在线模型陪聊，可选看屏幕吐槽（`dsh plugin add github:12we21/cute-fat-fish-pet#path:/src` 即装） | 1 |
+| [weibaohui/dsh-sidebar-tidy](https://github.com/weibaohui/dsh-sidebar-tidy) | 侧栏收纳：把「新会话」下方被各插件塞满的入口行——全局面板行、插件入口行（自家/第三方一律识别）、底部入口——统统收进一个菜单按钮，点开二级菜单原样触发各入口；想常驻的加名称白名单即可，侧栏折叠成窄轨时按钮自动变纯图标。`dsh plugin add @weibaohui/dsh-sidebar-tidy` 即装 | 0 |
 
 ### 🖥️ TUI 与桌面端
 
