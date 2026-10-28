@@ -209,6 +209,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [01men/ybkkasi](https://github.com/01men/ybkkasi) | 自托管 AI 基础设施的资产治理控制台：把 MCP 服务 / Skill / Agent / AI 应用 / 模型渠道 / 存储登记进同一台账，带逐工具权限点、部门 x Agent x Skill 三维成本归因、依赖拓扑与只追加审计日志。以 `web` profile 插件树挂载（29 个插件包、450 条 REST 路由、86 个 MCP 工具，MIT）。安装：`dsh plugin --profile web add github:01men/ybkkasi` | 67 |
 | [lengrufeng2008/dsh-science-legion](https://github.com/lengrufeng2008/dsh-science-legion) | DSH 分层多智能体科研战役：8 个技能覆盖数学/物理/天文/工程/生物医药证据，共享黑板、独立验证、群狼/迂回战术、token 闸门、10 道已知答案评测；6-agent pilot 抓到并修正了评测答案键错误（`dsh plugin --profile web add github:lengrufeng2008/dsh-science-legion`） | 0 |
 | [lengrufeng2008/dsh-code-intel](https://github.com/lengrufeng2008/dsh-code-intel) | 通过本地 language server 的只读语义代码导航：定义、引用、工作区符号、诊断、hover、rename 预览；6 个原生工具，不用 embedding/托管索引，6/6 测试 | 0 |
+| [jjjjjjjjnnjnn/dsh-triage](https://github.com/jjjjjjjjnnjnn/dsh-triage) | 装前判断与事后归因：点名哪一行被准入拒绝、哪个模块 import 失败、哪个能力声明了却从未注册；独立探针带可复算证据。只读，不做装/卸，不作安全背书 | 1 |
 
 ### 📚 Skills 与技能包
 
