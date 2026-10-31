@@ -196,6 +196,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [skyjjgw/dsh-version-guard](https://github.com/skyjjgw/dsh-version-guard) | 记录插件版本与 profile 配置快照，在 DSH 无法启动时通过独立恢复页回退到已知可用配置。 | 1 |
 | [weibaohui/dsh-favorites](https://github.com/weibaohui/dsh-favorites) | 会话收藏夹：把任意会话收藏进浏览器收藏夹式的管理面板——左侧会话行一键收藏/星标，主面板支持文件夹分门别类、备注、自定义显示名、一键继续会话、Fork 新会话、会话基本统计，外加一张清晰展示会话派生关系的 fork 关系图。`dsh plugin add @weibaohui/dsh-favorites` 即装 | 1 |
 | [JeffTsuiCUG/dsh-connect-minimaxcode](https://github.com/JeffTsuiCUG/dsh-connect-minimaxcode) | 把本机已登录的 MiniMax Code 桌面 App（国内版）接入 DSH，也可用插件自带的 OAuth 2.0 设备码登录（PKCE，插件不接触密码）：Anthropic Messages 兼容、模型目录实时拉取、每日签到，积分余额与到期信息跟随所选模型显示在输入框工具行，并保留在插件页面。非官方插件，依赖 MiniMax 客户端的非公开接口，仅供学习研究。安装：`dsh plugin --profile desktop add dsh-connect-minimaxcode` | 0 |
+| [lengrufeng2008/dsh-science-legion](https://github.com/lengrufeng2008/dsh-science-legion) | DSH 分层多智能体科研战役：8 个技能覆盖数学/物理/天文/工程/生物医药证据，共享黑板、独立验证、群狼/迂回战术、token 闸门、10 道已知答案评测；6-agent pilot 抓到并修正了评测答案键错误（`dsh plugin --profile web add github:lengrufeng2008/dsh-science-legion`） | 0 |
 
 ### 📚 Skills 与技能包
 
