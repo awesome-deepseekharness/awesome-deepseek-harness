@@ -150,6 +150,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [omdsh-dev/dsh-at-file](https://github.com/omdsh-dev/dsh-at-file) | Codex 风格 `@file` 引用:在 composer 中搜索工作区文件并附加内容 | 512 |
 | [omdsh-dev/dsh-open-in-vscode](https://github.com/omdsh-dev/dsh-open-in-vscode) | 从 Web GUI 直接在 VS Code 打开 DSH 工作区目录 | 53 |
 | [omdsh-dev/dsh-notification](https://github.com/omdsh-dev/dsh-notification) | 回合完成桌面通知,支持按结果类型与关键词规则 | 84 |
+| [radres/dsh-plugin-call-me](https://github.com/radres/dsh-plugin-call-me) | 给你的真实手机打电话：`call_me` / `text_me` 工具，另可在运行结束或等待审批时来电，口头回答转写后回到会话。需要付费的 /call-me 手机应用（iPhone、Android）。安装：`dsh plugin --profile web add github:radres/dsh-plugin-call-me` | 8 |
 | [pitetow/dsh-notify-on-complete](https://github.com/pitetow/dsh-notify-on-complete) | 零依赖桌面通知:运行结束/提问/审批时提醒 | 4 |
 | [hxyz486/dsh-archived-conversations](https://github.com/hxyz486/dsh-archived-conversations) | 在设置页查看、恢复与删除归档会话 | 6 |
 | [Anionex/dsh-turn-rewind](https://github.com/Anionex/dsh-turn-rewind) | 对话与代码状态回退,基于持久化 Change Ledger | 115 |
