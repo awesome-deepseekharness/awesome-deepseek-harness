@@ -1,68 +1,78 @@
-# curator-report.md — 2026-10-22 06:07 UTC
+# curator-report.md — 2026-10-31 08:23 UTC
 
 ## Summary
-Routine health audit with no PR/Issue event. This branch applies the two actionable catalog fixes found by the audit: it follows the renamed DSH Web and DSH Desktop repositories and refreshes their displayed star counts in both language editions. The bilingual tables remain in sync, contain no duplicate plugin entries, and the milestone CTA matches the live star count.
+No PR or Issue event, so this run is a repository health audit. The bilingual README milestone is accurate (32 → 100 stars, 68 to go) and the EN/ZH tables stay structurally in sync (157 rows each, 152 GitHub repos, no table duplicates), but two entries still use pre-rename repo names and displayed star counts show material drift versus live API data. The site catalog mirrors the README exactly, so any README refresh should be followed by the normal Pages rebuild.
 
 ## Preliminary Checks
-| Check | Result |
-| --- | --- |
-| Event | No PR/Issue event — general health audit; the two rename patches below were applied before gate review |
-| Bilingual tables | ✅ 146 project rows in README.md and 146 in README.zh.md, same repo set |
-| Duplicates | ✅ No duplicate plugin entries (repeated URLs are self/official/topic links only) |
-| Milestone CTA vs live | ✅ README says "23 → 100 stars (77 to go)"; live `stargazers_count` = 23 via GitHub API → CTA current, first milestone goal (100) preserved |
-| Renamed repositories | ✅ Old URLs redirect to the new names; both new URLs resolve and are bilingual |
-| Author trust | N/A (no PR/Issue author); no trust signals to fuse |
+| Check | Result | Evidence |
+| --- | --- | --- |
+| Event | No PR, no Issue (`GH_PR`/`GH_ISSUE` empty) | dispatcher context |
+| README rows | 157 per language (152 GitHub repos + 5 non-GitHub resources); per-section counts identical | `README.md`, `README.zh.md` |
+| Bilingual parity | Same repo set and order, except `Moonshile/moonshile-dsh-plugins` sits after `weibaohui/dsh-fireworks` in EN but before `weibaohui/dsh-gaokao` in ZH | `README.md:119`, `README.zh.md:117` |
+| Milestone CTA | `32 → 100 stars (68 to go)` EN; `32 → 100 颗星（还差 68）` ZH; live repo 32 stars | `README.md:26`, `README.zh.md:26`, gh-read repo API |
+| Duplicates | None inside either table; repeated links are self/sister/topic references in the header, footer and `## Sister Project` | link extraction + `uniq -d` |
+| Star drift sample | 13 rows checked; 5 meaningful drifts >20% (`dsh-market` +154.8%, `dsh-context` +184.4%, `treg` +382.3%, `PerryLink/dsh-auto-review` +45.0%, `ChisaAlter` +21.3%), plus one 2→1 change | gh-read per-repo API vs README star column |
+| Renamed upstreams | `ChisaAlter/Deepseek-Harness-Desktop` → `ChisaAlter/WhaleIsle`; `AdamPlatin123/awesome-dsh-plugins` → `AdamPlatin123/dsh-plugin-radar`; both still 200 via redirect | gh-read `full_name`, webfetch |
+| Site catalog | 152 items, `repositoryStars: 32`, `firstStarGoal: 100`, star values mirror README | `docs/catalog.json` |
 
-## Changes in This PR
-- `README.md:105` / `README.zh.md:105`: rename `zhu1090093659/dsh-web-ui` → `zhu1090093659/dsh-web` and refresh the displayed count to 9270.
-- `README.md:128` / `README.zh.md:129`: rename `anywhere-labs/deepseek-harness-desktop` → `anywhere-labs/dsh-desktop` and refresh the displayed count to 32280.
-- `curator-report.md`: record the actual patches, redirect checks, and current sources so this report is consistent with the diff.
+Author trust: n/a (no PR/Issue author in this event).
 
 ## New Project Verification
-Not applicable — no new `owner/repo` proposal in this event. No PR or Issue was attached to this run.
+None — no new project was proposed in this event. No `owner/repo` verification target exists.
 
 ## Maintainer Review Opinion
-RECOMMEND: Approve — confidence high.
+RECOMMEND: Request changes — confidence high.
 
-Rationale: Both renamed repositories are live and the old URLs are GitHub redirects to the new names (`zhu1090093659/dsh-web-ui` → `zhu1090093659/dsh-web`, `anywhere-labs/deepseek-harness-desktop` → `anywhere-labs/dsh-desktop`). The replacement rows keep the same descriptions, categories, and bilingual positions, and the live counts were refreshed at update time (9270 and 32280). The catalog remains structurally healthy: both tables contain 146 project rows with the same URL set, the duplicate scan found no repeated plugin entries, and the milestone call-out matches the live repository count of 23. The larger star-drift findings below are real upward drift on live repos; they are documented as non-blocking follow-ups rather than silently rewritten in this rename-focused branch.
+Rationale: Direct API reads confirm the README milestone and bilingual row parity are correct, and none of the 13 sampled repo links is broken. However, two curated entries still advertise pre-rename identities (`ChisaAlter/Deepseek-Harness-Desktop` now resolves to `ChisaAlter/WhaleIsle` with 199 stars vs 164 shown; `AdamPlatin123/awesome-dsh-plugins` now resolves to `AdamPlatin123/dsh-plugin-radar` with 1488 vs 1466), and 5 of 13 sampled star counts have drifted more than 20% — most dramatically `dsh-market` 3,887 → 9,904 and `superdesigndev/treg` 1,400 → 6,752 — against a footer that still says "Star counts as of 2026-09-14". Updating the two canonical URLs is low-risk; the star column needs either a batch refresh or an extension of `scripts/update-repo-stars.mjs` so counts are not refreshed only by ad-hoc PRs. Author trust is not applicable here, so no stricter scrutiny was required.
+
+## Auto Labels
+None applied — no PR or Issue event. `auto-labeled` / `needs-review` are reserved for triage targets; `scripts/curate.mjs` has nothing to write in this run.
 
 ## Repo Health
-- **Star drift (>20% threshold), sampled 8 of 146 rows:**
-  - `dsh-market/dsh-market`: README 3887 → live 8067 (+107%) — refresh candidate
-  - `tt-a1i/archify`: README 61772 → live 87214 (+41%) — refresh candidate
-  - Within tolerance: `liustack/modlens` (3962→4392), `volcengine/OpenViking` (37172→40546), `junhoyeo/tokscale` (5428→5720), `anywhere-labs/dsh-desktop` (live count refreshed here), `hardes11/dsh-squeeze-command` (1→1 exact), `zhengjy01/dsh-npm` (0→0 exact)
-  - All 8 sampled repos are live with `dsh-plugin` topic and a license (MIT/AGPL-3.0) present.
-- **Bilingual sync:** identical entry sets and counts; one cosmetic ordering difference — `Moonshile/moonshile-dsh-plugins` sits after `weibaohui/dsh-fireworks` in README.md but before it in README.zh.md (Web UI section).
-- **Milestone CTA:** current and correct (23 live vs "23 → 100, 77 to go"). Note: `scripts/update-repo-stars.mjs` only refreshes the CTA, not per-row stars; per-row values are manual ("as of 2026-09-14"), which explains the remaining drift.
-- **Broken links:** not exhaustively crawled this run; all sampled repo URLs resolved via the GitHub API (200-equivalent `full_name` match).
+- Milestone: live `stargazers_count` 32, first goal 100 preserved, remaining 68 — matches both READMEs. No milestone diff was staged, so no low-risk refresh was pending.
+- Star freshness: table values are README snapshots dated 2026-09-14 while `docs/catalog.json` claims `sourceUpdated: 2026-10-30`. Confirmed drift beyond 20% in 5 of 13 sampled rows, so the displayed column no longer reflects the "continuously updated" claim.
+- Renames: both old URLs redirect successfully today, so nothing is hard-broken, but canonical names should be updated before GitHub releases the old slugs.
+- Duplicates: none within tables; the only repeats are intentional header/footer/sister-project references.
+- Parity: 157 rows per language, per-section counts identical, same repo set; only the `Moonshile` row position differs (minor ordering inconsistency in the Web UI section).
+- Non-GitHub resources: `@deepseek-ai/dsh` and `create-dsh-plugin` exist on the npm registry (verified via registry JSON); `deepwiki.com` returned HTTP 429 to the fetcher, so that single link is unverified, not known-broken.
+- Site data: `docs/catalog.json` is consistent with the README (152 items, 32 repo stars, goal 100); rebuild Pages after any README edit.
 
 ## Proposed Patches
-Applied in this branch:
-- Rename the DSH Web row to `zhu1090093659/dsh-web` and refresh its count.
-- Rename the DSH Desktop row to `anywhere-labs/dsh-desktop` and refresh its count.
-- Align the bilingual rows and update this report accordingly.
+Diff preview only — not applied to the workspace. Applies to both `README.md` and `README.zh.md`.
 
-Recommended follow-ups (not applied here):
-- Refresh the two high-drift rows (`dsh-market/dsh-market`, `tt-a1i/archify`) and the "Star counts as of" date in both READMEs in a later star-refresh pass.
-- Optionally reorder the Moonshile row in README.zh.md to match README.md.
+```diff
+--- a/README.md
++++ b/README.md
+@@
+-| [AdamPlatin123/awesome-dsh-plugins](https://github.com/AdamPlatin123/awesome-dsh-plugins) | Radar index repo that auto-scans dsh plugin candidates | 1466 |
++| [AdamPlatin123/dsh-plugin-radar](https://github.com/AdamPlatin123/dsh-plugin-radar) | Radar index repo that auto-scans dsh plugin candidates | 1488 |
+@@
+-| [ChisaAlter/Deepseek-Harness-Desktop](https://github.com/ChisaAlter/Deepseek-Harness-Desktop) | Electron desktop shell for the DSH web UI, with themes & backgrounds | 164 |
++| [ChisaAlter/WhaleIsle](https://github.com/ChisaAlter/WhaleIsle) | Electron desktop shell for the DSH web UI, with themes & backgrounds | 199 |
+--- a/README.zh.md
++++ b/README.zh.md
+@@
+-| [AdamPlatin123/awesome-dsh-plugins](https://github.com/AdamPlatin123/awesome-dsh-plugins) | 自动扫描 dsh 插件候选的前部索引仓库(Radar) | 1466 |
++| [AdamPlatin123/dsh-plugin-radar](https://github.com/AdamPlatin123/dsh-plugin-radar) | 自动扫描 dsh 插件候选的前部索引仓库(Radar) | 1488 |
+@@
+-| [ChisaAlter/Deepseek-Harness-Desktop](https://github.com/ChisaAlter/Deepseek-Harness-Desktop) | DSH Web UI 的 Electron 桌面壳,支持主题与背景图 | 164 |
++| [ChisaAlter/WhaleIsle](https://github.com/ChisaAlter/WhaleIsle) | DSH Web UI 的 Electron 桌面壳,支持主题与背景图 | 199 |
+```
+
+Separately, consider moving `Moonshile/moonshile-dsh-plugins` to the same position in both files (currently EN line 119, ZH line 117) and refreshing the remaining star column in one batch.
 
 ## Next Steps
-- Merge this branch after the second AI gate confirms the renamed rows and refreshed counts.
-- Schedule the broader star refresh described above; it is not a merge blocker for the rename fixes.
+1. Open a small `chore: refresh canonical repo URLs and star counts` PR with the diff above (and any additional rows refreshed in the same batch), then let the Pages build regenerate `docs/`.
+2. Prefer making the star refresh routine instead of PR-by-PR: extend `scripts/update-repo-stars.mjs` (or the health workflow) to update the table star column from the API, preserving the manual date footnote.
+3. Align the one out-of-order `Moonshile` row across both READMEs.
+4. Re-check `deepwiki.com/deepseek-ai/deepseek-harness` manually — it returned 429 to this audit and remains the only unverified external resource.
 
 ## Sources
-- `node scripts/curate.mjs gh-read repos/awesome-deepseekharness/awesome-deepseek-harness` — live stars (23), license CC0-1.0, pushed_at 2026-10-22
-- `node scripts/curate.mjs gh-read repos/zhu1090093659/dsh-web-ui` — redirects to zhu1090093659/dsh-web
-- `node scripts/curate.mjs gh-read repos/zhu1090093659/dsh-web` — live stars (9270 at update time)
-- `node scripts/curate.mjs gh-read repos/anywhere-labs/deepseek-harness-desktop` — redirects to anywhere-labs/dsh-desktop
-- `node scripts/curate.mjs gh-read repos/anywhere-labs/dsh-desktop` — live stars (32280 at update time)
-- `node scripts/curate.mjs gh-read repos/dsh-market/dsh-market` — live stars (8067), drift sample
-- `node scripts/curate.mjs gh-read repos/tt-a1i/archify` — live stars (87214), drift sample
-- `node scripts/curate.mjs gh-read repos/liustack/modlens` — drift sample
-- `node scripts/curate.mjs gh-read repos/volcengine/OpenViking` — drift sample
-- `node scripts/curate.mjs gh-read repos/junhoyeo/tokscale` — drift sample
-- `node scripts/curate.mjs gh-read repos/hardes11/dsh-squeeze-command` — drift sample
-- `node scripts/curate.mjs gh-read repos/zhengjy01/dsh-npm` — drift sample
-- Local `README.md`, `README.zh.md` (table row counts, duplicate scan, CTA text), `scripts/update-repo-stars.mjs` (CTA-only refresh scope)
+- https://api.github.com/repos/awesome-deepseekharness/awesome-deepseek-harness (via `node scripts/curate.mjs gh-read`)
+- https://api.github.com/repos/dsh-market/dsh-market, /liustack/modlens, /bowenliang123/dsh-context, /superdesigndev/treg, /Nagi-ovo/dsh-find-plugins, /AdamPlatin123/awesome-dsh-plugins, /LaplaceYoung/oh-my-dsh, /zhengjy01/dsh-qqbot-panel, /whiteguo233/OpenBiliClaw, /RaulLazaro/dsh-server-setup, /ChisaAlter/Deepseek-Harness-Desktop, /thedeveloper256/dsh-model-router, /PerryLink/dsh-auto-review (via `node scripts/curate.mjs gh-read`)
+- https://github.com/AdamPlatin123/awesome-dsh-plugins (webfetch; redirects to `dsh-plugin-radar`)
+- https://registry.npmjs.org/create-dsh-plugin
+- https://registry.npmjs.org/@deepseek-ai/dsh
+- Local: `README.md`, `README.zh.md`, `docs/catalog.json`, `.github/curator-policy.yml`, `scripts/update-repo-stars.mjs`
 
-<sub>model: opencode/glm-5.3-flash-free</sub>
+<sub>model: opencode/deepseek-v4.1-flash-free</sub>
