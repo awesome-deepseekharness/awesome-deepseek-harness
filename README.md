@@ -97,6 +97,8 @@ The hottest category — giving text-only models "eyes."
 | [hardes11/dsh-squeeze-command](https://github.com/hardes11/dsh-squeeze-command) | Manual budget-targeted context compression: the conversation model picks the ranges to summarize and a cheap flash-tier route writes the checkpoint summaries; `dsh plugin add dsh-squeeze-command` | 1 |
 | [PerryLink/dsh-memento](https://github.com/PerryLink/dsh-memento) | Bounded, layered, approval-gated cross-session memory for dsh with frozen snapshot injection (`dsh plugin --profile web add dsh-memento`) | 90 |
 | [Sev7eEn7/dsh-sieve](https://github.com/Sev7eEn7/dsh-sieve) | Filters tool outputs, prunes stale context and discloses skills on demand for DSH 0.2.1-alpha.1. Install: `dsh plugin --profile headless add dsh-sieve@0.1.0`. | 64 |
+| [OakcoderX/solopup-memory](https://github.com/OakcoderX/solopup-memory) | MIT public-beta text memory for DSH with original-source references, project scopes and correction history; `dsh plugin --profile desktop add solopup-memory@0.21.0-beta.2 --ignore-scripts` | 0 |
+
 
 ### 🎨 Web UI, Skins & Desktop Pets
 
