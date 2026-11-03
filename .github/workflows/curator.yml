@@ -82,6 +82,16 @@ jobs:
           echo "--- .curate-prompt preview ---"
           head -n 40 .curate-prompt.md 2>/dev/null || true
 
+      - name: Sweep stale change-request PRs
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+          STALE_DAYS: '21'
+          STALE_MAINTAINERS: 'hdjekuue'
+          STALE_APPLY: '1'
+        run: node scripts/stale-pr-sweep.mjs
+
       - name: Skip draft PR when nothing actionable
         id: skipcheck
         run: |
