@@ -97,11 +97,23 @@ function errorMessage(event) {
   return event.error?.data?.message || event.error?.message || event.error?.name || 'Provider error';
 }
 
+// POSIX shell quoting for the wrapped command below.
+function posixQuote(arg) {
+  return `'` + String(arg).replace(/'/g, `'\\''`) + `'`;
+}
+
 export function runCli(args, { cwd = process.cwd(), timeoutMs = 30000, env = {} } = {}) {
   return new Promise((resolve, reject) => {
-    const child = spawn(executable(), args, {
+    // OpenCode v2 does not load .opencode agent definitions when the CLI is
+    // spawned directly with a non-shell stdin (every agent lookup then fails
+    // with `Agent not found`). Routing the same command through `sh -c exec`
+    // makes v2 load the project agents reliably; exec replaces the shell, so
+    // the process-group kill below still reaches the CLI.
+    const posix = process.platform !== 'win32';
+    const command = posix ? ['sh', ['-c', `exec ${[executable(), ...args].map(posixQuote).join(' ')}`]] : [executable(), args];
+    const child = spawn(command[0], command[1], {
       cwd, env: { ...process.env, ...env }, stdio: ['ignore', 'pipe', 'pipe'],
-      windowsHide: true, detached: process.platform !== 'win32', shell: false,
+      windowsHide: true, detached: posix, shell: false,
     });
     let out = '', err = '', timedOut = false;
     const stop = () => {
