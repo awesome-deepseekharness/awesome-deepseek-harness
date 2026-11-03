@@ -183,7 +183,7 @@ export async function probeModel(model, timeoutMs = 35000, { run = runModel } = 
 }
 
 export async function withFreeModel(task, {
-  totalMs = 540000, attemptMs = 180000,
+  totalMs = 540000, attemptMs = 180000, probeMs = 90000,
   discover = discoverFreeModels, probe = probeModel, now = Date.now,
   failures = failed,
 } = {}) {
@@ -194,7 +194,9 @@ export async function withFreeModel(task, {
     if (failures.has(fullID) || now() >= deadline) continue;
     try {
       console.log(`[models] Checking ${fullID}`);
-      await probe(fullID, Math.min(35000, deadline - now()));
+      // Free-tier cold starts (CLI boot + provider handshake) regularly exceed 35s;
+      // a probe killed too early burns the whole candidate list without a verdict.
+      await probe(fullID, Math.min(probeMs, deadline - now()));
       if (now() >= deadline) break;
       const result = await task(fullID, Math.min(attemptMs, deadline - now()));
       console.log(`[models] Task succeeded with ${fullID}`);

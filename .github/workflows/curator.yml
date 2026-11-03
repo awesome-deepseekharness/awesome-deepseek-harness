@@ -82,19 +82,22 @@ jobs:
           head -n 40 .curate-prompt.md 2>/dev/null || true
 
       - name: Skip draft PR when nothing actionable
+        id: skipcheck
         run: |
           IDLE=$(grep -ciE "no actionable findings|health audit only|No PR/Issue|No PR event|No LLM run" curator-report.md 2>/dev/null || true)
           HASDIFF=$(grep -c '^```diff' curator-report.md 2>/dev/null || true)
           echo "idle_markers=$IDLE diff_blocks=$HASDIFF"
           if git diff --quiet -- README.md README.zh.md && [ "$HASDIFF" -eq 0 ] && [ "$IDLE" -ge 2 ]; then
-            echo "Nothing actionable — drop report so no draft PR is opened (report stays in run logs)"
-            rm -f curator-report.md
+            echo "Nothing actionable — no draft PR is opened (report stays in run logs)"
+            echo "actionable=false" >> "$GITHUB_OUTPUT"
           else
             echo "Actionable content — draft PR will be opened for gate review"
+            echo "actionable=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Create PR if report changed
         id: cpr
+        if: steps.skipcheck.outputs.actionable == 'true'
         continue-on-error: true
         uses: peter-evans/create-pull-request@v6
         with:
@@ -124,7 +127,7 @@ jobs:
             auto-labeled
 
       - name: Handle PR permission fallback
-        if: steps.cpr.outcome == 'failure'
+        if: steps.skipcheck.outputs.actionable == 'true' && steps.cpr.outcome == 'failure'
         run: |
           echo "::warning::PR creation blocked — enable 'Allow GitHub Actions to create and approve PRs' at https://github.com/organizations/awesome-deepseekharness/settings/actions"
           git ls-remote --heads origin curator/report-${{ github.run_id }} | head -n 5 || true

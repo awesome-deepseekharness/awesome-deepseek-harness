@@ -108,8 +108,14 @@ jobs:
             exit 0
           fi
           echo "=== Second AI gate for PR #$PR (head: $(git rev-parse --short HEAD)) ==="
+          if [ ! -f curator-report.md ]; then
+            echo "curator-report.md absent on PR head — nothing was staged, closing without an LLM run"
+            gh pr comment "$PR" --body "🤖 Auto-closed by the gate: this draft contained no \`curator-report.md\`, so there is nothing to review." || true
+            gh pr close "$PR" --delete-branch || gh pr close "$PR" || echo "close failed"
+            exit 0
+          fi
           echo "--- curator-report.md preview ---"
-          head -n 150 curator-report.md 2>&1 || echo "missing report — will fallback"
+          head -n 150 curator-report.md 2>&1 || true
           echo "--- git diff stat vs main ---"
           git fetch origin main --depth 1 2>&1 | head -n 20 || true
           git diff origin/main...HEAD --stat 2>&1 | head -n 50 || git diff --stat 2>&1 | head -n 50 || true
@@ -149,7 +155,10 @@ jobs:
             node -e 'process.stdout.write(require(process.argv[1]).text)' "$SECOND_RESULT" > "$SECOND_LOG"
             cat "$SECOND_LOG"
           else
-            echo "No free reviewer completed an independent review; keeping REQUEST_CHANGES" | tee "$SECOND_LOG"
+            # No model completed the probe/review in budget. Do not dress this up as a
+            # reviewer verdict: leave the PR open and say so plainly.
+            echo "No free reviewer completed an independent review" | tee "$SECOND_LOG"
+            DECISION="UNAVAILABLE"
           fi
 
           echo "=== Final DECISION: $DECISION ==="
@@ -197,6 +206,16 @@ jobs:
           \`\`\`
           *Closed automatically by second AI gate. Re-trigger with \`/curator\` or workflow_dispatch if needed.*" || true
             gh pr close "$PR" --delete-branch || gh pr close "$PR" || echo "close failed"
+          elif [ "$DECISION" = "UNAVAILABLE" ]; then
+            echo "⚠️ Second AI gate could not run — leaving PR #$PR open for maintainer"
+            gh pr comment "$PR" --body "⚠️ **Second AI gate unavailable**: no free model completed its review within budget, so no verdict was reached.
+
+          - The PR stays open and untouched; a maintainer can review manually or re-run via \`gh workflow run curator-gate.yml -f pr=$PR\`.
+          - Log preview:
+          \`\`\`
+          $(head -n 60 "$SECOND_LOG" 2>/dev/null | head -c 2000)
+          \`\`\`" || true
+            gh pr edit "$PR" --add-label "needs-review" || true
           else
             echo "⚠️ Second AI: REQUEST_CHANGES → commenting, not merging/closing"
             gh pr comment "$PR" --body "⚠️ **Second AI reviewer** (\`$REVIEW_MODEL\`) decision: **REQUEST_CHANGES**

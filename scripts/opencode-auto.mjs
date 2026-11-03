@@ -29,7 +29,7 @@ async function main() {
   const result = await withFreeModel(async (model, timeoutMs) => {
     const text = await runModel(model, prompt, { agent, timeoutMs });
     return { text, decision: agent === 'reviewer' ? parseDecision(text) : undefined };
-  }, { totalMs: 360000, attemptMs: 170000 });
+  }, { totalMs: 540000, attemptMs: 240000 });
   writeFileSync(output, JSON.stringify({ model: result.model, ...result.result }, null, 2) + '\n');
 }
 
