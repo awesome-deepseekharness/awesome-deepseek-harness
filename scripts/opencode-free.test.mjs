@@ -1,6 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import { EventEmitter } from 'node:events';
 import { approvalGatedAgent, zenModelRecords, rankFreeModels, responseText, runModel, probeModel, withFreeModel } from './opencode-free.mjs';
 import { parseDecision } from './opencode-auto.mjs';
@@ -137,6 +138,11 @@ test('probe keeps tools approval-gated, uses the selected model, caches success 
     assert.deepEqual(options.config.agent.probe.permission, { '*': 'ask' });
     directory = options.cwd;
     assert.equal(existsSync(directory), true);
+    // v2 needs the agent as a file inside the run's project directory.
+    const agentFile = join(directory, '.opencode', 'agents', 'probe.md');
+    const source = readFileSync(agentFile, 'utf8');
+    assert.match(source, /permissions:/);
+    assert.match(source, /effect: ask/);
     return 'OPENCODE_FREE_OK';
   };
   await probeModel('opencode/test-probe-success', 1234, { run });

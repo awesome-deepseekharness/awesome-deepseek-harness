@@ -1,5 +1,5 @@
 import { spawn } from 'node:child_process';
-import { existsSync, mkdtempSync, rmSync } from 'node:fs';
+import { existsSync, mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
 
@@ -187,6 +187,26 @@ export async function runModel(model, prompt, { agent = 'curator', cwd = process
 // passed. Never add --auto or allow tools for this probe.
 export const APPROVAL_GATED_PERMISSION = Object.freeze({ '*': 'ask' });
 
+// v2 no longer registers agents defined through OPENCODE_CONFIG_CONTENT: the
+// probe agent has to exist as a file under <cwd>/.opencode/agents/. This
+// renders that file in native v2 shape (ordered permissions array, effect ask
+// on every action), so an unattended run rejects every tool use.
+export function agentFileSource(agent, body) {
+  return [
+    '---',
+    `description: ${agent} agent for this automation; never edits anything.`,
+    'mode: primary',
+    'permissions:',
+    '  - action: "*"',
+    '    resource: "*"',
+    '    effect: ask',
+    '---',
+    '',
+    body,
+    '',
+  ].join('\n');
+}
+
 export function approvalGatedAgent(agent, options = {}) {
   return { agent: { [agent]: { mode: 'primary', permission: APPROVAL_GATED_PERMISSION, ...options } } };
 }
@@ -197,6 +217,13 @@ export async function probeModel(model, timeoutMs = 35000, { run = runModel } = 
   if (verified.has(model)) return;
   const cwd = mkdtempSync(path.join(os.tmpdir(), 'opencode-probe-'));
   try {
+    // v2 discovers agents only from the run's project directory, so the probe
+    // agent file has to live inside this temporary cwd.
+    mkdirSync(path.join(cwd, '.opencode', 'agents'), { recursive: true });
+    writeFileSync(
+      path.join(cwd, '.opencode', 'agents', 'probe.md'),
+      agentFileSource('probe', 'Follow the response instruction exactly. Never use tools.'),
+    );
     const text = await run(model, 'Reply with exactly OPENCODE_FREE_OK. Do not use tools.', {
       cwd, agent: 'probe', timeoutMs,
       config: {

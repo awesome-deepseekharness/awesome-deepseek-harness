@@ -3,6 +3,8 @@
 .opencode/*
 !.opencode/agent/
 !.opencode/agent/**
+!.opencode/agents/
+!.opencode/agents/**
 .DS_Store
 .impeccable/
 node_modules/
