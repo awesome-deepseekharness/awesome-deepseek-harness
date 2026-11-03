@@ -1308,6 +1308,17 @@ Connect the models of a locally signed-in MiniMax Code desktop app (CN build) to
 Stars (README snapshot): 0
 
 
+### caishengshuo/beforewrite
+
+Repository: https://github.com/caishengshuo/beforewrite
+
+Host plugin that keeps the previous version of a file the agent is about to overwrite: `time_machine` lists, diffs and restores in one command, and you can mark a file manually before `rm` or `sed -i`. Install: `git clone` then `plugin_manager(action="install_bundle", target="")`
+
+Host 插件：在 agent 覆盖文件之前自动留下上一版，`time_machine` 一条命令列出快照、看 diff、回滚，`rm` 或 `sed -i` 之前也能手动打点。安装：`git clone` 后 `plugin_manager(action="install_bundle", target="")`
+
+Stars (README snapshot): 0
+
+
 ## Skills / Skills 与技能包
 
 
