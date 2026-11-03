@@ -309,6 +309,17 @@ Filters tool outputs, prunes stale context and discloses skills on demand for DS
 Stars (README snapshot): 64
 
 
+### lo2589/knowledge_database
+
+Repository: https://github.com/lo2589/knowledge_database
+
+Click a sentence in a chat to make it a card in a knowledge-tree sidebar tab; Ctrl-drag merges several sentences into one card, every card links back to its source sentence, and the tree exports to Markdown, Mermaid, JSON, or PDF. Needs the repo's Python 3.11 + FastNode setup (`setup.sh`). Install: `./setup.sh` then `./dsh-install.sh`.
+
+在对话里点一句就成为右栏知识树里的一张卡；Ctrl 拖框把多句合成一张卡，每张卡都能跳回原句，整棵树可导出 Markdown、Mermaid、JSON、PDF。需先按仓库说明跑 `setup.sh`（Python 3.11 + FastNode）。安装：`./setup.sh` 后跑 `./dsh-install.sh`。
+
+Stars (README snapshot): 0
+
+
 ## Web UI, Skins & Desktop Pets / Web UI、皮肤与桌面宠物
 
 
