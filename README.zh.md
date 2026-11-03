@@ -97,6 +97,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [hardes11/dsh-squeeze-command](https://github.com/hardes11/dsh-squeeze-command) | 手动、面向预算的上下文压缩:对话模型圈定要总结的范围,廉价 flash 级路由生成检查点摘要;`dsh plugin add dsh-squeeze-command` | 1 |
 | [PerryLink/dsh-memento](https://github.com/PerryLink/dsh-memento) | dsh 有界分层、审批门控、可审计的跨会话记忆，支持冻结快照注入（`dsh plugin --profile web add dsh-memento` 安装） | 90 |
 | [Sev7eEn7/dsh-sieve](https://github.com/Sev7eEn7/dsh-sieve) | 为 DSH 0.2.1-alpha.1 过滤工具输出、裁剪陈旧上下文并按需披露技能。 安装：`dsh plugin --profile headless add dsh-sieve@0.1.0`。 | 64 |
+| [lo2589/knowledge_database](https://github.com/lo2589/knowledge_database) | 在对话里点一句就成为右栏知识树里的一张卡；Ctrl 拖框把多句合成一张卡，每张卡都能跳回原句，整棵树可导出 Markdown、Mermaid、JSON、PDF。需先按仓库说明跑 `setup.sh`（Python 3.11 + FastNode）。安装：`./setup.sh` 后跑 `./dsh-install.sh`。 | 0 |
 
 ### 🎨 Web UI、皮肤与桌面宠物
 

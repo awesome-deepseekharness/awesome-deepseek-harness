@@ -97,6 +97,7 @@ The hottest category — giving text-only models "eyes."
 | [hardes11/dsh-squeeze-command](https://github.com/hardes11/dsh-squeeze-command) | Manual budget-targeted context compression: the conversation model picks the ranges to summarize and a cheap flash-tier route writes the checkpoint summaries; `dsh plugin add dsh-squeeze-command` | 1 |
 | [PerryLink/dsh-memento](https://github.com/PerryLink/dsh-memento) | Bounded, layered, approval-gated cross-session memory for dsh with frozen snapshot injection (`dsh plugin --profile web add dsh-memento`) | 90 |
 | [Sev7eEn7/dsh-sieve](https://github.com/Sev7eEn7/dsh-sieve) | Filters tool outputs, prunes stale context and discloses skills on demand for DSH 0.2.1-alpha.1. Install: `dsh plugin --profile headless add dsh-sieve@0.1.0`. | 64 |
+| [lo2589/knowledge_database](https://github.com/lo2589/knowledge_database) | Click a sentence in a chat to make it a card in a knowledge-tree sidebar tab; Ctrl-drag merges several sentences into one card, every card links back to its source sentence, and the tree exports to Markdown, Mermaid, JSON, or PDF. Needs the repo's Python 3.11 + FastNode setup (`setup.sh`). Install: `./setup.sh` then `./dsh-install.sh`. | 0 |
 
 ### 🎨 Web UI, Skins & Desktop Pets
 
