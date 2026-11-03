@@ -488,13 +488,24 @@ Re-sorts sidebar workspaces by last activity once per day; stable order within t
 Stars (README snapshot): 2
 
 
+### weibaohui/dsh-sidebar-tidy
+
+Repository: https://github.com/weibaohui/dsh-sidebar-tidy
+
+Sidebar tidy: when plugins pile up, the rows under 'New session' get crowded with panel and plugin entries. This plugin folds them all — global panel rows, plugin-injected entry rows (own and third-party alike), and bottom entries — into a single menu button whose secondary menu triggers each entry exactly as before; keep any entry permanently visible with a name whitelist, and the button turns into an icon when the sidebar collapses to a narrow rail. Installable via `dsh plugin add @weibaohui/dsh-sidebar-tidy`
+
+DSH Web UI 的 Q 版蓝发小女仆桌宠：106 个手绘透明动画、桌面漫步、本地 Ollama 或 DSH 在线模型陪聊，可选看屏幕吐槽（`dsh plugin add github:12we21/cute-fat-fish-pet#path:/src` 即装）
+
+Stars (README snapshot): 0
+
+
 ### 12we21/cute-fat-fish-pet
 
 Repository: https://github.com/12we21/cute-fat-fish-pet
 
 A chibi blue-haired maid desktop pet for the DSH Web UI with 106 hand-drawn transparent animations, desktop wandering, chat through local Ollama or the DSH online models, and optional screen watching (installable via `dsh plugin add github:12we21/cute-fat-fish-pet#path:/src`)
 
-DSH Web UI 的 Q 版蓝发小女仆桌宠：106 个手绘透明动画、桌面漫步、本地 Ollama 或 DSH 在线模型陪聊，可选看屏幕吐槽（`dsh plugin add github:12we21/cute-fat-fish-pet#path:/src` 即装）
+侧栏收纳：把「新会话」下方被各插件塞满的入口行——全局面板行、插件入口行（自家/第三方一律识别）、底部入口——统统收进一个菜单按钮，点开二级菜单原样触发各入口；想常驻的加名称白名单即可，侧栏折叠成窄轨时按钮自动变纯图标。`dsh plugin add @weibaohui/dsh-sidebar-tidy` 即装
 
 Stars (README snapshot): 1
 
@@ -604,6 +615,17 @@ Stars (README snapshot): 1
 ## Tools, Workflows & Presets / 工具、工作流与预设
 
 
+### dryw/dsh-egm
+
+Repository: https://github.com/dryw/dsh-egm
+
+Elephant-Goldfish Model for DSH: draft design specs with a context-rich Elephant, then challenge them with fresh, read-only Goldfish reviewers. Install: `dsh plugin --profile web add dsh-egm` (npm: `dsh-egm`).
+
+面向 DSH 的 Elephant-Goldfish Model：由具备项目上下文的 Elephant 起草设计规范，再由全新上下文、只读权限的 Goldfish 审查设计。安装：`dsh plugin --profile web add dsh-egm`（npm：`dsh-egm`）。
+
+Stars (README snapshot): 4
+
+
 ### Q00/ouroboros
 
 Repository: https://github.com/Q00/ouroboros/tree/main/integrations/dsh-plugin
@@ -703,6 +725,17 @@ Upgrade one-shot multi-agent scheduling into a generatable, savable, governable 
 Stars (README snapshot): 123
 
 
+### jerryxff26-alt/dsh-delivery-board
+
+Repository: https://github.com/jerryxff26-alt/dsh-delivery-board
+
+In-repo delivery board for humans & agents: stages, handoffs, soft WIP, weekly report, Timeline UI; DSH plugin + standalone `npx dsh-delivery-board`
+
+仓内交付看板（人与 Agent 共用）：阶段流水线、交接留痕、软 WIP、客户周报、Timeline；DSH 插件 + 独立 `npx dsh-delivery-board`
+
+Stars (README snapshot): 3
+
+
 ### liceses/dsh-gitbash-preset
 
 Repository: https://github.com/liceses/dsh-gitbash-preset
@@ -745,6 +778,17 @@ Desktop notifications for turn completions, with per-outcome and keyword rules
 回合完成桌面通知,支持按结果类型与关键词规则
 
 Stars (README snapshot): 84
+
+
+### radres/dsh-plugin-call-me
+
+Repository: https://github.com/radres/dsh-plugin-call-me
+
+Rings your real phone: `call_me` and `text_me` tools, plus optional calls when a run stops or waits for approval; the spoken answer is transcribed back into the run. Needs the paid /call-me app (iPhone, Android). Install: `dsh plugin --profile web add github:radres/dsh-plugin-call-me`
+
+给你的真实手机打电话：`call_me` / `text_me` 工具，另可在运行结束或等待审批时来电，口头回答转写后回到会话。需要付费的 /call-me 手机应用（iPhone、Android）。安装：`dsh plugin --profile web add github:radres/dsh-plugin-call-me`
+
+Stars (README snapshot): 8
 
 
 ### pitetow/dsh-notify-on-complete
@@ -1099,6 +1143,17 @@ Alibaba Cloud OpenAPI MCP connection for DSH: static-credential mode through the
 Stars (README snapshot): 0
 
 
+### hanshengcc/callai-seo-mcp
+
+Repository: https://github.com/hanshengcc/callai-seo-mcp
+
+Live SEO data for DSH via the CallAI MCP server: Google/Bing SERP (with AI Overview sources), keyword volume and difficulty, competitor rankings and keyword gaps, backlinks, on-page audits as mcp__callai__* tools plus a bundled SEO skill; pay-as-you-go API key required (`dsh plugin --profile web add @callaiapi/seo`)
+
+通过 CallAI MCP 服务器为 DSH 提供实时 SEO 数据：Google/Bing SERP（含 AI Overview 引用源）、关键词搜索量与难度、竞品排名与关键词差距、外链、页面体检，以 mcp__callai__* 暴露并附带 SEO 技能；需按量计费的 API key（`dsh plugin --profile web add @callaiapi/seo`）
+
+Stars (README snapshot): 0
+
+
 ### weibaohui/dsh-flow
 
 Repository: https://github.com/weibaohui/dsh-flow
@@ -1428,6 +1483,17 @@ Repository: https://github.com/reliable-ly0411/babeldoc-pdf-translate
 BabelDOC PDF translation skill for DSH, also packaged as a Codex plugin: bilingual output, custom glossaries and local typesetting; install under `.dsh/skills/babeldoc-pdf-translate`
 
 面向 DSH 的 BabelDOC PDF 翻译技能，同时提供 Codex 插件封装：双语输出、自定义术语及本地排版；安装到 `.dsh/skills/babeldoc-pdf-translate`
+
+Stars (README snapshot): 0
+
+
+### zabuxie/vc-voice-train-skill
+
+Repository: https://github.com/zabuxie/vc-voice-train-skill
+
+RVC voice training skill for DSH: dataset QA, fix for the RVC 20240604 audio_norm defect (silent broadband-noise output), objective acceptance (flat/harmonics/band energy), 40k/32k pipelines, cloud-GPU SOP
+
+RVC 音色训练技能：数据集体检、修复 RVC 20240604 归一化缺陷（静默输出宽带噪声）、客观音质验收（平坦度/谐波/频段）、40k/32k 全流程、云 GPU 训练 SOP
 
 Stars (README snapshot): 0
 
