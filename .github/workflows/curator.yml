@@ -49,10 +49,11 @@ jobs:
         run: |
           set -e
           node --test scripts/opencode-free.test.mjs
-          if npm install -g opencode-ai 2>&1 | tail -n 5; then
-            echo "opencode via npm done"
+          # OpenCode v1 no longer supports free models; v2 is required.
+          if npm install -g @opencode/cli 2>&1 | tail -n 5; then
+            echo "opencode v2 via npm done"
           else
-            curl -fsSL https://opencode.ai/install | bash
+            curl -fsSL https://opencode.ai/v2/install | bash
             echo "$HOME/.local/bin" >> $GITHUB_PATH
           fi
           opencode --version || echo "opencode not found, fallback deterministic"

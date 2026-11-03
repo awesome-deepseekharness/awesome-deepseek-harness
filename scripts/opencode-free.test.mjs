@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { EventEmitter } from 'node:events';
-import { approvalGatedAgent, parseModels, rankFreeModels, responseText, runModel, probeModel, withFreeModel } from './opencode-free.mjs';
+import { approvalGatedAgent, zenModelRecords, rankFreeModels, responseText, runModel, probeModel, withFreeModel } from './opencode-free.mjs';
 import { parseDecision } from './opencode-auto.mjs';
 import { classifierConfig, isPluginTopicInvalid, runGhRead, validateGhReadEndpoint } from './curate.mjs';
 
@@ -12,12 +12,27 @@ const model = (id, overrides = {}) => ({
   capabilities: { toolcall: true, input: { text: true }, output: { text: true }, reasoning: true },
   limit: { context: 200000 }, ...overrides,
 });
-test('parses actual CLI verbose framing, CRLF and refresh banners', () => {
-  const output = '\x1b[92mModels cache refreshed\x1b[0m\r\n'
-    + 'opencode/new-model\r\n' + JSON.stringify(model('new-model'), null, 2) + '\r\n'
-    + 'opencode/bad-record\r\ninvalid JSON\r\n'
-    + 'opencode/another\n' + JSON.stringify(model('another'));
-  assert.deepEqual(parseModels(output).map(m => m.fullID), ['opencode/new-model', 'opencode/another']);
+test('maps Zen catalog records; a missing price is never free', () => {
+  const free = {
+    id: 'deepseek-v4.1-flash-free', release_date: '2026-09-10',
+    modalities: { input: ['text', 'image/png'], output: ['text'] },
+    capabilities: { tools: { supported: true }, reasoning: { supported: true } },
+    limit: { context: 200000 },
+    cost: { text: { input: { price: 0, cache: { read: 0 } }, output: { price: 0 } } },
+  };
+  const paid = { ...free, id: 'paid-model', cost: { text: { input: { price: 1 }, output: { price: 0 } } } };
+  const unmapped = { ...free, id: 'no-price-model', cost: undefined };
+  const records = zenModelRecords([free, paid, unmapped, { nope: true }]);
+  assert.equal(records.length, 3);
+  assert.deepEqual(records[0], {
+    fullID: 'opencode/deepseek-v4.1-flash-free', release_date: '2026-09-10', status: 'active',
+    cost: { input: 0, output: 0, cache: { read: 0, write: 0 } },
+    capabilities: {
+      toolcall: true, input: { text: true }, output: { text: true }, reasoning: true,
+    },
+    limit: { context: 200000 },
+  });
+  assert.deepEqual(rankFreeModels(records).map(m => m.fullID), ['opencode/deepseek-v4.1-flash-free']);
 });
 test('requires zero pricing and tool/text capability, not a free-looking name', () => {
   const input = [model('plain-name'), model('paid-free', { cost: { input: 1, output: 0 } }),
@@ -98,7 +113,7 @@ test('headless runner never auto-approves tools and pins both models', async () 
     agent: 'probe', cwd: 'test-directory', timeoutMs: 1234,
     config: { model: 'paid/ignored', small_model: 'paid/ignored', permission: { '*': 'ask' } },
     cli: async (args, options) => {
-      assert.deepEqual(args, ['run', '--dir', 'test-directory', '--format', 'json', '--model', 'opencode/selected-free', '--agent', 'probe', 'quoted "prompt" & literal']);
+      assert.deepEqual(args, ['run', '--format', 'json', '--model', 'opencode/selected-free', '--agent', 'probe', 'quoted "prompt" & literal']);
       assert.equal(options.cwd, 'test-directory');
       assert.equal(options.timeoutMs, 1234);
       assert.deepEqual(JSON.parse(options.env.OPENCODE_CONFIG_CONTENT), {

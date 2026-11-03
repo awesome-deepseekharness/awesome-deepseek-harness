@@ -4,13 +4,41 @@ import path from 'node:path';
 import os from 'node:os';
 
 // Use CLI metadata, never a hard-coded model roster or a "free" name alone.
-export function parseModels(output) {
-  const clean = output.replace(/\x1b\[[0-9;]*m/g, '');
-  const records = [...clean.matchAll(/^(opencode\/[a-zA-Z0-9._:/-]+)\s*\r?$/gm)];
-  return records.flatMap((match, index) => {
-    const body = clean.slice(match.index + match[0].length, records[index + 1]?.index).trim();
-    try { return [{ ...JSON.parse(body), fullID: match[1] }]; } catch { return []; }
-  });
+// OpenCode v2 dropped the verbose model listing; the CLI now prints bare model
+// IDs and full metadata lives in the public Zen catalog. Map those records to
+// the shape rankFreeModels expects. A missing price reads as paid (never free).
+export const ZEN_MODELS_URL = 'https://opencode.ai/zen/v1/models';
+
+export function zenModelRecords(rows) {
+  return (Array.isArray(rows) ? rows : []).filter(row => typeof row?.id === 'string').map(row => ({
+    fullID: `opencode/${row.id}`,
+    release_date: row.release_date || row.last_updated || undefined,
+    status: row.status || 'active',
+    cost: {
+      input: row.cost?.text?.input?.price,
+      output: row.cost?.text?.output?.price,
+      // The catalog omits cache prices on free models; absent means zero.
+      cache: { read: row.cost?.text?.input?.cache?.read ?? 0, write: row.cost?.text?.input?.cache?.write ?? 0 },
+    },
+    capabilities: {
+      toolcall: row.capabilities?.tools?.supported === true,
+      input: { text: (row.modalities?.input || []).includes('text') },
+      output: { text: (row.modalities?.output || []).includes('text') },
+      reasoning: row.capabilities?.reasoning?.supported === true,
+    },
+    limit: { context: row.limit?.context ?? 0 },
+  }));
+}
+
+async function cliModelIds() {
+  try {
+    const result = await runCli(['models']);
+    const ids = result.out.split(/\r?\n/).map(line => line.trim()).filter(line => /^opencode\//.test(line));
+    if (ids.length) return new Set(ids);
+  } catch (error) {
+    console.warn(`[models] CLI listing unavailable: ${error.message}; using the Zen catalog alone`);
+  }
+  return null;
 }
 
 function zeroCost(value) {
@@ -58,11 +86,11 @@ function executable() {
   // npm's Windows shim is a .cmd. Resolve the shipped executable so prompts
   // never pass through cmd.exe quoting or shell interpolation.
   for (const dir of (process.env.PATH || '').split(path.delimiter)) {
-    for (const candidate of [path.join(dir, 'opencode.exe'), path.join(dir, 'node_modules/opencode-ai/bin/opencode.exe')]) {
+    for (const candidate of [path.join(dir, 'opencode.exe'), path.join(dir, 'node_modules/@opencode/cli/bin/opencode.exe'), path.join(dir, 'node_modules/opencode-ai/bin/opencode.exe')]) {
       if (existsSync(candidate)) return candidate;
     }
   }
-  throw new Error('OpenCode executable not found; install opencode-ai or set OPENCODE_BIN');
+  throw new Error('OpenCode executable not found; install @opencode/cli or set OPENCODE_BIN');
 }
 
 function errorMessage(event) {
@@ -107,16 +135,17 @@ export function runCli(args, { cwd = process.cwd(), timeoutMs = 30000, env = {} 
 let discovered;
 export async function discoverFreeModels() {
   if (!discovered) discovered = (async () => {
-    let result;
+    const ids = await cliModelIds();
+    let zen = [];
     try {
-      result = await runCli(['models', 'opencode', '--refresh', '--verbose']);
-      if (!parseModels(result.out).length) throw new Error('No model metadata returned');
+      const response = await fetch(ZEN_MODELS_URL);
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      zen = zenModelRecords((await response.json())?.data);
     } catch (error) {
-      console.warn(`[models] Refresh unavailable: ${error.message}; trying the CLI cache`);
-      result = await runCli(['models', 'opencode', '--verbose']);
+      throw new Error(`Zen model catalog unavailable: ${error.message}`);
     }
-    const models = rankFreeModels(parseModels(result.out));
-    if (!models.length) throw new Error('CLI lists no verified zero-cost, tool-capable text models');
+    const models = rankFreeModels(ids ? zen.filter(model => ids.has(model.fullID)) : zen);
+    if (!models.length) throw new Error('No verified zero-cost, tool-capable text models in the catalog');
     console.log(`[models] Free candidates (trusted vendors first, then release date): ${models.map(m => `${m.fullID} [${m.release_date || 'date unknown'}]`).join(', ')}`);
     return models;
   })();
@@ -142,9 +171,9 @@ export function responseText(output) {
 }
 
 export async function runModel(model, prompt, { agent = 'curator', cwd = process.cwd(), timeoutMs = 180000, config = {}, cli = runCli } = {}) {
-  // Explicit --dir also keeps the server-side session in the intended project;
-  // child-process cwd alone can resolve to the global/home project in recent CLIs.
-  const result = await cli(['run', '--dir', cwd, '--format', 'json', '--model', model, '--agent', agent, prompt], {
+  // v2 dropped --dir; the child-process cwd selects the project (agents live in
+  // .opencode/agent there), so run from it explicitly.
+  const result = await cli(['run', '--format', 'json', '--model', model, '--agent', agent, prompt], {
     cwd, timeoutMs,
     // Both the main and auxiliary model stay on the selected free model.
     env: { OPENCODE_CONFIG_CONTENT: JSON.stringify({ ...config, model, small_model: model }) },
