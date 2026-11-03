@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import { pathToFileURL } from 'node:url';
-import { discoverFreeModels, runModel, withFreeModel } from './opencode-free.mjs';
+import { discoverFreeModels, withFreeModel } from './opencode-free.mjs';
 
 export function parseDecision(text) {
   const matches = [...text.matchAll(/^DECISION:\s*(APPROVE|CLOSE|REQUEST_CHANGES)\s*(?:#.*)?$/gm)];
@@ -26,8 +26,8 @@ async function main() {
   const agent = option('--agent', 'reviewer');
   if (!promptFile || !output) throw new Error('Usage: node scripts/opencode-auto.mjs --prompt-file FILE --output JSON [--agent reviewer] | --list | --probe');
   const prompt = readFileSync(promptFile, 'utf8');
-  const result = await withFreeModel(async (model, timeoutMs) => {
-    const text = await runModel(model, prompt, { agent, timeoutMs });
+  const result = await withFreeModel(async (model, timeoutMs, run) => {
+    const text = await run(model, prompt, { agent, timeoutMs });
     return { text, decision: agent === 'reviewer' ? parseDecision(text) : undefined };
   }, { totalMs: 540000, attemptMs: 240000 });
   writeFileSync(output, JSON.stringify({ model: result.model, ...result.result }, null, 2) + '\n');

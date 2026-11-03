@@ -102,7 +102,7 @@ function posixQuote(arg) {
   return `'` + String(arg).replace(/'/g, `'\\''`) + `'`;
 }
 
-export function runCli(args, { cwd = process.cwd(), timeoutMs = 30000, env = {} } = {}) {
+export function runCli(args, { cwd = process.cwd(), timeoutMs = 30000, env = {}, bin = executable() } = {}) {
   return new Promise((resolve, reject) => {
     // OpenCode v2 does not load .opencode agent definitions when the CLI is
     // spawned directly with a non-shell stdin (every agent lookup then fails
@@ -110,7 +110,7 @@ export function runCli(args, { cwd = process.cwd(), timeoutMs = 30000, env = {} 
     // makes v2 load the project agents reliably; exec replaces the shell, so
     // the process-group kill below still reaches the CLI.
     const posix = process.platform !== 'win32';
-    const command = posix ? ['sh', ['-c', `exec ${[executable(), ...args].map(posixQuote).join(' ')}`]] : [executable(), args];
+    const command = posix ? ['sh', ['-c', `exec ${[bin, ...args].map(posixQuote).join(' ')}`]] : [bin, args];
     const child = spawn(command[0], command[1], {
       cwd, env: { ...process.env, ...env }, stdio: ['ignore', 'pipe', 'pipe'],
       windowsHide: true, detached: posix, shell: false,
@@ -142,6 +142,92 @@ export function runCli(args, { cwd = process.cwd(), timeoutMs = 30000, env = {} 
       else resolve({ out, err });
     });
   });
+}
+
+// ===== Kilo fallback rail =====
+// Kilo CLI (@kilocode/cli) is an OpenCode fork whose Kilo Gateway serves an
+// anonymous free tier: `kilo-auto/free` auto-routes to the best free model and
+// individual `<vendor>/<model>:free` entries are zero-cost. When OpenCode's
+// anonymous free quota is exhausted, the same task runs there instead.
+function kiloExecutable() {
+  if (process.env.KILO_BIN) return process.env.KILO_BIN;
+  if (process.platform !== 'win32') return 'kilo';
+  for (const dir of (process.env.PATH || '').split(path.delimiter)) {
+    for (const candidate of [path.join(dir, 'kilo.exe'), path.join(dir, 'node_modules/@kilocode/cli/bin/kilo.exe')]) {
+      if (existsSync(candidate)) return candidate;
+    }
+  }
+  throw new Error('Kilo executable not found; install @kilocode/cli or set KILO_BIN');
+}
+
+export function runKiloCli(args, options = {}) {
+  return runCli(args, { ...options, bin: kiloExecutable() });
+}
+
+// A Kilo free model is the auto-router, OpenRouter's free alias, or an
+// explicitly `:free`-suffixed gateway entry. Anything else costs credits.
+export function isKiloFreeModelId(id) {
+  return /^kilo\/(kilo-auto\/free|openrouter\/free)$/.test(id) ||
+    /^kilo\/[a-z0-9._/-]+:free$/i.test(id);
+}
+
+export function rankKiloFreeModels(ids) {
+  const unique = [...new Set((ids || []).map(id => String(id).trim()).filter(isKiloFreeModelId))];
+  // kilo-auto/free routes to whichever free model is currently healthiest, so
+  // it leads; the rest keep the gateway's own catalog order.
+  const lead = unique.filter(id => id === 'kilo/kilo-auto/free');
+  return [...lead, ...unique.filter(id => !lead.includes(id))];
+}
+
+export async function runKiloModel(model, prompt, { agent = 'curator', cwd = process.cwd(), timeoutMs = 180000, config = {}, cli = runKiloCli } = {}) {
+  // Kilo registers agents from config content (unlike OpenCode v2, which needs
+  // agent files). When the caller did not define the agent, inject the
+  // approval-gated profile so an unattended run never silently falls back to
+  // the default tool-enabled agent.
+  const agentConfig = config.agent?.[agent] ? config : { ...config, ...approvalGatedAgent(agent) };
+  const result = await cli(['run', '--format', 'json', '--model', model, '--agent', agent, prompt], {
+    cwd, timeoutMs,
+    env: { KILO_CONFIG_CONTENT: JSON.stringify({ ...agentConfig, model, small_model: model }) },
+  });
+  return responseText(result.out);
+}
+
+let kiloDiscovered;
+export async function discoverKiloFreeModels() {
+  if (!kiloDiscovered) kiloDiscovered = (async () => {
+    let ids = [];
+    try {
+      const result = await runKiloCli(['models']);
+      ids = result.out.split(/\r?\n/).map(line => line.trim());
+    } catch (error) {
+      throw new Error(`Kilo model listing unavailable: ${error.message}`);
+    }
+    const models = rankKiloFreeModels(ids);
+    if (!models.length) throw new Error('No free models in the Kilo catalog');
+    console.log(`[models] Kilo free candidates: ${models.join(', ')}`);
+    return models.map(fullID => ({ fullID }));
+  })();
+  try { return await kiloDiscovered; } catch (error) { kiloDiscovered = undefined; throw error; }
+}
+
+const kiloVerified = new Set();
+const kiloFailed = new Set();
+export async function probeKiloModel(model, timeoutMs = 45000, { run = runKiloModel } = {}) {
+  if (kiloVerified.has(model)) return;
+  const cwd = mkdtempSync(path.join(os.tmpdir(), 'kilo-probe-'));
+  try {
+    const text = await run(model, 'Reply with exactly KILO_FREE_OK. Do not use tools.', {
+      cwd, agent: 'probe', timeoutMs,
+      config: {
+        permission: APPROVAL_GATED_PERMISSION,
+        ...approvalGatedAgent('probe', { prompt: 'Follow the response instruction exactly.' }),
+      },
+    });
+    if (text.trim() !== 'KILO_FREE_OK') throw new Error('Probe did not return the expected response');
+    kiloVerified.add(model);
+  } finally {
+    rmSync(cwd, { recursive: true, force: true });
+  }
 }
 
 let discovered;
@@ -250,34 +336,62 @@ export async function probeModel(model, timeoutMs = 35000, { run = runModel } = 
   }
 }
 
+// A rail is one CLI's free-model supply: a discover() that lists candidates, a
+// probe(model) that proves the model answers, a run(model, prompt, options)
+// runner, and a per-process failures set. withFreeModel traverses rails in
+// order, so a quota-exhausted OpenCode rail falls through to the Kilo rail.
+export function opencodeRail(overrides = {}) {
+  return { name: 'opencode', discover: discoverFreeModels, probe: probeModel, run: runModel, failures: failed, ...overrides };
+}
+
+export function kiloRail(overrides = {}) {
+  return { name: 'kilo', discover: discoverKiloFreeModels, probe: probeKiloModel, run: runKiloModel, failures: kiloFailed, ...overrides };
+}
+
 export async function withFreeModel(task, {
   totalMs = 540000, attemptMs = 180000, probeMs = 90000,
-  discover = discoverFreeModels, probe = probeModel, now = Date.now,
-  failures = failed,
+  now = Date.now,
+  // Explicit discover/probe/failures overrides keep the historic single-rail
+  // (OpenCode) behaviour, which the tests rely on.
+  discover, probe, failures,
+  // Rails to traverse, in order. Default: OpenCode free catalog, then Kilo.
+  rails,
 } = {}) {
+  const railList = rails || (discover || probe || failures
+    ? [opencodeRail({ ...(discover ? { discover } : {}), ...(probe ? { probe } : {}), ...(failures ? { failures } : {}) })]
+    : [opencodeRail(), kiloRail()]);
   const deadline = now() + totalMs;
-  const models = await discover();
   let lastError;
-  for (const { fullID } of models) {
-    if (failures.has(fullID) || now() >= deadline) continue;
+  for (const rail of railList) {
+    let models;
     try {
-      console.log(`[models] Checking ${fullID}`);
-      // Free-tier cold starts (CLI boot + provider handshake) regularly exceed 35s;
-      // a probe killed too early burns the whole candidate list without a verdict.
-      await probe(fullID, Math.min(probeMs, deadline - now()));
-      if (now() >= deadline) break;
-      const result = await task(fullID, Math.min(attemptMs, deadline - now()));
-      console.log(`[models] Task succeeded with ${fullID}`);
-      return { model: fullID, result };
+      models = await rail.discover();
     } catch (error) {
-      // This is a request/profile rejection, not a model outage. Rotating through
-      // the whole free catalog only repeats the same 403 and hides the cause.
-      if (/free tier can only be used from within OpenCode/i.test(error.message)) {
-        throw new Error(`OpenCode rejected the agent/tool profile; check permissions and CLI compatibility. ${error.message}`);
-      }
-      failures.add(fullID);
       lastError = error;
-      console.warn(`[models] ${fullID} failed: ${error.message}; trying next free candidate`);
+      console.warn(`[models] ${rail.name} free-model discovery failed: ${error.message}`);
+      continue;
+    }
+    for (const { fullID } of models) {
+      if (rail.failures.has(fullID) || now() >= deadline) continue;
+      try {
+        console.log(`[models] Checking ${fullID} (${rail.name})`);
+        // Free-tier cold starts (CLI boot + provider handshake) regularly exceed 35s;
+        // a probe killed too early burns the whole candidate list without a verdict.
+        await rail.probe(fullID, Math.min(probeMs, deadline - now()));
+        if (now() >= deadline) break;
+        const result = await task(fullID, Math.min(attemptMs, deadline - now()), rail.run);
+        console.log(`[models] Task succeeded with ${fullID}`);
+        return { model: fullID, result };
+      } catch (error) {
+        // This is a request/profile rejection, not a model outage. Rotating through
+        // the whole free catalog only repeats the same 403 and hides the cause.
+        if (/free tier can only be used from within OpenCode/i.test(error.message)) {
+          throw new Error(`OpenCode rejected the agent/tool profile; check permissions and CLI compatibility. ${error.message}`);
+        }
+        rail.failures.add(fullID);
+        lastError = error;
+        console.warn(`[models] ${fullID} failed: ${error.message}; trying next free candidate`);
+      }
     }
   }
   throw new Error(`No free model completed the task within budget${lastError ? `: ${lastError.message}` : ''}`);

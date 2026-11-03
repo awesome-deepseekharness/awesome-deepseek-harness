@@ -328,8 +328,8 @@ async function runAutoLabel(pr, issue, livePluginTopic = 'unknown') {
         const hasOpencode = await runCli(['--version']).then(() => true, () => false);
         if (hasOpencode) {
           const prompt = `Classify this PR title/files into one label: plugin, enhancement, bug, documentation, question. Title: "${title}" Files: ${files.join(', ')}. Reply only with the label.`;
-          const { result: llm } = await withFreeModel(async (model, timeoutMs) => {
-            const answer = await runModel(model, prompt.slice(0, 400), { agent: 'classifier', cwd: ROOT, timeoutMs,
+          const { result: llm } = await withFreeModel(async (model, timeoutMs, run) => {
+            const answer = await run(model, prompt.slice(0, 400), { agent: 'classifier', cwd: ROOT, timeoutMs,
               config: classifierConfig() });
             if (!/^(plugin|enhancement|bug|documentation|question)$/i.test(answer.trim())) throw new Error('Invalid label');
             return answer;
@@ -405,10 +405,10 @@ async function runAutoLabel(pr, issue, livePluginTopic = 'unknown') {
 }
 
 async function generateWithTraversal(prompt) {
-  return withFreeModel(async (model, timeoutMs) => {
+  return withFreeModel(async (model, timeoutMs, run) => {
     // A previous attempt's report must never count as this model's success.
     for (const file of [REPORT_FILE, REVIEW_FILE]) fs.rmSync(file, { force: true });
-    await runModel(model, prompt, { agent: 'curator', cwd: ROOT, timeoutMs });
+    await run(model, prompt, { agent: 'curator', cwd: ROOT, timeoutMs });
     if (!fs.existsSync(REPORT_FILE)) throw new Error('No fresh curator-report.md');
     const content = fs.readFileSync(REPORT_FILE, 'utf8');
     if (!/^# (?:curator-report\.md|Curator Report)/im.test(content) || !/^## Sources/im.test(content)) {

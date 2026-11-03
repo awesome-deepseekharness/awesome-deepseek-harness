@@ -90,6 +90,14 @@ jobs:
             curl -fsSL https://opencode.ai/v2/install | bash
             echo "$HOME/.local/bin" >> $GITHUB_PATH
           fi
+          # Kilo CLI (@kilocode/cli) is the anonymous free-model fallback rail
+          # used when OpenCode's free quota is exhausted (scripts/opencode-free.mjs).
+          if npm install -g @kilocode/cli 2>&1 | tail -n 3; then
+            echo "kilo via npm done"
+          else
+            curl -fsSL https://kilo.ai/cli/install | bash || echo "kilo unavailable; OpenCode rail only"
+          fi
+          kilo --version || echo "kilo not found, OpenCode rail only"
           opencode --version || echo "opencode not found, fallback deterministic"
           # Ensure curator-report.md exists (health audit already committed it to PR branch)
           ls -lh curator-report.md 2>&1 | head -n 20 || echo "curator-report.md missing — will use deterministic fallback"

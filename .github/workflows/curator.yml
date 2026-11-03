@@ -58,6 +58,14 @@ jobs:
           fi
           opencode --version || echo "opencode not found, fallback deterministic"
           echo "Model discovery uses the refreshed OpenCode CLI catalog at task start."
+          # Kilo CLI (@kilocode/cli) is the anonymous free-model fallback rail
+          # used when OpenCode's free quota is exhausted (scripts/opencode-free.mjs).
+          if npm install -g @kilocode/cli 2>&1 | tail -n 3; then
+            echo "kilo via npm done"
+          else
+            curl -fsSL https://kilo.ai/cli/install | bash || echo "kilo unavailable; OpenCode rail only"
+          fi
+          kilo --version || echo "kilo not found, OpenCode rail only"
 
       - name: Refresh bilingual repository star milestone
         env:

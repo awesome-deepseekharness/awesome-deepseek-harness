@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { EventEmitter } from 'node:events';
-import { approvalGatedAgent, zenModelRecords, rankFreeModels, responseText, runModel, probeModel, withFreeModel } from './opencode-free.mjs';
+import { approvalGatedAgent, zenModelRecords, rankFreeModels, responseText, runModel, probeModel, runKiloModel, isKiloFreeModelId, rankKiloFreeModels, discoverKiloFreeModels, probeKiloModel, opencodeRail, kiloRail, withFreeModel } from './opencode-free.mjs';
 import { parseDecision } from './opencode-auto.mjs';
 import { classifierConfig, isPluginTopicInvalid, runGhRead, validateGhReadEndpoint } from './curate.mjs';
 
@@ -241,6 +241,111 @@ test('budget exhaustion stops before another task and never chooses a paid fallb
   }), /within budget/);
   assert.equal(taskCalls, 0);
   await assert.rejects(withFreeModel(async () => {}, { discover: async () => [], failures: new Set() }), /No free model/);
+});
+
+
+test('kilo free-model ids accept only the auto-router, the free alias and :free entries', () => {
+  assert.equal(isKiloFreeModelId('kilo/kilo-auto/free'), true);
+  assert.equal(isKiloFreeModelId('kilo/openrouter/free'), true);
+  assert.equal(isKiloFreeModelId('kilo/nvidia/nemotron-3.5-lightning:free'), true);
+  assert.equal(isKiloFreeModelId('kilo/google/gemini-pro-latest'), false);
+  assert.equal(isKiloFreeModelId('opencode/deepseek-v4.1-flash-free'), false);
+  assert.equal(isKiloFreeModelId('kilo/cohere/north:fre'), false);
+});
+
+test('kilo candidates rank the auto-router first and keep catalog order after it', () => {
+  const ranked = rankKiloFreeModels([
+    'kilo/recursive/flint-v1.0:free', 'kilo/kilo-auto/free', 'kilo/google/gemini-pro-latest',
+    'kilo/kilo-auto/free', 'kilo/nvidia/nemotron-3.5-lightning:free',
+  ]);
+  assert.deepEqual(ranked, ['kilo/kilo-auto/free', 'kilo/recursive/flint-v1.0:free', 'kilo/nvidia/nemotron-3.5-lightning:free']);
+});
+
+test('runKiloModel routes through the kilo binary and injects the approval-gated agent', async () => {
+  const calls = [];
+  await runKiloModel('kilo/kilo-auto/free', 'quoted "prompt" & literal', {
+    agent: 'probe',
+    cli: async (args, options) => {
+      calls.push({ args, options });
+      return { out: JSON.stringify({ type: 'text', part: { text: 'ok' } }) + '\n' };
+    },
+  });
+  assert.equal(calls.length, 1);
+  const { args, options } = calls[0];
+  assert.equal(args[0], 'run');
+  assert.equal(args[1], '--format');
+  assert.equal(args[4], 'kilo/kilo-auto/free');
+  assert.equal(args[5], '--agent');
+  assert.equal(args[7], 'quoted "prompt" & literal');
+  const config = JSON.parse(options.env.KILO_CONFIG_CONTENT);
+  assert.equal(config.model, 'kilo/kilo-auto/free');
+  assert.equal(config.small_model, 'kilo/kilo-auto/free');
+  assert.equal(config.agent.probe.mode, 'primary');
+  assert.equal(config.agent.probe.permission['*'], 'ask');
+});
+
+test('runKiloModel keeps a caller-provided agent definition intact', async () => {
+  let config;
+  await runKiloModel('kilo/kilo-auto/free', 'hi', {
+    agent: 'classifier',
+    config: approvalGatedAgent('classifier', { prompt: 'own prompt' }),
+    cli: async (args, options) => {
+      config = JSON.parse(options.env.KILO_CONFIG_CONTENT);
+      return { out: JSON.stringify({ type: 'text', part: { text: 'ok' } }) + '\n' };
+    },
+  });
+  assert.equal(config.agent.classifier.prompt, 'own prompt');
+  assert.equal(config.agent.probe, undefined);
+});
+
+test('kilo discovery lists free candidates from the CLI catalog', async () => {
+  const models = await discoverKiloFreeModels();
+  assert.equal(models[0].fullID, 'kilo/kilo-auto/free');
+  assert.ok(models.every(model => isKiloFreeModelId(model.fullID)));
+});
+
+test('probeKiloModel demands the exact free-tier handshake token', async () => {
+  let probeCalls = 0;
+  await probeKiloModel('kilo/kilo-auto/free', 5000, { run: async () => { probeCalls++; return 'KILO_FREE_OK'; } });
+  await probeKiloModel('kilo/kilo-auto/free', 5000, { run: async () => { probeCalls++; return 'KILO_FREE_OK'; } });
+  assert.equal(probeCalls, 1); // the second probe reuses the verified model
+  await assert.rejects(probeKiloModel('kilo/recursive/flint-v1.0:free', 5000, {
+    run: async () => 'KILO_FREE_OK-ish',
+  }), /expected response/);
+});
+
+test('withFreeModel falls through from an exhausted OpenCode rail to the Kilo rail', async () => {
+  const seen = [];
+  const result = await withFreeModel(async (model, timeoutMs, run) => {
+    seen.push(`${model}:${run === undefined}`);
+    return 'done';
+  }, {
+    rails: [
+      { name: 'opencode', discover: async () => [model('a')], probe: async () => { throw new Error('Free usage limit reached'); }, failures: new Set() },
+      { name: 'kilo', discover: async () => [{ fullID: 'kilo/kilo-auto/free' }], probe: async () => {}, run: async (model) => { seen.push(`kilo-run:${model}`); return 'kilo text'; }, failures: new Set() },
+    ],
+  });
+  assert.equal(result.model, 'kilo/kilo-auto/free');
+  assert.equal(result.result, 'done');
+  assert.deepEqual(seen, ['kilo/kilo-auto/free:false']);
+});
+
+test('a failing Kilo rail surfaces as one budget error, never a paid fallback', async () => {
+  await assert.rejects(withFreeModel(async () => {}, {
+    rails: [
+      { name: 'opencode', discover: async () => [], failures: new Set() },
+      { name: 'kilo', discover: async () => { throw new Error('Kilo model listing unavailable: boom'); }, failures: new Set() },
+    ],
+  }), /No free model completed the task within budget: Kilo model listing unavailable: boom/);
+});
+
+test('the default rails are OpenCode first, then Kilo, each with its own runner', () => {
+  const opencode = opencodeRail();
+  const kilo = kiloRail();
+  assert.equal(opencode.name, 'opencode');
+  assert.equal(kilo.name, 'kilo');
+  assert.notEqual(opencode.run, kilo.run);
+  assert.notEqual(opencode.failures, kilo.failures);
 });
 
 function fakeChild({ code = 0, stdout = '', stderr = '' } = {}) {
