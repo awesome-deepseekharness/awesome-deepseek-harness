@@ -47,15 +47,15 @@ A DSH skill that finds, installs, and verifies GitHub plugins
 Stars (README snapshot): 172
 
 
-### AdamPlatin123/awesome-dsh-plugins
+### AdamPlatin123/dsh-plugin-radar
 
-Repository: https://github.com/AdamPlatin123/awesome-dsh-plugins
+Repository: https://github.com/AdamPlatin123/dsh-plugin-radar
 
 Radar index repo that auto-scans dsh plugin candidates
 
 自动扫描 dsh 插件候选的前部索引仓库(Radar)
 
-Stars (README snapshot): 1466
+Stars (README snapshot): 1492
 
 
 ### LaplaceYoung/oh-my-dsh
@@ -320,6 +320,28 @@ Click a sentence in a chat to make it a card in a knowledge-tree sidebar tab; Ct
 Stars (README snapshot): 0
 
 
+### OakcoderX/solopup-memory
+
+Repository: https://github.com/OakcoderX/solopup-memory
+
+MIT public-beta text memory for DSH with original-source references, project scopes and correction history; `dsh plugin --profile desktop add solopup-memory@0.21.0-beta.2 --ignore-scripts`
+
+面向DSH的MIT文字记忆公开测试版，保留原话来源、项目范围与修订历史；`dsh plugin --profile desktop add solopup-memory@0.21.0-beta.2 --ignore-scripts`
+
+Stars (README snapshot): 1
+
+
+### dongsheng123132/task-passport
+
+Repository: https://github.com/dongsheng123132/task-passport
+
+Durable task passport + offline TaskPack handoff: versioned local task state, packed into a single offline file another harness or machine can land, with machine-level facts downgraded at pack time; install via `dsh plugin --profile web add task-passport@0.3.2`
+
+任务状态护照 + 离线 TaskPack 交接：有版本的任务状态留在本地，交接时打包成单文件离线包，另一台机器或另一个 harness 直接落地，机器级事实在打包时降级为未证；安装 `dsh plugin --profile web add task-passport@0.3.2`
+
+Stars (README snapshot): 10
+
+
 ## Web UI, Skins & Desktop Pets / Web UI、皮肤与桌面宠物
 
 
@@ -505,6 +527,17 @@ Repository: https://github.com/12we21/cute-fat-fish-pet
 
 A chibi blue-haired maid desktop pet for the DSH Web UI with 106 hand-drawn transparent animations, desktop wandering, chat through local Ollama or the DSH online models, and optional screen watching (installable via `dsh plugin add github:12we21/cute-fat-fish-pet#path:/src`)
 
+DSH 用户消息中的代码块：语法高亮、复制按钮与单色模式，`dsh plugin --profile desktop add dsh-user-code-block` 即装
+
+Stars (README snapshot): 1
+
+
+### VictorKozachek/dsh-user-code-block
+
+Repository: https://github.com/VictorKozachek/dsh-user-code-block
+
+Syntax highlighting, copy button and monochrome mode for fenced code blocks in DSH user messages — the chat renders them as plain text by default; installable via `dsh plugin --profile desktop add dsh-user-code-block`
+
 侧栏收纳：把「新会话」下方被各插件塞满的入口行——全局面板行、插件入口行（自家/第三方一律识别）、底部入口——统统收进一个菜单按钮，点开二级菜单原样触发各入口；想常驻的加名称白名单即可，侧栏折叠成窄轨时按钮自动变纯图标。`dsh plugin add @weibaohui/dsh-sidebar-tidy` 即装
 
 Stars (README snapshot): 1
@@ -579,15 +612,15 @@ Local AI desktop workspace: sessions, projects, files, web research, plugins, Of
 Stars (README snapshot): 584
 
 
-### ChisaAlter/Deepseek-Harness-Desktop
+### ChisaAlter/WhaleIsle
 
-Repository: https://github.com/ChisaAlter/Deepseek-Harness-Desktop
+Repository: https://github.com/ChisaAlter/WhaleIsle
 
 Electron desktop shell for the DSH web UI, with themes & backgrounds
 
 DSH Web UI 的 Electron 桌面壳,支持主题与背景图
 
-Stars (README snapshot): 164
+Stars (README snapshot): 200
 
 
 ### Ruler4396/dsh-launcher
@@ -623,7 +656,7 @@ Elephant-Goldfish Model for DSH: draft design specs with a context-rich Elephant
 
 面向 DSH 的 Elephant-Goldfish Model：由具备项目上下文的 Elephant 起草设计规范，再由全新上下文、只读权限的 Goldfish 审查设计。安装：`dsh plugin --profile web add dsh-egm`（npm：`dsh-egm`）。
 
-Stars (README snapshot): 4
+Stars (README snapshot): 6
 
 
 ### Q00/ouroboros
@@ -725,9 +758,9 @@ Upgrade one-shot multi-agent scheduling into a generatable, savable, governable 
 Stars (README snapshot): 123
 
 
-### jerryxff26-alt/dsh-delivery-board
+### jerryxff26-alt/delivery-board
 
-Repository: https://github.com/jerryxff26-alt/dsh-delivery-board
+Repository: https://github.com/jerryxff26-alt/delivery-board
 
 In-repo delivery board for humans & agents: stages, handoffs, soft WIP, weekly report, Timeline UI; DSH plugin + standalone `npx dsh-delivery-board`
 
@@ -1316,6 +1349,39 @@ Host plugin that keeps the previous version of a file the agent is about to over
 
 Host 插件：在 agent 覆盖文件之前自动留下上一版，`time_machine` 一条命令列出快照、看 diff、回滚，`rm` 或 `sed -i` 之前也能手动打点。安装：`git clone` 后 `plugin_manager(action="install_bundle", target="")`
 
+Stars (README snapshot): 1
+
+
+### 01men/ybkkasi
+
+Repository: https://github.com/01men/ybkkasi
+
+Asset-governance console for self-hosted AI infrastructure: one ledger for MCP servers, skills, agents, AI apps, model channels and storage, with per-tool permission points, department x agent x skill cost attribution, dependency topology and an append-only audit trail. Mounts as a `web`-profile plugin tree (29 packages, 450 REST routes, 86 MCP tools, MIT). Install: `dsh plugin --profile web add github:01men/ybkkasi`
+
+自托管 AI 基础设施的资产治理控制台：把 MCP 服务 / Skill / Agent / AI 应用 / 模型渠道 / 存储登记进同一台账，带逐工具权限点、部门 x Agent x Skill 三维成本归因、依赖拓扑与只追加审计日志。以 `web` profile 插件树挂载（29 个插件包、450 条 REST 路由、86 个 MCP 工具，MIT）。安装：`dsh plugin --profile web add github:01men/ybkkasi`
+
+Stars (README snapshot): 67
+
+
+### lengrufeng2008/dsh-science-legion
+
+Repository: https://github.com/lengrufeng2008/dsh-science-legion
+
+Tiered multi-agent science campaigns for DSH: 8 skills for math/physics/astronomy/engineering/biomedical evidence, shared blackboard, independent verifier, wolf-pack/flanking tactics, token gates, 10 known-answer evals; a six-agent pilot caught and corrected a benchmark answer-key error (`dsh plugin --profile web add github:lengrufeng2008/dsh-science-legion`)
+
+DSH 分层多智能体科研战役：8 个技能覆盖数学/物理/天文/工程/生物医药证据，共享黑板、独立验证、群狼/迂回战术、token 闸门、10 道已知答案评测；6-agent pilot 抓到并修正了评测答案键错误（`dsh plugin --profile web add github:lengrufeng2008/dsh-science-legion`）
+
+Stars (README snapshot): 0
+
+
+### lengrufeng2008/dsh-code-intel
+
+Repository: https://github.com/lengrufeng2008/dsh-code-intel
+
+Read-only semantic code navigation for DSH via local language servers: definition, references, workspace symbols, diagnostics, hover, rename preview; six native tools, no embeddings/hosted index, 6/6 tests
+
+通过本地 language server 的只读语义代码导航：定义、引用、工作区符号、诊断、hover、rename 预览；6 个原生工具，不用 embedding/托管索引，6/6 测试
+
 Stars (README snapshot): 0
 
 
@@ -1506,7 +1572,7 @@ RVC voice training skill for DSH: dataset QA, fix for the RVC 20240604 audio_nor
 
 RVC 音色训练技能：数据集体检、修复 RVC 20240604 归一化缺陷（静默输出宽带噪声）、客观音质验收（平坦度/谐波/频段）、40k/32k 全流程、云 GPU 训练 SOP
 
-Stars (README snapshot): 0
+Stars (README snapshot): 10
 
 
 ## Apps & Runtimes Built on DSH / 集成 DSH 的应用与运行时
