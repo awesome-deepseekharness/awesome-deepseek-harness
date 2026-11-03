@@ -299,8 +299,12 @@ test('runKiloModel keeps a caller-provided agent definition intact', async () =>
 });
 
 test('kilo discovery lists free candidates from the CLI catalog', async () => {
-  const models = await discoverKiloFreeModels();
+  const models = await discoverKiloFreeModels({ cli: async () => ({ out: [
+    'kilo/recursive/flint-v1.0:free', 'kilo/kilo-auto/free', 'kilo/google/gemini-pro-latest', '',
+  ].join('\n') }) });
   assert.equal(models[0].fullID, 'kilo/kilo-auto/free');
+  assert.deepEqual(models.map(model => model.fullID),
+    ['kilo/kilo-auto/free', 'kilo/recursive/flint-v1.0:free']);
   assert.ok(models.every(model => isKiloFreeModelId(model.fullID)));
 });
 

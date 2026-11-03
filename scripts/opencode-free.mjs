@@ -193,11 +193,11 @@ export async function runKiloModel(model, prompt, { agent = 'curator', cwd = pro
 }
 
 let kiloDiscovered;
-export async function discoverKiloFreeModels() {
+export async function discoverKiloFreeModels({ cli = runKiloCli } = {}) {
   if (!kiloDiscovered) kiloDiscovered = (async () => {
     let ids = [];
     try {
-      const result = await runKiloCli(['models']);
+      const result = await cli(['models']);
       ids = result.out.split(/\r?\n/).map(line => line.trim());
     } catch (error) {
       throw new Error(`Kilo model listing unavailable: ${error.message}`);
