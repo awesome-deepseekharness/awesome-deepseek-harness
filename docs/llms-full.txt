@@ -1385,6 +1385,17 @@ Read-only semantic code navigation for DSH via local language servers: definitio
 Stars (README snapshot): 0
 
 
+### jjjjjjjjnnjnn/dsh-triage
+
+Repository: https://github.com/jjjjjjjjnnjnn/dsh-triage
+
+Pre-install judgement and post-mortem attribution: says which row admission denied, which module failed to import, which capability was declared but never registered; isolated probe with recorded evidence. Read-only, no install/remove, no security claims
+
+装前判断与事后归因：点名哪一行被准入拒绝、哪个模块 import 失败、哪个能力声明了却从未注册；独立探针带可复算证据。只读，不做装/卸，不作安全背书
+
+Stars (README snapshot): 1
+
+
 ## Skills / Skills 与技能包
 
 
