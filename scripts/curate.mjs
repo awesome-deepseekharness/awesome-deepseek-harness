@@ -488,7 +488,8 @@ ${issue ? `- Issue #${issue} detected. Suggest labels: plugin suggestion / fix /
 
 function buildDeterministicReviewComment({ pr, issue }) {
   if (!pr) return '';
-  return `Thanks for the contribution to PR #${pr}! 🤖 Curator deterministic fallback — full AI review unavailable, maintainer will follow up. Maintainer: comment \`/curator\` to re-run full review.\n`;
+  return `Thanks for the contribution to PR #${pr}! 🤖 Curator deterministic fallback — full AI review unavailable, maintainer will follow up. Maintainer: comment \`/curator\` to re-run full review.\nIf this list is useful to you, a star helps a lot: https://github.com/awesome-deepseekharness/awesome-deepseek-harness . 如果这个列表对你有帮助，欢迎顺手点个 star，谢谢！
+`;
 }
 async function main() {
   console.log(`[curate] Starting at ${new Date().toISOString()}`);

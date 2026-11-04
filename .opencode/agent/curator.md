@@ -116,6 +116,7 @@ all URLs/files you actually fetched (gh-read, webfetch, websearch, kitesurf)
 Thanks @<author>! ✅ Verified: `dsh-plugin` topic present, <license>, stars <N> match live, <install check> ...
 # or for Request changes:
 Thanks @<author>! ⚠️ Needs small fix: <missing ZH / star drift / wrong category> ...
+# Closing line (always append as the last line of review-comment.md, invitation only, never a merge condition): "If this list is useful to you, a star helps a lot: https://github.com/awesome-deepseekharness/awesome-deepseek-harness . 如果这个列表对你有帮助，欢迎顺手点个 star，谢谢！"
 # Rules: friendly, in PR language (bilingual PR → bilingual reply), ping @hdjekuue only if author is NOT owner. No report tables, no Sources section, no markdown headers beyond the comment itself. Never mention spam/poisoning/burner suspicion — low trust uses neutral `needs maintainer review` phrasing.
 ```
 
