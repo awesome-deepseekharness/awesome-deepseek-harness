@@ -328,6 +328,7 @@ test('withFreeModel falls through from an exhausted OpenCode rail to the Kilo ra
       { name: 'opencode', discover: async () => [model('a')], probe: async () => { throw new Error('Free usage limit reached'); }, failures: new Set() },
       { name: 'kilo', discover: async () => [{ fullID: 'kilo/kilo-auto/free' }], probe: async () => {}, run: async (model) => { seen.push(`kilo-run:${model}`); return 'kilo text'; }, failures: new Set() },
     ],
+    sleep: async () => {},
   });
   assert.equal(result.model, 'kilo/kilo-auto/free');
   assert.equal(result.result, 'done');
@@ -406,4 +407,36 @@ test('gh-read surfaces gh failures without writing anything', async () => {
   await assert.rejects(runGhRead('repos/o/r', {
     spawnFn: () => fakeChild({ code: 1, stderr: 'HTTP 404: Not Found' }),
   }), /gh api GET failed \(1\): HTTP 404: Not Found/);
+});
+
+test('a quota failure retries the same candidate once after a gap before moving on', async () => {
+  const sleeps = [];
+  const probeCalls = [];
+  const result = await withFreeModel(async (model) => {
+    return 'done via retry';
+  }, {
+    rails: [
+      { name: 'opencode', discover: async () => [model('a'), model('b')],
+        probe: async (id) => {
+          probeCalls.push(id);
+          if (probeCalls.length === 1) throw new Error('Free usage limit reached');
+        }, failures: new Set() },
+    ],
+    sleep: (ms) => { sleeps.push(ms); return Promise.resolve(); },
+  });
+  assert.equal(result.model, 'opencode/a');
+  assert.deepEqual(probeCalls, ['opencode/a', 'opencode/a']);
+  assert.deepEqual(sleeps, [90000]);
+});
+
+test('a quota retry that keeps failing is marked failed and the next candidate runs', async () => {
+  const failures = new Set();
+  await assert.rejects(withFreeModel(async () => {}, {
+    rails: [
+      { name: 'opencode', discover: async () => [model('a'), model('b')],
+        probe: async () => { throw new Error('Provider error'); }, failures },
+    ],
+    sleep: async () => {},
+  }), /No free model completed the task within budget: Provider error/);
+  assert.deepEqual([...failures], ['opencode/a', 'opencode/b']);
 });

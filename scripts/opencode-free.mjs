@@ -350,6 +350,10 @@ export function kiloRail(overrides = {}) {
 
 export async function withFreeModel(task, {
   totalMs = 540000, attemptMs = 180000, probeMs = 90000,
+  // Free-tier quota walls ("Free usage limit reached", provider rate limits)
+  // are time-windowed, not permanent: wait once and retry the same candidate.
+  retryMax = 1, retryGapMs = 90000,
+  sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms)),
   now = Date.now,
   // Explicit discover/probe/failures overrides keep the historic single-rail
   // (OpenCode) behaviour, which the tests rely on.
@@ -373,24 +377,38 @@ export async function withFreeModel(task, {
     }
     for (const { fullID } of models) {
       if (rail.failures.has(fullID) || now() >= deadline) continue;
-      try {
-        console.log(`[models] Checking ${fullID} (${rail.name})`);
-        // Free-tier cold starts (CLI boot + provider handshake) regularly exceed 35s;
-        // a probe killed too early burns the whole candidate list without a verdict.
-        await rail.probe(fullID, Math.min(probeMs, deadline - now()));
-        if (now() >= deadline) break;
-        const result = await task(fullID, Math.min(attemptMs, deadline - now()), rail.run);
-        console.log(`[models] Task succeeded with ${fullID}`);
-        return { model: fullID, result };
-      } catch (error) {
-        // This is a request/profile rejection, not a model outage. Rotating through
-        // the whole free catalog only repeats the same 403 and hides the cause.
-        if (/free tier can only be used from within OpenCode/i.test(error.message)) {
-          throw new Error(`OpenCode rejected the agent/tool profile; check permissions and CLI compatibility. ${error.message}`);
+      let attempt = 0;
+      while (true) {
+        try {
+          console.log(`[models] Checking ${fullID} (${rail.name})`);
+          // Free-tier cold starts (CLI boot + provider handshake) regularly exceed 35s;
+          // a probe killed too early burns the whole candidate list without a verdict.
+          await rail.probe(fullID, Math.min(probeMs, deadline - now()));
+          if (now() >= deadline) break;
+          const result = await task(fullID, Math.min(attemptMs, deadline - now()), rail.run);
+          console.log(`[models] Task succeeded with ${fullID}`);
+          return { model: fullID, result };
+        } catch (error) {
+          // This is a request/profile rejection, not a model outage. Rotating through
+          // the whole free catalog only repeats the same 403 and hides the cause.
+          if (/free tier can only be used from within OpenCode/i.test(error.message)) {
+            throw new Error(`OpenCode rejected the agent/tool profile; check permissions and CLI compatibility. ${error.message}`);
+          }
+          attempt += 1;
+          if (
+            attempt <= retryMax &&
+            /free usage limit|provider error|rate limit/i.test(error.message) &&
+            now() + retryGapMs <= deadline
+          ) {
+            console.warn(`[models] ${fullID} failed: ${error.message}; retrying in ${Math.round(retryGapMs / 1000)}s (attempt ${attempt}/${retryMax})`);
+            await sleep(retryGapMs);
+            continue;
+          }
+          rail.failures.add(fullID);
+          lastError = error;
+          console.warn(`[models] ${fullID} failed: ${error.message}; trying next free candidate`);
+          break;
         }
-        rail.failures.add(fullID);
-        lastError = error;
-        console.warn(`[models] ${fullID} failed: ${error.message}; trying next free candidate`);
       }
     }
   }
