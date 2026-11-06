@@ -1407,6 +1407,17 @@ Pre-install judgement and post-mortem attribution: says which row admission deni
 Stars (README snapshot): 1
 
 
+### tommy00748-tech/dsh-native-notifications
+
+Repository: https://github.com/tommy00748-tech/dsh-native-notifications
+
+Native desktop notifications from DSH itself (approval, question, completion, error, sign-in), attributed to the DSH app with click-to-open, plus a selectable/customisable synthesised chime. Install: `dsh plugin --profile web add github:tommy00748-tech/dsh-native-notifications`
+
+由 DSH 自己弹出的原生桌面通知（待授权、等待作答、任务完成、出错、需要登录），归属 DSH 应用、点击回到会话，提示音可选预设或自定义。安装：`dsh plugin --profile web add github:tommy00748-tech/dsh-native-notifications`
+
+Stars (README snapshot): 0
+
+
 ## Skills / Skills 与技能包
 
 
