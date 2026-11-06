@@ -670,6 +670,17 @@ Elephant-Goldfish Model for DSH: draft design specs with a context-rich Elephant
 Stars (README snapshot): 6
 
 
+### leoan698-tom/dsh-sessivra
+
+Repository: https://github.com/leoan698-tom/dsh-sessivra
+
+Sessivra: drag DSH sessions into resizable split views, drop native @ references into drafts, and review delegated work before queued follow-ups. Prerelease; Windows / DSH 0.2.1-rc.5. Install: `dsh plugin --profile web add dsh-plugin-sessivra@0.3.0-dev.26`.
+
+Sessivra：拖拽 DSH 会话自由分屏、调宽，拖入输入框插入原生 @ 引用；收回子会话产物，验收后继续任务。预发布；Windows / DSH 0.2.1-rc.5。安装：`dsh plugin --profile web add dsh-plugin-sessivra@0.3.0-dev.26`。
+
+Stars (README snapshot): 1
+
+
 ### Q00/ouroboros
 
 Repository: https://github.com/Q00/ouroboros/tree/main/integrations/dsh-plugin
@@ -1899,6 +1910,17 @@ Repository: https://dseek.app/cli
 Unofficial dsh cheat sheet: `npx @deepseek-ai/dsh web`, Node.js requirement, headless profile and plugin commands, sourced from the official repo and npm page (community)
 
 非官方 dsh 速查：`npx @deepseek-ai/dsh web`、Node.js 版本要求、headless profile 与插件命令，来源为官方仓库与 npm 页面(社区)
+
+Stars (README snapshot): unknown
+
+
+### DSH Learn
+
+Repository: https://dshlearn.com
+
+English learning site for dsh: getting-started guides, MCP setup, plugin installs, a community extensions directory, and release/news tracking, with sources cited (community)
+
+英文 dsh 学习站：入门指南、MCP 配置、插件安装、社区扩展目录，以及版本/新闻跟踪，内容标注来源(社区)
 
 Stars (README snapshot): unknown
 
