@@ -543,6 +543,17 @@ Syntax highlighting, copy button and monochrome mode for fenced code blocks in D
 Stars (README snapshot): 1
 
 
+### mengge237/dsh-composer-ease
+
+Repository: https://github.com/mengge237/dsh-composer-ease
+
+dsh-composer-ease: adds a completion popup to the DSH Web composer, plus bracket and quote pairing and wrap-on-selection; nothing else in the UI changes
+
+dsh-composer-ease：给 DSH Web 输入框加一个补全提示框，另带括号与引号配对、选中环绕；除此之外不改界面
+
+Stars (README snapshot): 0
+
+
 ## TUI & Desktop / TUI 与桌面端
 
 

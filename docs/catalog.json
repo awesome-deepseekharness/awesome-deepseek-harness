@@ -19,7 +19,7 @@
   "starCountNote": "Project star counts are README snapshots, not live counts. Verify installation and compatibility in the linked upstream repository.",
   "repositoryStars": 41,
   "firstStarGoal": 100,
-  "total": 167,
+  "total": 168,
   "groups": [
     {
       "id": "MKT",
@@ -437,9 +437,17 @@
           "stars": 1,
           "zhName": "weibaohui/dsh-sidebar-tidy",
           "zhDesc": "侧栏收纳：把「新会话」下方被各插件塞满的入口行——全局面板行、插件入口行（自家/第三方一律识别）、底部入口——统统收进一个菜单按钮，点开二级菜单原样触发各入口；想常驻的加名称白名单即可，侧栏折叠成窄轨时按钮自动变纯图标。`dsh plugin add @weibaohui/dsh-sidebar-tidy` 即装"
+        },
+        {
+          "name": "mengge237/dsh-composer-ease",
+          "url": "https://github.com/mengge237/dsh-composer-ease",
+          "desc": "dsh-composer-ease: adds a completion popup to the DSH Web composer, plus bracket and quote pairing and wrap-on-selection; nothing else in the UI changes",
+          "stars": 0,
+          "zhName": "mengge237/dsh-composer-ease",
+          "zhDesc": "dsh-composer-ease：给 DSH Web 输入框加一个补全提示框，另带括号与引号配对、选中环绕；除此之外不改界面"
         }
       ],
-      "count": 18,
+      "count": 19,
       "prefix": "U5"
     },
     {
