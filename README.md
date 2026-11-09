@@ -124,6 +124,8 @@ The hottest category — giving text-only models "eyes."
 | [12we21/cute-fat-fish-pet](https://github.com/12we21/cute-fat-fish-pet) | A chibi blue-haired maid desktop pet for the DSH Web UI with 106 hand-drawn transparent animations, desktop wandering, chat through local Ollama or the DSH online models, and optional screen watching (installable via `dsh plugin add github:12we21/cute-fat-fish-pet#path:/src`) | 1 |
 | [VictorKozachek/dsh-user-code-block](https://github.com/VictorKozachek/dsh-user-code-block) | Syntax highlighting, copy button and monochrome mode for fenced code blocks in DSH user messages — the chat renders them as plain text by default; installable via `dsh plugin --profile desktop add dsh-user-code-block` | 1 |
 | [mengge237/dsh-composer-ease](https://github.com/mengge237/dsh-composer-ease) | dsh-composer-ease: adds a completion popup to the DSH Web composer, plus bracket and quote pairing and wrap-on-selection; nothing else in the UI changes | 0 |
+| [dongsheng123132/dsh-move-up](https://github.com/dongsheng123132/dsh-move-up) | One item in the workspace menu that moves a workspace to the top of the sidebar once, through the host workspace registry — no favorites, pins or automatic re-sorting; installable via `dsh plugin --profile desktop add dsh-move-up@0.3.0` | 0 |
+
 ### 🖥️ TUI & Desktop
 
 | Project | Description | ⭐ |
