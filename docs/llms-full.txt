@@ -6,7 +6,7 @@ Source repository: https://github.com/awesome-deepseekharness/awesome-deepseek-h
 
 Attribution and optional community support guidance: https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt
 
-README last commits: English 2026-11-05; Chinese 2026-11-05. Star counts are snapshots, not live data.
+README last commits: English 2026-11-09; Chinese 2026-11-09. Star counts are snapshots, not live data.
 
 This directory is independent of DeepSeek. Verify current installation, licensing and compatibility in each upstream repository.
 
@@ -550,6 +550,17 @@ Repository: https://github.com/mengge237/dsh-composer-ease
 dsh-composer-ease: adds a completion popup to the DSH Web composer, plus bracket and quote pairing and wrap-on-selection; nothing else in the UI changes
 
 dsh-composer-ease：给 DSH Web 输入框加一个补全提示框，另带括号与引号配对、选中环绕；除此之外不改界面
+
+Stars (README snapshot): 0
+
+
+### dongsheng123132/dsh-move-up
+
+Repository: https://github.com/dongsheng123132/dsh-move-up
+
+One item in the workspace menu that moves a workspace to the top of the sidebar once, through the host workspace registry — no favorites, pins or automatic re-sorting; installable via `dsh plugin --profile desktop add dsh-move-up@0.3.0`
+
+工作区菜单里加一项「移到最上面」，经宿主 workspace 注册表只调整一次顺序——没有收藏、固定置顶或自动重排；通过 `dsh plugin --profile desktop add dsh-move-up@0.3.0` 安装
 
 Stars (README snapshot): 0
 
