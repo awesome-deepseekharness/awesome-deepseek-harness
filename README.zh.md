@@ -125,6 +125,8 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [weibaohui/dsh-sidebar-tidy](https://github.com/weibaohui/dsh-sidebar-tidy) | 侧栏收纳：把「新会话」下方被各插件塞满的入口行——全局面板行、插件入口行（自家/第三方一律识别）、底部入口——统统收进一个菜单按钮，点开二级菜单原样触发各入口；想常驻的加名称白名单即可，侧栏折叠成窄轨时按钮自动变纯图标。`dsh plugin add @weibaohui/dsh-sidebar-tidy` 即装 | 0 |
 | [mengge237/dsh-composer-ease](https://github.com/mengge237/dsh-composer-ease) | dsh-composer-ease：给 DSH Web 输入框加一个补全提示框，另带括号与引号配对、选中环绕；除此之外不改界面 | 0 |
 
+| [dongsheng123132/dsh-move-up](https://github.com/dongsheng123132/dsh-move-up) | 工作区菜单里加一项「移到最上面」，经宿主 workspace 注册表只调整一次顺序——没有收藏、固定置顶或自动重排；通过 `dsh plugin --profile desktop add dsh-move-up@0.3.0` 安装 | 0 |
+
 ### 🖥️ TUI 与桌面端
 
 | 项目 | 说明 | ⭐ |
