@@ -80,6 +80,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [liustack/modsearch](https://github.com/liustack/modsearch) | DSH 的 web 插件:问网页或 X,拿回结构化 JSON 证据(搜索、抓取、引用) | 478 |
 | [Lum1104/dsh-browser](https://github.com/Lum1104/dsh-browser) | Chrome 侧边栏扩展,让 DSH 直接操控浏览器——无需视觉能力 | 648 |
 | [taxueseek/argo](https://github.com/taxueseek/argo) | 为 agent 打造的搜索工具:中/英/学术/代码/购物/金融/新闻/百科 | 123 |
+| [CorsenAI/deepseek-harness-connector](https://github.com/CorsenAI/deepseek-harness-connector) | Chrome 扩展 + 本地 companion 插件：让一个精确的 DSH 会话只读取和操作你明确附加的 Chrome 标签页（在你自己已登录的配置文件里）——21 个浏览器动作，敏感字段在页面内先脱敏，仅走 127.0.0.1；通过 `dsh plugin --profile web add` 从 Release tarball 安装 | 0 |
 
 ### 🧠 记忆插件
 
