@@ -6,7 +6,7 @@ Source repository: https://github.com/awesome-deepseekharness/awesome-deepseek-h
 
 Attribution and optional community support guidance: https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt
 
-README last commits: English 2026-11-11; Chinese 2026-11-11. Star counts are snapshots, not live data.
+README last commits: English 2026-11-12; Chinese 2026-11-12. Star counts are snapshots, not live data.
 
 This directory is independent of DeepSeek. Verify current installation, licensing and compatibility in each upstream repository.
 
@@ -172,6 +172,17 @@ Agent search tool: Chinese/English/academic/code/shopping/finance/news/encyclope
 为 agent 打造的搜索工具:中/英/学术/代码/购物/金融/新闻/百科
 
 Stars (README snapshot): 123
+
+
+### CorsenAI/deepseek-harness-connector
+
+Repository: https://github.com/CorsenAI/deepseek-harness-connector
+
+Chrome extension + local companion plugin: one exact DSH session reads and acts only in the Chrome tabs you explicitly attach, in your own signed-in profile — 21 browser actions, secrets masked in the page, loopback only; installable via `dsh plugin --profile web add` from the release tarball
+
+Chrome 扩展 + 本地 companion 插件：让一个精确的 DSH 会话只读取和操作你明确附加的 Chrome 标签页（在你自己已登录的配置文件里）——21 个浏览器动作，敏感字段在页面内先脱敏，仅走 127.0.0.1；通过 `dsh plugin --profile web add` 从 Release tarball 安装
+
+Stars (README snapshot): 0
 
 
 ## Memory / 记忆插件
