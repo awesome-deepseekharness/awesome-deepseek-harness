@@ -80,6 +80,7 @@ The hottest category — giving text-only models "eyes."
 | [liustack/modsearch](https://github.com/liustack/modsearch) | Web plugin for DSH: ask the web or X, get structured JSON evidence (search, fetch, citations) | 478 |
 | [Lum1104/dsh-browser](https://github.com/Lum1104/dsh-browser) | Chrome sidebar extension that lets DSH operate your browser directly — no vision required | 648 |
 | [taxueseek/argo](https://github.com/taxueseek/argo) | Agent search tool: Chinese/English/academic/code/shopping/finance/news/encyclopedia | 123 |
+| [CorsenAI/deepseek-harness-connector](https://github.com/CorsenAI/deepseek-harness-connector) | Chrome extension + local companion plugin: one exact DSH session reads and acts only in the Chrome tabs you explicitly attach, in your own signed-in profile — 21 browser actions, secrets masked in the page, loopback only; installable via `dsh plugin --profile web add` from the release tarball | 0 |
 
 ### 🧠 Memory
 
