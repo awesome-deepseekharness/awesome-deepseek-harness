@@ -281,7 +281,7 @@ The hottest category — giving text-only models "eyes."
 | [RaulLazaro/dsh-server-setup](https://github.com/RaulLazaro/dsh-server-setup) | Production DSH on VPS: systemd, dsh-proxy plugin, Basic Auth, Pangolin tunnel, 23-plugin stack | 1 |
 | [dseek.app dsh CLI guide](https://dseek.app/cli) | Unofficial dsh cheat sheet: `npx @deepseek-ai/dsh web`, Node.js requirement, headless profile and plugin commands, sourced from the official repo and npm page (community) | — |
 | [DSH Learn](https://dshlearn.com) | English learning site for dsh: getting-started guides, MCP setup, plugin installs, a community extensions directory, and release/news tracking, with sources cited (community) | — |
-
+ | [DeepSeekDSH](https://deepseekdsh.com/) | DeepSeekDSH offers free DeepSeek agent harness tutorials, plugins and MCP guides for developers. | — |
 **Official docs:** [development.md](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/development.md) · [architecture.md](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/architecture.md) · [cordis-primer](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-primer.md) · [cordis-tutorial](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/cordis-tutorial/index.md) (7 plugin tutorials) · [cookbook](https://github.com/deepseek-ai/deepseek-harness/tree/master/docs/cookbook) · [capability-seams](https://github.com/deepseek-ai/deepseek-harness/blob/master/docs/capability-seams.md)
 
 ## 🤝 Community
