@@ -142,6 +142,7 @@ The hottest category — giving text-only models "eyes."
 | [Jensen-Yao/dsh-plus-plus](https://github.com/Jensen-Yao/dsh-plus-plus) | Windows WPF desktop console for `dsh web`: one-click start/stop, phone URL over Wi-Fi/domain/Tailscale, firewall rule, storage locations, live logs, dark/light themes | 1 |
 
 ### 🧩 Tools, Workflows & Presets
+- [wwewtech/numes-deepseek-harness](https://github.com/wwewtech/numes-deepseek-harness) — Free Numes models in DeepSeek Harness: zero-dependency local proxy with a hard `$0` route (`:free` + `max_price` guards), never-give-up retries (5s to 5m), free-model auto-discovery, and paid-model protection.
 
 | Project | Description | ⭐ |
 | --- | --- | --- |
