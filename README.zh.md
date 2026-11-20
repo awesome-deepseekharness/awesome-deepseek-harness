@@ -219,6 +219,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [tommy00748-tech/dsh-native-notifications](https://github.com/tommy00748-tech/dsh-native-notifications) | 由 DSH 自己弹出的原生桌面通知（待授权、等待作答、任务完成、出错、需要登录），归属 DSH 应用、点击回到会话，提示音可选预设或自定义。安装：`dsh plugin --profile web add github:tommy00748-tech/dsh-native-notifications` | 0 |
 | [wychmod/dsh-mini-superagent](https://github.com/wychmod/dsh-mini-superagent) | 主会话把任务派给独立的后台子会话执行，立即返回、报告自动回流；侧边栏「派发工作台」看并发、排队、批次进度与失败原因，可取消、重试、归档。提供 10 个 `dispatch_*` 工具，零运行时依赖，纯 ESM。安装：`dsh plugin --profile web add dsh-mini-superagent`（npm：`dsh-mini-superagent`）。 | 1 |
 | [kadaliao/dsh-bots](https://github.com/kadaliao/dsh-bots) | Grok 式 bot 团队：一键雇用现成团队（一人公司、研发小队、内容工作室、研究台），每个 bot 有自己的人设、模型、技能、记忆和定时任务；调度员把工作派成任务，看板跟踪每件事，还能在飞书、Telegram、Slack、Discord 里给团队派活。安装：`dsh plugin --profile web add @kadaliao/dsh-bots`。 | 10 |
+| [kadaliao/dsh-images](https://github.com/kadaliao/dsh-images) | 给模型一个 `generate_image` 工具，用你供应商的生图模型出图：图直接显示在对话里，「图片」面板收成图库，每张图标出费用，支持参考图改图和循环 GIF 动图。安装：`dsh plugin --profile web add @kadaliao/dsh-images`。 | 0 |
 
 ### 📚 Skills 与技能包
 
