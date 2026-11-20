@@ -126,6 +126,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [weibaohui/dsh-sidebar-tidy](https://github.com/weibaohui/dsh-sidebar-tidy) | 侧栏收纳：把「新会话」下方被各插件塞满的入口行——全局面板行、插件入口行（自家/第三方一律识别）、底部入口——统统收进一个菜单按钮，点开二级菜单原样触发各入口；想常驻的加名称白名单即可，侧栏折叠成窄轨时按钮自动变纯图标。`dsh plugin add @weibaohui/dsh-sidebar-tidy` 即装 | 0 |
 | [mengge237/dsh-composer-ease](https://github.com/mengge237/dsh-composer-ease) | dsh-composer-ease：给 DSH Web 输入框加一个补全提示框，另带括号与引号配对、选中环绕；除此之外不改界面 | 0 |
 | [dongsheng123132/dsh-move-up](https://github.com/dongsheng123132/dsh-move-up) | 工作区菜单里加一项「移到最上面」，经宿主 workspace 注册表只调整一次顺序——没有收藏、固定置顶或自动重排；通过 `dsh plugin --profile desktop add dsh-move-up@0.3.0` 安装 | 0 |
+| [kadaliao/dsh-atlas](https://github.com/kadaliao/dsh-atlas) | 把 macOS「照片」图库放到一颗能放大到街道的夜色地球上：拍过照的地方发光，旅行画成航线、可以用故事模式回放，每天翻出往年今天的照片；模型能搜你的照片、移动地图。只读。安装：`dsh plugin --profile web add @kadaliao/dsh-atlas`。 | 0 |
 
 ### 🖥️ TUI 与桌面端
 
@@ -217,6 +218,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [jjjjjjjjnnjnn/dsh-triage](https://github.com/jjjjjjjjnnjnn/dsh-triage) | 装前判断与事后归因：点名哪一行被准入拒绝、哪个模块 import 失败、哪个能力声明了却从未注册；独立探针带可复算证据。只读，不做装/卸，不作安全背书 | 1 |
 | [tommy00748-tech/dsh-native-notifications](https://github.com/tommy00748-tech/dsh-native-notifications) | 由 DSH 自己弹出的原生桌面通知（待授权、等待作答、任务完成、出错、需要登录），归属 DSH 应用、点击回到会话，提示音可选预设或自定义。安装：`dsh plugin --profile web add github:tommy00748-tech/dsh-native-notifications` | 0 |
 | [wychmod/dsh-mini-superagent](https://github.com/wychmod/dsh-mini-superagent) | 主会话把任务派给独立的后台子会话执行，立即返回、报告自动回流；侧边栏「派发工作台」看并发、排队、批次进度与失败原因，可取消、重试、归档。提供 10 个 `dispatch_*` 工具，零运行时依赖，纯 ESM。安装：`dsh plugin --profile web add dsh-mini-superagent`（npm：`dsh-mini-superagent`）。 | 1 |
+| [kadaliao/dsh-bots](https://github.com/kadaliao/dsh-bots) | Grok 式 bot 团队：一键雇用现成团队（一人公司、研发小队、内容工作室、研究台），每个 bot 有自己的人设、模型、技能、记忆和定时任务；调度员把工作派成任务，看板跟踪每件事，还能在飞书、Telegram、Slack、Discord 里给团队派活。安装：`dsh plugin --profile web add @kadaliao/dsh-bots`。 | 10 |
 | [kadaliao/dsh-images](https://github.com/kadaliao/dsh-images) | 给模型一个 `generate_image` 工具，用你供应商的生图模型出图：图直接显示在对话里，「图片」面板收成图库，每张图标出费用，支持参考图改图和循环 GIF 动图。安装：`dsh plugin --profile web add @kadaliao/dsh-images`。 | 0 |
 
 ### 📚 Skills 与技能包

@@ -9,8 +9,8 @@
     "zh-CN"
   ],
   "sourceUpdated": {
-    "en": "2026-11-18",
-    "zh": "2026-11-18"
+    "en": "2026-11-20",
+    "zh": "2026-11-20"
   },
   "sources": {
     "en": "https://github.com/awesome-deepseekharness/awesome-deepseek-harness/blob/main/README.md",
@@ -19,7 +19,7 @@
   "starCountNote": "Project star counts are README snapshots, not live counts. Verify installation and compatibility in the linked upstream repository.",
   "repositoryStars": 45,
   "firstStarGoal": 100,
-  "total": 176,
+  "total": 178,
   "groups": [
     {
       "id": "MKT",
@@ -461,9 +461,17 @@
           "stars": 0,
           "zhName": "dongsheng123132/dsh-move-up",
           "zhDesc": "工作区菜单里加一项「移到最上面」，经宿主 workspace 注册表只调整一次顺序——没有收藏、固定置顶或自动重排；通过 `dsh plugin --profile desktop add dsh-move-up@0.3.0` 安装"
+        },
+        {
+          "name": "kadaliao/dsh-atlas",
+          "url": "https://github.com/kadaliao/dsh-atlas",
+          "desc": "Your macOS Photos library on a night globe that zooms to street level: glowing footprints, trips drawn as flight arcs you can replay as a story, on this day in your photos, and a model that can search your photos and move the map. Read-only. Install: `dsh plugin --profile web add @kadaliao/dsh-atlas`.",
+          "stars": 0,
+          "zhName": "kadaliao/dsh-atlas",
+          "zhDesc": "把 macOS「照片」图库放到一颗能放大到街道的夜色地球上：拍过照的地方发光，旅行画成航线、可以用故事模式回放，每天翻出往年今天的照片；模型能搜你的照片、移动地图。只读。安装：`dsh plugin --profile web add @kadaliao/dsh-atlas`。"
         }
       ],
-      "count": 20,
+      "count": 21,
       "prefix": "U5"
     },
     {
@@ -1127,9 +1135,17 @@
           "stars": 1,
           "zhName": "wychmod/dsh-mini-superagent",
           "zhDesc": "主会话把任务派给独立的后台子会话执行，立即返回、报告自动回流；侧边栏「派发工作台」看并发、排队、批次进度与失败原因，可取消、重试、归档。提供 10 个 `dispatch_*` 工具，零运行时依赖，纯 ESM。安装：`dsh plugin --profile web add dsh-mini-superagent`（npm：`dsh-mini-superagent`）。"
+        },
+        {
+          "name": "kadaliao/dsh-bots",
+          "url": "https://github.com/kadaliao/dsh-bots",
+          "desc": "Grok-style bot teams: hire a ready-made team (one-person company, software squad, content studio, research desk) where each bot has its own persona, model, skills, memory and scheduled tasks; a dispatcher hands the work out as tasks, a board tracks every request, and you can message the team from Feishu/Lark, Telegram, Slack or Discord. Install: `dsh plugin --profile web add @kadaliao/dsh-bots`.",
+          "stars": 10,
+          "zhName": "kadaliao/dsh-bots",
+          "zhDesc": "Grok 式 bot 团队：一键雇用现成团队（一人公司、研发小队、内容工作室、研究台），每个 bot 有自己的人设、模型、技能、记忆和定时任务；调度员把工作派成任务，看板跟踪每件事，还能在飞书、Telegram、Slack、Discord 里给团队派活。安装：`dsh plugin --profile web add @kadaliao/dsh-bots`。"
         }
       ],
-      "count": 72,
+      "count": 73,
       "prefix": "U7"
     },
     {
