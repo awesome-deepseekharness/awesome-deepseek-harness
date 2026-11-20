@@ -23,7 +23,7 @@ English | [中文](README.zh.md)
 </p>
 
 > ⭐ **Found this list useful? Star it — it takes 2 seconds, and it happens to be the #1 way to help others discover dsh plugins.**
-> Save the list now so your next useful plugin is easier to find. Your ⭐ also supports the community maintaining this directory. Currently **43 → 100 stars is our first milestone (57 to go)**. To receive repository updates, choose your notification preferences in GitHub’s Watch menu.
+> Save the list now so your next useful plugin is easier to find. Your ⭐ also supports the community maintaining this directory. Currently **45 → 100 stars is our first milestone (55 to go)**. To receive repository updates, choose your notification preferences in GitHub’s Watch menu.
 >
 > **Share & spread:** if you built or love a plugin here, share its original repository so others can explore it. [Share on X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20Everything%20is%20a%20Plugin%20%E2%9A%A1%20Curated%20dsh%20plugins%2C%20tools%20%26%20skills%20for%20%40deepseek_ai%20harness&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek,opensource) · [Share on Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20curated%20plugins%20%26%20skills) · [Discuss on Discord](https://discord.gg/Ycq5dCaS4) · [Copy link](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
 >
@@ -126,6 +126,7 @@ The hottest category — giving text-only models "eyes."
 | [VictorKozachek/dsh-user-code-block](https://github.com/VictorKozachek/dsh-user-code-block) | Syntax highlighting, copy button and monochrome mode for fenced code blocks in DSH user messages — the chat renders them as plain text by default; installable via `dsh plugin --profile desktop add dsh-user-code-block` | 1 |
 | [mengge237/dsh-composer-ease](https://github.com/mengge237/dsh-composer-ease) | dsh-composer-ease: adds a completion popup to the DSH Web composer, plus bracket and quote pairing and wrap-on-selection; nothing else in the UI changes | 0 |
 | [dongsheng123132/dsh-move-up](https://github.com/dongsheng123132/dsh-move-up) | One item in the workspace menu that moves a workspace to the top of the sidebar once, through the host workspace registry — no favorites, pins or automatic re-sorting; installable via `dsh plugin --profile desktop add dsh-move-up@0.3.0` | 0 |
+| [kadaliao/dsh-atlas](https://github.com/kadaliao/dsh-atlas) | Your macOS Photos library on a night globe that zooms to street level: glowing footprints, trips drawn as flight arcs you can replay as a story, on this day in your photos, and a model that can search your photos and move the map. Read-only. Install: `dsh plugin --profile web add @kadaliao/dsh-atlas`. | 0 |
 
 ### 🖥️ TUI & Desktop
 
@@ -146,6 +147,7 @@ The hottest category — giving text-only models "eyes."
 | Project | Description | ⭐ |
 | --- | --- | --- |
 | [dryw/dsh-egm](https://github.com/dryw/dsh-egm) | Elephant-Goldfish Model for DSH: draft design specs with a context-rich Elephant, then challenge them with fresh, read-only Goldfish reviewers. Install: `dsh plugin --profile web add dsh-egm` (npm: `dsh-egm`). | 6 |
+| [flymysql/dsh-remote](https://github.com/flymysql/dsh-remote) | SSH remote workspaces for DSH with parallel projects across hosts, file browsing and editing, recursive search, terminals, Git diffs, and Agent tools to edit, build and test remotely. Optional IDE layout. | 286 |
 | [leoan698-tom/dsh-sessivra](https://github.com/leoan698-tom/dsh-sessivra) | Sessivra: drag DSH sessions into resizable split views, drop native @ references into drafts, and review delegated work before queued follow-ups. Prerelease; Windows / DSH 0.2.1-rc.5. Install: `dsh plugin --profile web add dsh-plugin-sessivra@0.3.0-dev.26`. | 1 |
 | [Q00/ouroboros](https://github.com/Q00/ouroboros/tree/main/integrations/dsh-plugin) | Config-only bundle mounting Ouroboros via MCP: 36 interview/Seed/execution/eval/evolution workflow tools | 5839 |
 | [xmanrui/dsh-im](https://github.com/xmanrui/dsh-im) | 9-channel IM bots for DSH via QR/credentials: Feishu, WeChat, DingTalk, WeCom, QQ, Slack, Telegram, Discord, WhatsApp | 1307 |
@@ -215,6 +217,8 @@ The hottest category — giving text-only models "eyes."
 | [lengrufeng2008/dsh-code-intel](https://github.com/lengrufeng2008/dsh-code-intel) | Read-only semantic code navigation for DSH via local language servers: definition, references, workspace symbols, diagnostics, hover, rename preview; six native tools, no embeddings/hosted index, 6/6 tests | 0 |
 | [jjjjjjjjnnjnn/dsh-triage](https://github.com/jjjjjjjjnnjnn/dsh-triage) | Pre-install judgement and post-mortem attribution: says which row admission denied, which module failed to import, which capability was declared but never registered; isolated probe with recorded evidence. Read-only, no install/remove, no security claims | 1 |
 | [tommy00748-tech/dsh-native-notifications](https://github.com/tommy00748-tech/dsh-native-notifications) | Native desktop notifications from DSH itself (approval, question, completion, error, sign-in), attributed to the DSH app with click-to-open, plus a selectable/customisable synthesised chime. Install: `dsh plugin --profile web add github:tommy00748-tech/dsh-native-notifications` | 0 |
+| [wychmod/dsh-mini-superagent](https://github.com/wychmod/dsh-mini-superagent) | Dispatch tasks from the main session to independent background sub-sessions that return immediately and report back automatically; a sidebar workbench shows concurrency, queueing, batch progress and failure reasons, with cancel, retry and archive. 10 `dispatch_*` tools, zero runtime dependencies, pure ESM. Install: `dsh plugin --profile web add dsh-mini-superagent` (npm: `dsh-mini-superagent`). | 1 |
+| [kadaliao/dsh-bots](https://github.com/kadaliao/dsh-bots) | Grok-style bot teams: hire a ready-made team (one-person company, software squad, content studio, research desk) where each bot has its own persona, model, skills, memory and scheduled tasks; a dispatcher hands the work out as tasks, a board tracks every request, and you can message the team from Feishu/Lark, Telegram, Slack or Discord. Install: `dsh plugin --profile web add @kadaliao/dsh-bots`. | 10 |
 
 ### 📚 Skills
 
@@ -237,6 +241,7 @@ The hottest category — giving text-only models "eyes."
 | [morluto/rea](https://github.com/morluto/rea) | Reverse engineer anything with agents, from app behavior down to native binaries | 404 |
 | [reliable-ly0411/babeldoc-pdf-translate](https://github.com/reliable-ly0411/babeldoc-pdf-translate) | BabelDOC PDF translation skill for DSH, also packaged as a Codex plugin: bilingual output, custom glossaries and local typesetting; install under `.dsh/skills/babeldoc-pdf-translate` | 0 |
 | [zabuxie/vc-voice-train-skill](https://github.com/zabuxie/vc-voice-train-skill) | RVC voice training skill for DSH: dataset QA, fix for the RVC 20240604 audio_norm defect (silent broadband-noise output), objective acceptance (flat/harmonics/band energy), 40k/32k pipelines, cloud-GPU SOP | 10 |
+| [kysr04/dsh-pitfall-memory](https://github.com/kysr04/dsh-pitfall-memory) | Mistake ledger skill for DSH: a repeat failure becomes a Markdown entry whose key field is the detection signal — how to recognise the same wall in three seconds — plus the command that gets you off it; entries are retrieved before similar tasks. Install under `.dsh/skills/dsh-pitfall-memory` | 0 |
 
 ### 🚀 Apps & Runtimes Built on DSH
 

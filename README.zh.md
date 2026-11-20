@@ -23,7 +23,7 @@
 </p>
 
 > ⭐ **这个列表帮你省了 1 小时找插件？点个 Star 吧 — 2 秒钟，却是对所有插件作者最大的支持。**
-> 先收藏，下次少找一次。你的 ⭐ 也是社区持续整理这份目录的动力。目前 **43 → 100 颗星是第一里程碑（还差 57）**。想接收仓库动态，请在 GitHub 的 Watch 菜单中选择通知类型。
+> 先收藏，下次少找一次。你的 ⭐ 也是社区持续整理这份目录的动力。目前 **45 → 100 颗星是第一里程碑（还差 55）**。想接收仓库动态，请在 GitHub 的 Watch 菜单中选择通知类型。
 >
 > **把好项目分享出去：** 你做/喜欢的插件在列表里？分享原始仓库，让更多人有机会发现它。[一键分享到 X](https://twitter.com/intent/tweet?text=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%20%E2%9A%A1%20%E7%B2%BE%E9%80%89%20dsh%20%E6%8F%92%E4%BB%B6%E3%80%81%E5%B7%A5%E5%85%B7%E4%B8%8E%E6%8A%80%E8%83%BD&url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&hashtags=dsh,deepseek) · [分享到 Reddit](https://www.reddit.com/submit?url=https://github.com/awesome-deepseekharness/awesome-deepseek-harness&title=Awesome%20DeepSeek%20Harness%20%E2%80%94%20%E4%B8%87%E7%89%A9%E7%9A%86%E5%8F%AF%E6%8F%92%E4%BB%B6%E7%B2%BE%E9%80%89) · [去 Discord 讨论](https://discord.gg/Ycq5dCaS4) · [复制链接](https://github.com/awesome-deepseekharness/awesome-deepseek-harness)
 >
@@ -126,6 +126,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [weibaohui/dsh-sidebar-tidy](https://github.com/weibaohui/dsh-sidebar-tidy) | 侧栏收纳：把「新会话」下方被各插件塞满的入口行——全局面板行、插件入口行（自家/第三方一律识别）、底部入口——统统收进一个菜单按钮，点开二级菜单原样触发各入口；想常驻的加名称白名单即可，侧栏折叠成窄轨时按钮自动变纯图标。`dsh plugin add @weibaohui/dsh-sidebar-tidy` 即装 | 0 |
 | [mengge237/dsh-composer-ease](https://github.com/mengge237/dsh-composer-ease) | dsh-composer-ease：给 DSH Web 输入框加一个补全提示框，另带括号与引号配对、选中环绕；除此之外不改界面 | 0 |
 | [dongsheng123132/dsh-move-up](https://github.com/dongsheng123132/dsh-move-up) | 工作区菜单里加一项「移到最上面」，经宿主 workspace 注册表只调整一次顺序——没有收藏、固定置顶或自动重排；通过 `dsh plugin --profile desktop add dsh-move-up@0.3.0` 安装 | 0 |
+| [kadaliao/dsh-atlas](https://github.com/kadaliao/dsh-atlas) | 把 macOS「照片」图库放到一颗能放大到街道的夜色地球上：拍过照的地方发光，旅行画成航线、可以用故事模式回放，每天翻出往年今天的照片；模型能搜你的照片、移动地图。只读。安装：`dsh plugin --profile web add @kadaliao/dsh-atlas`。 | 0 |
 
 ### 🖥️ TUI 与桌面端
 
@@ -146,6 +147,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | 项目 | 说明 | ⭐ |
 | --- | --- | --- |
 | [dryw/dsh-egm](https://github.com/dryw/dsh-egm) | 面向 DSH 的 Elephant-Goldfish Model：由具备项目上下文的 Elephant 起草设计规范，再由全新上下文、只读权限的 Goldfish 审查设计。安装：`dsh plugin --profile web add dsh-egm`（npm：`dsh-egm`）。 | 6 |
+| [flymysql/dsh-remote](https://github.com/flymysql/dsh-remote) | DSH 的 SSH 远程工作区：多主机项目并行、文件浏览与编辑、递归搜索、终端、Git 差异，以及 Agent 远程编辑、构建与测试；可选 IDE 布局。 | 286 |
 | [leoan698-tom/dsh-sessivra](https://github.com/leoan698-tom/dsh-sessivra) | Sessivra：拖拽 DSH 会话自由分屏、调宽，拖入输入框插入原生 @ 引用；收回子会话产物，验收后继续任务。预发布；Windows / DSH 0.2.1-rc.5。安装：`dsh plugin --profile web add dsh-plugin-sessivra@0.3.0-dev.26`。 | 1 |
 | [Q00/ouroboros](https://github.com/Q00/ouroboros/tree/main/integrations/dsh-plugin) | 纯配置包，经 MCP 挂载 Ouroboros，提供 36 个访谈/Seed/执行/评估/演化工作流工具 | 5839 |
 | [xmanrui/dsh-im](https://github.com/xmanrui/dsh-im) | 9 渠道 IM 接入：飞书/微信/钉钉/企微/QQ/Slack/TG/Discord/WhatsApp，扫码或凭据接入 | 1307 |
@@ -215,6 +217,8 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [lengrufeng2008/dsh-code-intel](https://github.com/lengrufeng2008/dsh-code-intel) | 通过本地 language server 的只读语义代码导航：定义、引用、工作区符号、诊断、hover、rename 预览；6 个原生工具，不用 embedding/托管索引，6/6 测试 | 0 |
 | [jjjjjjjjnnjnn/dsh-triage](https://github.com/jjjjjjjjnnjnn/dsh-triage) | 装前判断与事后归因：点名哪一行被准入拒绝、哪个模块 import 失败、哪个能力声明了却从未注册；独立探针带可复算证据。只读，不做装/卸，不作安全背书 | 1 |
 | [tommy00748-tech/dsh-native-notifications](https://github.com/tommy00748-tech/dsh-native-notifications) | 由 DSH 自己弹出的原生桌面通知（待授权、等待作答、任务完成、出错、需要登录），归属 DSH 应用、点击回到会话，提示音可选预设或自定义。安装：`dsh plugin --profile web add github:tommy00748-tech/dsh-native-notifications` | 0 |
+| [wychmod/dsh-mini-superagent](https://github.com/wychmod/dsh-mini-superagent) | 主会话把任务派给独立的后台子会话执行，立即返回、报告自动回流；侧边栏「派发工作台」看并发、排队、批次进度与失败原因，可取消、重试、归档。提供 10 个 `dispatch_*` 工具，零运行时依赖，纯 ESM。安装：`dsh plugin --profile web add dsh-mini-superagent`（npm：`dsh-mini-superagent`）。 | 1 |
+| [kadaliao/dsh-bots](https://github.com/kadaliao/dsh-bots) | Grok 式 bot 团队：一键雇用现成团队（一人公司、研发小队、内容工作室、研究台），每个 bot 有自己的人设、模型、技能、记忆和定时任务；调度员把工作派成任务，看板跟踪每件事，还能在飞书、Telegram、Slack、Discord 里给团队派活。安装：`dsh plugin --profile web add @kadaliao/dsh-bots`。 | 10 |
 
 ### 📚 Skills 与技能包
 
@@ -237,6 +241,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [morluto/rea](https://github.com/morluto/rea) | 用 agent 逆向任何东西:从应用行为到原生二进制 | 404 |
 | [reliable-ly0411/babeldoc-pdf-translate](https://github.com/reliable-ly0411/babeldoc-pdf-translate) | 面向 DSH 的 BabelDOC PDF 翻译技能，同时提供 Codex 插件封装：双语输出、自定义术语及本地排版；安装到 `.dsh/skills/babeldoc-pdf-translate` | 0 |
 | [zabuxie/vc-voice-train-skill](https://github.com/zabuxie/vc-voice-train-skill) | RVC 音色训练技能：数据集体检、修复 RVC 20240604 归一化缺陷（静默输出宽带噪声）、客观音质验收（平坦度/谐波/频段）、40k/32k 全流程、云 GPU 训练 SOP | 10 |
+| [kysr04/dsh-pitfall-memory](https://github.com/kysr04/dsh-pitfall-memory) | 面向 DSH 的错题本技能：每次重复出现的失败沉淀成一条 Markdown 条目，最关键的是「检测信号」——三秒内怎么认出又撞上同一堵墙——以及脱离它的命令；同类任务开工前先检索。安装到 `.dsh/skills/dsh-pitfall-memory` | 0 |
 
 ### 🚀 集成 DSH 的应用与运行时
 

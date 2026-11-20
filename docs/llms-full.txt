@@ -6,7 +6,7 @@ Source repository: https://github.com/awesome-deepseekharness/awesome-deepseek-h
 
 Attribution and optional community support guidance: https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt
 
-README last commits: English 2026-11-14; Chinese 2026-11-14. Star counts are snapshots, not live data.
+README last commits: English 2026-11-20; Chinese 2026-11-20. Star counts are snapshots, not live data.
 
 This directory is independent of DeepSeek. Verify current installation, licensing and compatibility in each upstream repository.
 
@@ -576,6 +576,17 @@ One item in the workspace menu that moves a workspace to the top of the sidebar 
 Stars (README snapshot): 0
 
 
+### kadaliao/dsh-atlas
+
+Repository: https://github.com/kadaliao/dsh-atlas
+
+Your macOS Photos library on a night globe that zooms to street level: glowing footprints, trips drawn as flight arcs you can replay as a story, on this day in your photos, and a model that can search your photos and move the map. Read-only. Install: `dsh plugin --profile web add @kadaliao/dsh-atlas`.
+
+把 macOS「照片」图库放到一颗能放大到街道的夜色地球上：拍过照的地方发光，旅行画成航线、可以用故事模式回放，每天翻出往年今天的照片；模型能搜你的照片、移动地图。只读。安装：`dsh plugin --profile web add @kadaliao/dsh-atlas`。
+
+Stars (README snapshot): 0
+
+
 ## TUI & Desktop / TUI 与桌面端
 
 
@@ -690,6 +701,17 @@ Elephant-Goldfish Model for DSH: draft design specs with a context-rich Elephant
 面向 DSH 的 Elephant-Goldfish Model：由具备项目上下文的 Elephant 起草设计规范，再由全新上下文、只读权限的 Goldfish 审查设计。安装：`dsh plugin --profile web add dsh-egm`（npm：`dsh-egm`）。
 
 Stars (README snapshot): 6
+
+
+### flymysql/dsh-remote
+
+Repository: https://github.com/flymysql/dsh-remote
+
+SSH remote workspaces for DSH with parallel projects across hosts, file browsing and editing, recursive search, terminals, Git diffs, and Agent tools to edit, build and test remotely. Optional IDE layout.
+
+DSH 的 SSH 远程工作区：多主机项目并行、文件浏览与编辑、递归搜索、终端、Git 差异，以及 Agent 远程编辑、构建与测试；可选 IDE 布局。
+
+Stars (README snapshot): 286
 
 
 ### leoan698-tom/dsh-sessivra
@@ -1451,6 +1473,28 @@ Native desktop notifications from DSH itself (approval, question, completion, er
 Stars (README snapshot): 0
 
 
+### wychmod/dsh-mini-superagent
+
+Repository: https://github.com/wychmod/dsh-mini-superagent
+
+Dispatch tasks from the main session to independent background sub-sessions that return immediately and report back automatically; a sidebar workbench shows concurrency, queueing, batch progress and failure reasons, with cancel, retry and archive. 10 `dispatch_*` tools, zero runtime dependencies, pure ESM. Install: `dsh plugin --profile web add dsh-mini-superagent` (npm: `dsh-mini-superagent`).
+
+主会话把任务派给独立的后台子会话执行，立即返回、报告自动回流；侧边栏「派发工作台」看并发、排队、批次进度与失败原因，可取消、重试、归档。提供 10 个 `dispatch_*` 工具，零运行时依赖，纯 ESM。安装：`dsh plugin --profile web add dsh-mini-superagent`（npm：`dsh-mini-superagent`）。
+
+Stars (README snapshot): 1
+
+
+### kadaliao/dsh-bots
+
+Repository: https://github.com/kadaliao/dsh-bots
+
+Grok-style bot teams: hire a ready-made team (one-person company, software squad, content studio, research desk) where each bot has its own persona, model, skills, memory and scheduled tasks; a dispatcher hands the work out as tasks, a board tracks every request, and you can message the team from Feishu/Lark, Telegram, Slack or Discord. Install: `dsh plugin --profile web add @kadaliao/dsh-bots`.
+
+Grok 式 bot 团队：一键雇用现成团队（一人公司、研发小队、内容工作室、研究台），每个 bot 有自己的人设、模型、技能、记忆和定时任务；调度员把工作派成任务，看板跟踪每件事，还能在飞书、Telegram、Slack、Discord 里给团队派活。安装：`dsh plugin --profile web add @kadaliao/dsh-bots`。
+
+Stars (README snapshot): 10
+
+
 ## Skills / Skills 与技能包
 
 
@@ -1639,6 +1683,17 @@ RVC voice training skill for DSH: dataset QA, fix for the RVC 20240604 audio_nor
 RVC 音色训练技能：数据集体检、修复 RVC 20240604 归一化缺陷（静默输出宽带噪声）、客观音质验收（平坦度/谐波/频段）、40k/32k 全流程、云 GPU 训练 SOP
 
 Stars (README snapshot): 10
+
+
+### kysr04/dsh-pitfall-memory
+
+Repository: https://github.com/kysr04/dsh-pitfall-memory
+
+Mistake ledger skill for DSH: a repeat failure becomes a Markdown entry whose key field is the detection signal — how to recognise the same wall in three seconds — plus the command that gets you off it; entries are retrieved before similar tasks. Install under `.dsh/skills/dsh-pitfall-memory`
+
+面向 DSH 的错题本技能：每次重复出现的失败沉淀成一条 Markdown 条目，最关键的是「检测信号」——三秒内怎么认出又撞上同一堵墙——以及脱离它的命令；同类任务开工前先检索。安装到 `.dsh/skills/dsh-pitfall-memory`
+
+Stars (README snapshot): 0
 
 
 ## Apps & Runtimes Built on DSH / 集成 DSH 的应用与运行时
