@@ -1495,6 +1495,17 @@ Grok 式 bot 团队：一键雇用现成团队（一人公司、研发小队、�
 Stars (README snapshot): 10
 
 
+### kadaliao/dsh-images
+
+Repository: https://github.com/kadaliao/dsh-images
+
+A `generate_image` tool backed by your provider's image model: pictures show in the conversation, an Images panel collects them as a gallery, every picture shows what it cost, and it can edit from reference images or assemble looping GIFs. Install: `dsh plugin --profile web add @kadaliao/dsh-images`.
+
+给模型一个 `generate_image` 工具，用你供应商的生图模型出图：图直接显示在对话里，「图片」面板收成图库，每张图标出费用，支持参考图改图和循环 GIF 动图。安装：`dsh plugin --profile web add @kadaliao/dsh-images`。
+
+Stars (README snapshot): 0
+
+
 ## Skills / Skills 与技能包
 
 
