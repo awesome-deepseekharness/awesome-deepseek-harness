@@ -19,7 +19,7 @@
   "starCountNote": "Project star counts are README snapshots, not live counts. Verify installation and compatibility in the linked upstream repository.",
   "repositoryStars": 45,
   "firstStarGoal": 100,
-  "total": 179,
+  "total": 180,
   "groups": [
     {
       "id": "MKT",
@@ -1547,9 +1547,17 @@
           "stars": null,
           "zhName": "DSH Learn",
           "zhDesc": "英文 dsh 学习站：入门指南、MCP 配置、插件安装、社区扩展目录，以及版本/新闻跟踪，内容标注来源(社区)"
+        },
+        {
+          "name": "DeepSeekDSH",
+          "url": "https://deepseekdsh.com/",
+          "desc": "dsh community learning site: install and troubleshooting tutorials, plugin and MCP guides, provider configuration and release tracking, bilingual EN/中文 (community)",
+          "stars": null,
+          "zhName": "DeepSeekDSH",
+          "zhDesc": "dsh 社区学习站：安装与排错教程、插件与 MCP 指南、供应商配置与版本跟踪，中英双语（社区）"
         }
       ],
-      "count": 9,
+      "count": 10,
       "prefix": "U11"
     }
   ]

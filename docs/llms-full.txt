@@ -2013,6 +2013,17 @@ English learning site for dsh: getting-started guides, MCP setup, plugin install
 Stars (README snapshot): unknown
 
 
+### DeepSeekDSH
+
+Repository: https://deepseekdsh.com/
+
+dsh community learning site: install and troubleshooting tutorials, plugin and MCP guides, provider configuration and release tracking, bilingual EN/中文 (community)
+
+dsh 社区学习站：安装与排错教程、插件与 MCP 指南、供应商配置与版本跟踪，中英双语（社区）
+
+Stars (README snapshot): unknown
+
+
 ## Common questions
 
 
