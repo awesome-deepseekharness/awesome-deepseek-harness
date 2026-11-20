@@ -494,7 +494,7 @@ Repository: https://github.com/weibaohui/dsh-gaokao
 
 Gaokao countdown blackboard: desktop widget counting down days (double-click to collapse into a slim bar) plus random knowledge-card quizzes while the agent works; installable via `dsh plugin add @weibaohui/dsh-gaokao`
 
-侧边栏工作区每日按最近活动排序一次，当天顺序稳定
+梦回高三：桌面小黑板高考倒计时（双击收成竖条），AI 干活时随机抽背知识点卡；`dsh plugin add @weibaohui/dsh-gaokao` 即装
 
 Stars (README snapshot): 2
 
@@ -505,7 +505,7 @@ Repository: https://github.com/weibaohui/dsh-fireworks
 
 Fireworks celebration engine: event-driven shows above the chat window while the agent codes (welcome / per-turn / tool sparks / milestone / finale / failure dud), token usage decides size & splendour; installable via `dsh plugin add @weibaohui/dsh-fireworks`
 
-梦回高三：桌面小黑板高考倒计时（双击收成竖条），AI 干活时随机抽背知识点卡；`dsh plugin add @weibaohui/dsh-gaokao` 即装
+烟花庆祝引擎：agent 编程时在对话窗口上空放烟花（开场/回合/工具/里程碑/收工/失败各成卡组），token 用量决定大小与绚烂程度；`dsh plugin add @weibaohui/dsh-fireworks` 即装
 
 Stars (README snapshot): 0
 
@@ -516,7 +516,7 @@ Repository: https://github.com/Moonshile/moonshile-dsh-plugins
 
 Re-sorts sidebar workspaces by last activity once per day; stable order within the day
 
-烟花庆祝引擎：agent 编程时在对话窗口上空放烟花（开场/回合/工具/里程碑/收工/失败各成卡组），token 用量决定大小与绚烂程度；`dsh plugin add @weibaohui/dsh-fireworks` 即装
+侧边栏工作区每日按最近活动排序一次，当天顺序稳定
 
 Stars (README snapshot): 2
 
@@ -527,7 +527,7 @@ Repository: https://github.com/weibaohui/dsh-sidebar-tidy
 
 Sidebar tidy: when plugins pile up, the rows under 'New session' get crowded with panel and plugin entries. This plugin folds them all — global panel rows, plugin-injected entry rows (own and third-party alike), and bottom entries — into a single menu button whose secondary menu triggers each entry exactly as before; keep any entry permanently visible with a name whitelist, and the button turns into an icon when the sidebar collapses to a narrow rail. Installable via `dsh plugin add @weibaohui/dsh-sidebar-tidy`
 
-DSH Web UI 的 Q 版蓝发小女仆桌宠：106 个手绘透明动画、桌面漫步、本地 Ollama 或 DSH 在线模型陪聊，可选看屏幕吐槽（`dsh plugin add github:12we21/cute-fat-fish-pet#path:/src` 即装）
+侧栏收纳：把「新会话」下方被各插件塞满的入口行——全局面板行、插件入口行（自家/第三方一律识别）、底部入口——统统收进一个菜单按钮，点开二级菜单原样触发各入口；想常驻的加名称白名单即可，侧栏折叠成窄轨时按钮自动变纯图标。`dsh plugin add @weibaohui/dsh-sidebar-tidy` 即装
 
 Stars (README snapshot): 0
 
@@ -538,7 +538,7 @@ Repository: https://github.com/12we21/cute-fat-fish-pet
 
 A chibi blue-haired maid desktop pet for the DSH Web UI with 106 hand-drawn transparent animations, desktop wandering, chat through local Ollama or the DSH online models, and optional screen watching (installable via `dsh plugin add github:12we21/cute-fat-fish-pet#path:/src`)
 
-DSH 用户消息中的代码块：语法高亮、复制按钮与单色模式，`dsh plugin --profile desktop add dsh-user-code-block` 即装
+DSH Web UI 的 Q 版蓝发小女仆桌宠：106 个手绘透明动画、桌面漫步、本地 Ollama 或 DSH 在线模型陪聊，可选看屏幕吐槽（`dsh plugin add github:12we21/cute-fat-fish-pet#path:/src` 即装）
 
 Stars (README snapshot): 1
 
@@ -549,7 +549,7 @@ Repository: https://github.com/VictorKozachek/dsh-user-code-block
 
 Syntax highlighting, copy button and monochrome mode for fenced code blocks in DSH user messages — the chat renders them as plain text by default; installable via `dsh plugin --profile desktop add dsh-user-code-block`
 
-侧栏收纳：把「新会话」下方被各插件塞满的入口行——全局面板行、插件入口行（自家/第三方一律识别）、底部入口——统统收进一个菜单按钮，点开二级菜单原样触发各入口；想常驻的加名称白名单即可，侧栏折叠成窄轨时按钮自动变纯图标。`dsh plugin add @weibaohui/dsh-sidebar-tidy` 即装
+DSH 用户消息中的代码块：语法高亮、复制按钮与单色模式，`dsh plugin --profile desktop add dsh-user-code-block` 即装
 
 Stars (README snapshot): 1
 
