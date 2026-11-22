@@ -101,6 +101,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [lo2589/knowledge_database](https://github.com/lo2589/knowledge_database) | 在对话里点一句就成为右栏知识树里的一张卡；Ctrl 拖框把多句合成一张卡，每张卡都能跳回原句，整棵树可导出 Markdown、Mermaid、JSON、PDF。需先按仓库说明跑 `setup.sh`（Python 3.11 + FastNode）。安装：`./setup.sh` 后跑 `./dsh-install.sh`。 | 0 |
 | [OakcoderX/solopup-memory](https://github.com/OakcoderX/solopup-memory) | 面向DSH的MIT文字记忆公开测试版，保留原话来源、项目范围与修订历史；`dsh plugin --profile desktop add solopup-memory@0.21.0-beta.2 --ignore-scripts` | 1 |
 | [dongsheng123132/task-passport](https://github.com/dongsheng123132/task-passport) | 任务状态护照 + 离线 TaskPack 交接：有版本的任务状态留在本地，交接时打包成单文件离线包，另一台机器或另一个 harness 直接落地，机器级事实在打包时降级为未证；安装 `dsh plugin --profile web add task-passport@0.3.2` | 10 |
+| [gezi-wen/sage-mem](https://github.com/gezi-wen/sage-mem) | 跨会话记忆：每条记忆是一个本地 Markdown 文件，只把命中的段落注入上下文；类型化记忆 + 自定义 tags，可通过 `dsh plugin add sage-mem` 安装 | 32 |
 
 ### 🎨 Web UI、皮肤与桌面宠物
 
