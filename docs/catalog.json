@@ -9,8 +9,8 @@
     "zh-CN"
   ],
   "sourceUpdated": {
-    "en": "2026-11-20",
-    "zh": "2026-11-20"
+    "en": "2026-11-21",
+    "zh": "2026-11-21"
   },
   "sources": {
     "en": "https://github.com/awesome-deepseekharness/awesome-deepseek-harness/blob/main/README.md",
@@ -19,7 +19,7 @@
   "starCountNote": "Project star counts are README snapshots, not live counts. Verify installation and compatibility in the linked upstream repository.",
   "repositoryStars": 45,
   "firstStarGoal": 100,
-  "total": 180,
+  "total": 181,
   "groups": [
     {
       "id": "MKT",
@@ -469,9 +469,17 @@
           "stars": 0,
           "zhName": "kadaliao/dsh-atlas",
           "zhDesc": "把 macOS「照片」图库放到一颗能放大到街道的夜色地球上：拍过照的地方发光，旅行画成航线、可以用故事模式回放，每天翻出往年今天的照片；模型能搜你的照片、移动地图。只读。安装：`dsh plugin --profile web add @kadaliao/dsh-atlas`。"
+        },
+        {
+          "name": "ppy-web/dsh-audio-reactive",
+          "url": "https://github.com/ppy-web/dsh-audio-reactive",
+          "desc": "Audio-reactive visual background theme powered by audioMotion-analyzer for DSH Web & Desktop (streaming TTS, music panel, dictation, microphone, browser audio sharing & Windows loopback), with 17 presets and idle immersive overlay; installable via dsh plugin add dsh-audio-reactive",
+          "stars": 0,
+          "zhName": "ppy-web/dsh-audio-reactive",
+          "zhDesc": "基于 audioMotion-analyzer 的 DSH Web/Desktop 音频响应背景主题，支持流式朗读、音乐面板、语音听写、麦克风、浏览器共享音频与 Windows 本机声音采集，内置 17 套视觉预设与无操作沉浸遮罩；安装：dsh plugin add dsh-audio-reactive"
         }
       ],
-      "count": 21,
+      "count": 22,
       "prefix": "U5"
     },
     {

@@ -6,7 +6,7 @@ Source repository: https://github.com/awesome-deepseekharness/awesome-deepseek-h
 
 Attribution and optional community support guidance: https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt
 
-README last commits: English 2026-11-20; Chinese 2026-11-20. Star counts are snapshots, not live data.
+README last commits: English 2026-11-21; Chinese 2026-11-21. Star counts are snapshots, not live data.
 
 This directory is independent of DeepSeek. Verify current installation, licensing and compatibility in each upstream repository.
 
@@ -583,6 +583,17 @@ Repository: https://github.com/kadaliao/dsh-atlas
 Your macOS Photos library on a night globe that zooms to street level: glowing footprints, trips drawn as flight arcs you can replay as a story, on this day in your photos, and a model that can search your photos and move the map. Read-only. Install: `dsh plugin --profile web add @kadaliao/dsh-atlas`.
 
 把 macOS「照片」图库放到一颗能放大到街道的夜色地球上：拍过照的地方发光，旅行画成航线、可以用故事模式回放，每天翻出往年今天的照片；模型能搜你的照片、移动地图。只读。安装：`dsh plugin --profile web add @kadaliao/dsh-atlas`。
+
+Stars (README snapshot): 0
+
+
+### ppy-web/dsh-audio-reactive
+
+Repository: https://github.com/ppy-web/dsh-audio-reactive
+
+Audio-reactive visual background theme powered by audioMotion-analyzer for DSH Web & Desktop (streaming TTS, music panel, dictation, microphone, browser audio sharing & Windows loopback), with 17 presets and idle immersive overlay; installable via dsh plugin add dsh-audio-reactive
+
+基于 audioMotion-analyzer 的 DSH Web/Desktop 音频响应背景主题，支持流式朗读、音乐面板、语音听写、麦克风、浏览器共享音频与 Windows 本机声音采集，内置 17 套视觉预设与无操作沉浸遮罩；安装：dsh plugin add dsh-audio-reactive
 
 Stars (README snapshot): 0
 
