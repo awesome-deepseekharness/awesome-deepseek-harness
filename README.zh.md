@@ -176,6 +176,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [WinnieJQ/dsh-conversation-cost](https://github.com/WinnieJQ/dsh-conversation-cost) | 会话标题栏的按对话费用徽章：按官方峰谷单价逐步计价，悬停卡片实时显示 ¥/$ 与 token 明细；`dsh plugin --profile web add dsh-conversation-cost` 安装 | 0 |
 | [devacc8/dsh-billing-badge](https://github.com/devacc8/dsh-billing-badge) | 输入框统计行里、原生缓存命中读数之后的计费时段与账户余额：高峰/非高峰圆点与切换倒计时，点击展开面板，按接口返回的货币拆分总额、赠送与充值；`dsh plugin --profile web add dsh-billing-badge` | 0 |
 | [NanmiCoder/dsh-agent-teams](https://github.com/NanmiCoder/dsh-agent-teams) | AgentTeams 多代理协作插件 | 1633 |
+| [renjiegod/dsh-godbot](https://github.com/renjiegod/dsh-godbot) | 在 DSH 工作台里给 Claude Code、Codex、Antigravity 和 DSH Bot 分派任务、验收结果，按需接管原生会话。[安装](https://github.com/renjiegod/dsh-godbot#快速开始)。 | 11 |
 | [btspoony/mstar-harness](https://github.com/btspoony/mstar-harness) | Skill 驱动的 Harness/Loop 工程工作流 Agent 插件 | 59 |
 | [weshopai/weshop-dsh-plugin](https://github.com/weshopai/weshop-dsh-plugin) | 原生 WeShop 插件:无限画布 + 无限创意技能 | 12 |
 | [morluto/jacobian](https://github.com/morluto/jacobian) | 纯数学工具:搜索例子与反例、精确计算、独立验证 | 192 |
