@@ -1347,7 +1347,7 @@ Repository: https://github.com/ff66ccff/dsh-ATN
 
 Adaptive topology multi-agent preset for DeepSeek Harness with peer messaging, a shared board, task handoff and live network visualization. Install: `dsh plugin --profile web add dsh-atn@0.4.1`.
 
-面向 DeepSeek Harness 的自适应拓扑多智能体预设，提供点对点通信、共享白板、任务交接和实时网络可视化。 Install: `dsh plugin --profile web add dsh-atn@0.4.1`.
+面向 DeepSeek Harness 的自适应拓扑多智能体预设，提供点对点通信、共享白板、任务交接和实时网络可视化。安装：`dsh plugin --profile web add dsh-atn@0.4.1`。
 
 Stars (README snapshot): 2
 
