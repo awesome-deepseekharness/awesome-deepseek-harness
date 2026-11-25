@@ -101,6 +101,7 @@ The hottest category — giving text-only models "eyes."
 | [lo2589/knowledge_database](https://github.com/lo2589/knowledge_database) | Click a sentence in a chat to make it a card in a knowledge-tree sidebar tab; Ctrl-drag merges several sentences into one card, every card links back to its source sentence, and the tree exports to Markdown, Mermaid, JSON, or PDF. Needs the repo's Python 3.11 + FastNode setup (`setup.sh`). Install: `./setup.sh` then `./dsh-install.sh`. | 0 |
 | [OakcoderX/solopup-memory](https://github.com/OakcoderX/solopup-memory) | MIT public-beta text memory for DSH with original-source references, project scopes and correction history; `dsh plugin --profile desktop add solopup-memory@0.21.0-beta.2 --ignore-scripts` | 1 |
 | [dongsheng123132/task-passport](https://github.com/dongsheng123132/task-passport) | Durable task passport + offline TaskPack handoff: versioned local task state, packed into a single offline file another harness or machine can land, with machine-level facts downgraded at pack time; install via `dsh plugin --profile web add task-passport@0.3.2` | 10 |
+| [gezi-wen/sage-mem](https://github.com/gezi-wen/sage-mem) | Cross-session memory: every memory is a local Markdown file, only matching passages are injected; typed memories + custom tags, installable via `dsh plugin add sage-mem` | 32 |
 
 ### 🎨 Web UI, Skins & Desktop Pets
 
