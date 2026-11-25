@@ -9,8 +9,8 @@
     "zh-CN"
   ],
   "sourceUpdated": {
-    "en": "2026-11-22",
-    "zh": "2026-11-22"
+    "en": "2026-11-24",
+    "zh": "2026-11-24"
   },
   "sources": {
     "en": "https://github.com/awesome-deepseekharness/awesome-deepseek-harness/blob/main/README.md",
@@ -19,7 +19,7 @@
   "starCountNote": "Project star counts are README snapshots, not live counts. Verify installation and compatibility in the linked upstream repository.",
   "repositoryStars": 47,
   "firstStarGoal": 100,
-  "total": 181,
+  "total": 182,
   "groups": [
     {
       "id": "MKT",
@@ -292,9 +292,17 @@
           "stars": 10,
           "zhName": "dongsheng123132/task-passport",
           "zhDesc": "任务状态护照 + 离线 TaskPack 交接：有版本的任务状态留在本地，交接时打包成单文件离线包，另一台机器或另一个 harness 直接落地，机器级事实在打包时降级为未证；安装 `dsh plugin --profile web add task-passport@0.3.2`"
+        },
+        {
+          "name": "gezi-wen/sage-mem",
+          "url": "https://github.com/gezi-wen/sage-mem",
+          "desc": "Cross-session memory: every memory is a local Markdown file, only matching passages are injected; typed memories + custom tags, installable via `dsh plugin add sage-mem`",
+          "stars": 32,
+          "zhName": "gezi-wen/sage-mem",
+          "zhDesc": "跨会话记忆：每条记忆是一个本地 Markdown 文件，只把命中的段落注入上下文；类型化记忆 + 自定义 tags，可通过 `dsh plugin add sage-mem` 安装"
         }
       ],
-      "count": 15,
+      "count": 16,
       "prefix": "U4"
     },
     {

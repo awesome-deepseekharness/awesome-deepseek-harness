@@ -6,7 +6,7 @@ Source repository: https://github.com/awesome-deepseekharness/awesome-deepseek-h
 
 Attribution and optional community support guidance: https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt
 
-README last commits: English 2026-11-22; Chinese 2026-11-22. Star counts are snapshots, not live data.
+README last commits: English 2026-11-24; Chinese 2026-11-24. Star counts are snapshots, not live data.
 
 This directory is independent of DeepSeek. Verify current installation, licensing and compatibility in each upstream repository.
 
@@ -351,6 +351,17 @@ Durable task passport + offline TaskPack handoff: versioned local task state, pa
 任务状态护照 + 离线 TaskPack 交接：有版本的任务状态留在本地，交接时打包成单文件离线包，另一台机器或另一个 harness 直接落地，机器级事实在打包时降级为未证；安装 `dsh plugin --profile web add task-passport@0.3.2`
 
 Stars (README snapshot): 10
+
+
+### gezi-wen/sage-mem
+
+Repository: https://github.com/gezi-wen/sage-mem
+
+Cross-session memory: every memory is a local Markdown file, only matching passages are injected; typed memories + custom tags, installable via `dsh plugin add sage-mem`
+
+跨会话记忆：每条记忆是一个本地 Markdown 文件，只把命中的段落注入上下文；类型化记忆 + 自定义 tags，可通过 `dsh plugin add sage-mem` 安装
+
+Stars (README snapshot): 32
 
 
 ## Web UI, Skins & Desktop Pets / Web UI、皮肤与桌面宠物
