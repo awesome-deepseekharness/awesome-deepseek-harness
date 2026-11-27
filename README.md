@@ -129,6 +129,7 @@ The hottest category — giving text-only models "eyes."
 | [dongsheng123132/dsh-move-up](https://github.com/dongsheng123132/dsh-move-up) | One item in the workspace menu that moves a workspace to the top of the sidebar once, through the host workspace registry — no favorites, pins or automatic re-sorting; installable via `dsh plugin --profile desktop add dsh-move-up@0.3.0` | 0 |
 | [kadaliao/dsh-atlas](https://github.com/kadaliao/dsh-atlas) | Your macOS Photos library on a night globe that zooms to street level: glowing footprints, trips drawn as flight arcs you can replay as a story, on this day in your photos, and a model that can search your photos and move the map. Read-only. Install: `dsh plugin --profile web add @kadaliao/dsh-atlas`. | 0 |
 | [ppy-web/dsh-audio-reactive](https://github.com/ppy-web/dsh-audio-reactive) | Audio-reactive visual background theme powered by audioMotion-analyzer for DSH Web & Desktop (streaming TTS, music panel, dictation, microphone, browser audio sharing & Windows loopback), with 17 presets and idle immersive overlay; installable via dsh plugin add dsh-audio-reactive | 0 |
+| [manyuemeiquqi/dsh-gta6](https://github.com/manyuemeiquqi/dsh-gta6) | Vice City theme built on official GTA VI key art: a wanted level driven by the agent run state, tool-call rows coloured by activity, a live session dashboard, and two draggable characters | 1 |
 
 ### 🖥️ TUI & Desktop
 
