@@ -129,6 +129,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [dongsheng123132/dsh-move-up](https://github.com/dongsheng123132/dsh-move-up) | 工作区菜单里加一项「移到最上面」，经宿主 workspace 注册表只调整一次顺序——没有收藏、固定置顶或自动重排；通过 `dsh plugin --profile desktop add dsh-move-up@0.3.0` 安装 | 0 |
 | [kadaliao/dsh-atlas](https://github.com/kadaliao/dsh-atlas) | 把 macOS「照片」图库放到一颗能放大到街道的夜色地球上：拍过照的地方发光，旅行画成航线、可以用故事模式回放，每天翻出往年今天的照片；模型能搜你的照片、移动地图。只读。安装：`dsh plugin --profile web add @kadaliao/dsh-atlas`。 | 0 |
 | [ppy-web/dsh-audio-reactive](https://github.com/ppy-web/dsh-audio-reactive) | 基于 audioMotion-analyzer 的 DSH Web/Desktop 音频响应背景主题，支持流式朗读、音乐面板、语音听写、麦克风、浏览器共享音频与 Windows 本机声音采集，内置 17 套视觉预设与无操作沉浸遮罩；安装：dsh plugin add dsh-audio-reactive | 0 |
+| [manyuemeiquqi/dsh-gta6](https://github.com/manyuemeiquqi/dsh-gta6) | 基于 GTA VI 官方主视觉的 Vice City 主题：通缉星级跟随 Agent 运行状态，工具调用行按动作分色，右栏实时显示会话数据，角落有两个可拖动的人物 | 1 |
 
 ### 🖥️ TUI 与桌面端
 
