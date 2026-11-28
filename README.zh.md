@@ -228,7 +228,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 
 | 项目 | 说明 | ⭐ |
 | --- | --- | --- |
-| [titanwings/colleague-skill](https://github.com/titanwings/colleague-skill) | 数字生命 1.0:将离别化为温暖 Skill | 24710 |
+| [titanwings/distilly](https://github.com/titanwings/distilly) | Distilly（原同事 Skill）：把一个人的经验、判断与表达方式蒸馏成可复用的 Persona Skill，供 agent 调用 | 26914 |
 | [tt-a1i/archify](https://github.com/tt-a1i/archify) | 架构/工作流/时序/数据流/生命周期图:自包含 HTML,带动画与清晰导出 | 61772 |
 | [hyhmrright/brooks-lint](https://github.com/hyhmrright/brooks-lint) | 以 12 本经典工程书为基础的 AI 代码审查:衰减风险诊断、6 种分析模式 | 1474 |
 | [GanyuanRan/Aegis](https://github.com/GanyuanRan/Aegis) | 让编码 agent 具备架构意识:基线优先、证据验证、漂移检查 | 1185 |
