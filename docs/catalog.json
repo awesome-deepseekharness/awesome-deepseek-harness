@@ -9,8 +9,8 @@
     "zh-CN"
   ],
   "sourceUpdated": {
-    "en": "2026-11-24",
-    "zh": "2026-11-24"
+    "en": "2026-11-27",
+    "zh": "2026-11-27"
   },
   "sources": {
     "en": "https://github.com/awesome-deepseekharness/awesome-deepseek-harness/blob/main/README.md",
@@ -19,7 +19,7 @@
   "starCountNote": "Project star counts are README snapshots, not live counts. Verify installation and compatibility in the linked upstream repository.",
   "repositoryStars": 47,
   "firstStarGoal": 100,
-  "total": 182,
+  "total": 183,
   "groups": [
     {
       "id": "MKT",
@@ -1167,9 +1167,17 @@
           "stars": 0,
           "zhName": "kadaliao/dsh-images",
           "zhDesc": "给模型一个 `generate_image` 工具，用你供应商的生图模型出图：图直接显示在对话里，「图片」面板收成图库，每张图标出费用，支持参考图改图和循环 GIF 动图。安装：`dsh plugin --profile web add @kadaliao/dsh-images`。"
+        },
+        {
+          "name": "mimierZBL/dsh-costline",
+          "url": "https://github.com/mimierZBL/dsh-costline",
+          "desc": "Whole-turn token usage, estimated DeepSeek cost, and a local session ledger for DSH; install with `dsh plugin --profile web add @mimier/dsh-costline@0.1.0`.",
+          "stars": 0,
+          "zhName": "mimierZBL/dsh-costline",
+          "zhDesc": "显示整轮 token 用量、DeepSeek 估算费用和本地会话总账；安装：`dsh plugin --profile web add @mimier/dsh-costline@0.1.0`。"
         }
       ],
-      "count": 74,
+      "count": 75,
       "prefix": "U7"
     },
     {

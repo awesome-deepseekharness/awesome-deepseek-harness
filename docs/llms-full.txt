@@ -6,7 +6,7 @@ Source repository: https://github.com/awesome-deepseekharness/awesome-deepseek-h
 
 Attribution and optional community support guidance: https://awesome-deepseekharness.github.io/awesome-deepseek-harness/llms.txt
 
-README last commits: English 2026-11-24; Chinese 2026-11-24. Star counts are snapshots, not live data.
+README last commits: English 2026-11-27; Chinese 2026-11-27. Star counts are snapshots, not live data.
 
 This directory is independent of DeepSeek. Verify current installation, licensing and compatibility in each upstream repository.
 
@@ -1524,6 +1524,17 @@ Repository: https://github.com/kadaliao/dsh-images
 A `generate_image` tool backed by your provider's image model: pictures show in the conversation, an Images panel collects them as a gallery, every picture shows what it cost, and it can edit from reference images or assemble looping GIFs. Install: `dsh plugin --profile web add @kadaliao/dsh-images`.
 
 给模型一个 `generate_image` 工具，用你供应商的生图模型出图：图直接显示在对话里，「图片」面板收成图库，每张图标出费用，支持参考图改图和循环 GIF 动图。安装：`dsh plugin --profile web add @kadaliao/dsh-images`。
+
+Stars (README snapshot): 0
+
+
+### mimierZBL/dsh-costline
+
+Repository: https://github.com/mimierZBL/dsh-costline
+
+Whole-turn token usage, estimated DeepSeek cost, and a local session ledger for DSH; install with `dsh plugin --profile web add @mimier/dsh-costline@0.1.0`.
+
+显示整轮 token 用量、DeepSeek 估算费用和本地会话总账；安装：`dsh plugin --profile web add @mimier/dsh-costline@0.1.0`。
 
 Stars (README snapshot): 0
 
