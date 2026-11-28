@@ -129,6 +129,7 @@ DeepSeek Harness 是 DeepSeek AI 开源的 agent harness。它的核心哲学是
 | [dongsheng123132/dsh-move-up](https://github.com/dongsheng123132/dsh-move-up) | 工作区菜单里加一项「移到最上面」，经宿主 workspace 注册表只调整一次顺序——没有收藏、固定置顶或自动重排；通过 `dsh plugin --profile desktop add dsh-move-up@0.3.0` 安装 | 0 |
 | [kadaliao/dsh-atlas](https://github.com/kadaliao/dsh-atlas) | 把 macOS「照片」图库放到一颗能放大到街道的夜色地球上：拍过照的地方发光，旅行画成航线、可以用故事模式回放，每天翻出往年今天的照片；模型能搜你的照片、移动地图。只读。安装：`dsh plugin --profile web add @kadaliao/dsh-atlas`。 | 0 |
 | [ppy-web/dsh-audio-reactive](https://github.com/ppy-web/dsh-audio-reactive) | 基于 audioMotion-analyzer 的 DSH Web/Desktop 音频响应背景主题，支持流式朗读、音乐面板、语音听写、麦克风、浏览器共享音频与 Windows 本机声音采集，内置 17 套视觉预设与无操作沉浸遮罩；安装：dsh plugin add dsh-audio-reactive | 0 |
+| [byteuser1977/ColaMD-themes](https://github.com/byteuser1977/ColaMD-themes) | 给 DSH 的 Markdown 主题工具：输入框旁的主题胶囊提供 69 套 ColaMD 契约主题（12 套内置），按主题就地渲染 `.md`，并把文稿导出为 A4 PDF / Word、把 11 种版式的 16:9 幻灯片导出为 PDF / PPTX，导出与页面同源 CSS。`dsh plugin --profile web add @bytechain.cn/colamd-themes`（npm 0.8.6） | 1 |
 
 ### 🖥️ TUI 与桌面端
 

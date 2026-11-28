@@ -129,6 +129,7 @@ The hottest category — giving text-only models "eyes."
 | [dongsheng123132/dsh-move-up](https://github.com/dongsheng123132/dsh-move-up) | One item in the workspace menu that moves a workspace to the top of the sidebar once, through the host workspace registry — no favorites, pins or automatic re-sorting; installable via `dsh plugin --profile desktop add dsh-move-up@0.3.0` | 0 |
 | [kadaliao/dsh-atlas](https://github.com/kadaliao/dsh-atlas) | Your macOS Photos library on a night globe that zooms to street level: glowing footprints, trips drawn as flight arcs you can replay as a story, on this day in your photos, and a model that can search your photos and move the map. Read-only. Install: `dsh plugin --profile web add @kadaliao/dsh-atlas`. | 0 |
 | [ppy-web/dsh-audio-reactive](https://github.com/ppy-web/dsh-audio-reactive) | Audio-reactive visual background theme powered by audioMotion-analyzer for DSH Web & Desktop (streaming TTS, music panel, dictation, microphone, browser audio sharing & Windows loopback), with 17 presets and idle immersive overlay; installable via dsh plugin add dsh-audio-reactive | 0 |
+| [byteuser1977/ColaMD-themes](https://github.com/byteuser1977/ColaMD-themes) | Markdown themes for DSH: 69 ColaMD-contract themes (12 built in) picked from a chip beside the composer, in-place `.md` rendering, and export to A4 PDF / Word or 11-layout 16:9 slide decks as PDF / PPTX with the page CSS. `dsh plugin --profile web add @bytechain.cn/colamd-themes` (npm 0.8.6) | 1 |
 
 ### 🖥️ TUI & Desktop
 
